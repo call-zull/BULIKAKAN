@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="scroll-smooth" lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -14,14 +14,19 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+    body {
+        overflow-x: hidden;
+    }
+</style>
 </head>
 
 <body>
-    @if (Request::is('home')) 
+    @if (Request::is('/') || Request::is('profile') || Request::is('kehilangan') || Request::is('penemuan'))
         @include('includes.navbar')
     @endif
 
-    <main class="p-1">
+    <main class="p-2 lg:mb-20 md:mb-20 mb-20">
         @yield('content')
     </main>
 
@@ -32,6 +37,14 @@
     <script>
         feather.replace();
     </script>
+    {{-- <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.effect(() => {
+                feather.replace()
+            });
+        });
+    </script> --}}
+
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 </body>

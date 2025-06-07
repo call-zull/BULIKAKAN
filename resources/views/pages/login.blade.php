@@ -82,7 +82,7 @@
         
         <div class="text-center">
             <p class="text-sm font-jomhuria text-gray-600">Belum punya akun? 
-                <a href="{{ route('register') }}" class="text-biruPrimary font-semibold hover:underline">Daftar</a>
+                <a href="{{ route('register') }}" class="text-biruPrimary font-semibold hover:underline">Register</a>
             </p>
         </div>
     </div>

@@ -1,4 +1,4 @@
-<div class="fixed bottom-0 left-0 right-0 z-50 bg-white shadow-md">
+<div class="fixed bottom-0 left-0 right-0 z-50 border-t border-t-gray-300 bg-white shadow-md">
     <div class="flex justify-around items-center h-16">
         <a href="{{ route('home') }}" class="flex flex-col items-center text-biruPrimary">
             <i data-feather="home"></i>

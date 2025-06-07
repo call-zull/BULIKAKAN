@@ -30,6 +30,65 @@
             <div class="swiper-button-prev"></div> --}}
         </div>
 
+        {{-- Carousel Mobile Friendly --}}
+        {{-- <div id="mobile-carousel" class="relative lg:h-[400px] md:h-[400px] h-[200px] md:px-1.5" data-carousel="slide">
+            <div class="relative h-full lg:rounded-xl rounded-md overflow-hidden">
+                <!-- Item 1 -->
+                <div class="hidden duration-1500 ease-in-out h-full" data-carousel-item>
+                    <img src="{{ asset('carousel/carousel1.jpg') }}" class="object-fill w-full h-full block" alt="Slide 1">
+                </div>
+                <!-- Item 2 -->
+                <div class="hidden duration-1500 ease-in-out h-full" data-carousel-item>
+                    <img src="{{ asset('carousel/carousel2.png') }}" class="object-fill w-full h-full block" alt="Slide 2">
+                </div>
+                <!-- Item 3 -->
+                <div class="hidden duration-1500 ease-in-out h-full" data-carousel-item>
+                    <img src="{{ asset('carousel/carousel3.jpeg') }}" class="object-fill w-full h-full block" alt="Slide 3">
+                </div>
+            </div>
+
+            <!-- Indicators -->
+            <div class="absolute z-30 flex -translate-x-1/2 bottom-2 left-1/2 space-x-2">
+                <button type="button" class="w-2 h-2 rounded-full bg-gray-300" data-carousel-slide-to="0"
+                    aria-label="Slide 1"></button>
+                <button type="button" class="w-2 h-2 rounded-full bg-gray-300" data-carousel-slide-to="1"
+                    aria-label="Slide 2"></button>
+                <button type="button" class="w-2 h-2 rounded-full bg-gray-300" data-carousel-slide-to="2"
+                    aria-label="Slide 3"></button>
+            </div>
+        </div> --}}
+
+
+        {{-- <div id="mobile-carousel" class="relative w-full -mt-2.5" data-carousel="slide">
+            <!-- Carousel wrapper -->
+            <div class="relative h-48 overflow-hidden rounded-lg">
+                <!-- Item 1 -->
+                <div class="hidden duration-1500 ease-in-out" data-carousel-item>
+                    <img src="{{ asset('carousel/carousel1.jpg') }}" class="absolute block w-full h-full object-cover"
+                        alt="Slide 1">
+                </div>
+                <!-- Item 2 -->
+                <div class="hidden duration-1500 ease-in-out" data-carousel-item>
+                    <img src="{{ asset('carousel/carousel2.png') }}" class="absolute block w-full h-full object-cover"
+                        alt="Slide 2">
+                </div>
+                <!-- Item 3 -->
+                <div class="hidden duration-1500 ease-in-out" data-carousel-item>
+                    <img src="{{ asset('carousel/carousel3.jpeg') }}" class="absolute block w-full h-full object-cover"
+                        alt="Slide 3">
+                </div>
+            </div>
+
+            <!-- Indicators (optional, bisa dihapus kalau tidak perlu) -->
+            <div class="absolute z-30 flex -translate-x-1/2 bottom-2 left-1/2 space-x-2">
+                <button type="button" class="w-2 h-2 rounded-full bg-gray-300" data-carousel-slide-to="0"
+                    aria-label="Slide 1"></button>
+                <button type="button" class="w-2 h-2 rounded-full bg-gray-300" data-carousel-slide-to="1"
+                    aria-label="Slide 2"></button>
+                <button type="button" class="w-2 h-2 rounded-full bg-gray-300" data-carousel-slide-to="2"
+                    aria-label="Slide 3"></button>
+            </div>
+        </div> --}}
 
         {{-- Content utama --}}
 

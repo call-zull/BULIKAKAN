@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Bulikakan')</title>
+    <title>{{ $title ?? 'Bulikakan' }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -15,6 +15,7 @@
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <script src="https://unpkg.com/feather-icons"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="icon" href="{{ asset('logo/loop-nobg.png') }}" type="image/png">
     <style>
         body {
             overflow-x: hidden;
@@ -33,7 +34,7 @@
     @endif
 
     <main class="p-2 lg:mb-20 md:mb-20 mb-20">
-        @yield('content')
+        {{ $slot }}
     </main>
 
     @include('includes.footer')

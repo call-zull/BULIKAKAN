@@ -1,8 +1,4 @@
-@extends('layouts.app')
-
-@section('title', 'Password Baru')
-
-@section('content')
+<x-app-layout title="Password Baru">
 <div class="relative">
     <!-- Quarter circle top-right -->
     <div class="absolute -top-5 right-0 w-52 h-52 bg-biruCircleShapes rounded-bl-full z-0"></div>
@@ -15,7 +11,7 @@
                 </a>
                 <h1 class="font-jomhuria font-bold text-xl text-black">Password Baru</h1>
             </div>
-            <p class="font-outfit font-normal">Masukkan Password Baru Anda <br> Yang Berbeda Dengan Password Sebelumnya</p>
+            <p class="font-outfit font-normal md:pl-7">Masukkan Password Baru Anda <br> Yang Berbeda Dengan Password Sebelumnya</p>
         </div>
 
         <div class="mt-2 flex flex-col justify-center items-center">
@@ -23,8 +19,9 @@
             <h2 class="font-jomhuria font-bold text-biruPrimary">Masukkan Password Baru Anda</h2>
         </div>
 
-        <form action="#" method="POST" class="mt-4" x-data="{ password: '', password_confirmation: '', showPassword: false, showConfirmPassword: false }">
+        <form action="#" method="POST" class="mt-4 flex justify-center" x-data="{ password: '', password_confirmation: '', showPassword: false, showConfirmPassword: false }">
             @csrf
+            <div class="w-full max-w-lg">
             <!-- Password Field with Show/Hide Toggle -->
             <div x-data="{ show: false }" class="mb-2 relative">
                 <input
@@ -73,8 +70,9 @@
                     Reset Password
                 </button>
             </div>
+            </div>
         </form>
 
     </div>
 </div>
-@endsection
+</x-app-layout>

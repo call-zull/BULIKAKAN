@@ -6,24 +6,22 @@
             <img src="{{ asset('logo/icon-find.png') }}" class="w-5" alt="icon-kehilangan">
         </div>
 
-        <!-- Search & Filter -->
+        <!-- Search & Filter Controls + Tombol Tambah -->
         <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-6 px-4">
-            <!-- Search -->
-            <input 
-                type="text" 
-                placeholder="Cari nama barang..." 
-                x-model="search"
-                class="w-full md:w-1/2 p-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-biruPrimary"
-            >
+             <a href="#"
+                class="w-full md:w-auto text-center bg-biruPrimary text-white px-4 py-2 rounded-xl font-semibold text-sm ">
+                Tambah 
+            </a>
+            <!-- Form Pencarian -->
+            <input type="text" placeholder="Cari barang hilang..." x-model="search"
+                class="w-full md:w-1/2 p-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-biruPrimary">
 
-            <!-- Filter -->
-            <select 
-                x-model="selectedType"
-                class="w-full md:w-1/4 p-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-biruPrimary"
-            >
+            <!-- Select Tipe -->
+            <select x-model="selectedType"
+                class="w-full md:w-1/4 p-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-biruPrimary">
                 <option value="">Semua Tipe</option>
                 <option value="Barang Pribadi">Barang Pribadi</option>
-                <option value="Kunci">Kunci</option>
+                <option value="Dokumen">Dokumen</option>
                 <option value="Elektronik">Elektronik</option>
             </select>
         </div>

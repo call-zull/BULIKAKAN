@@ -30,13 +30,10 @@
             <div class="swiper-button-prev"></div> --}}
         </div>
 
-
-        {{-- Content utama --}}
-
         {{-- Fitur --}}
         <div class="flex justify-center gap-x-4 mt-2.5">
             {{-- fitur 1 --}}
-            <div
+            <a href="/kehilangan"
                 class="p-2 flex gap-x-1.5 pt-1 items-center justify-center rounded-xl bg-biruPrimary shadow-md shadow-gray-600">
                 {{-- <img src="{{ asset('logo/icon-lost2.png') }}" class="w-auto" alt="icon-kehilangan"> --}}
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"
@@ -67,99 +64,38 @@
                     </g>
                 </svg>
                 <h2 class="text-xl font-semibold text-white font-sans">Kehilangan</h2>
-            </div>
+            </a>
             {{-- fitur 2 --}}
-            <div class="p-2 pt-1 flex gap-x-1.5 items-center rounded-xl bg-biruCircleShapes shadow-md shadow-gray-600">
+            <a href="/penemuan"
+            class="p-2 pt-1 flex gap-x-1.5 items-center rounded-xl bg-biruCircleShapes shadow-md shadow-gray-600">
                 <img src="{{ asset('logo/icon-find.png') }}" class="w-5" alt="icon-kehilangan">
                 <h2 class="text-xl font-semibold text-biruPrimary font-sans">Penemuan</h2>
-            </div>
+            </a>
         </div>
 
         {{-- Trend & Card --}}
-        <div x-data="{ tab: 'kehilangan', view: 'grid', items: Array.from({ length: 10 }, (_, i) => i) }"
-            class="mt-2 p-2">
-            <h2 class="text-xl font-semibold lg:text-2xl md:text-2xl">Trend</h2>
+       <div x-data="homeData()" class="mt-2 p-2">
+    <h2 class="text-xl font-semibold lg:text-2xl md:text-2xl">Trend Kehilangan</h2>
 
-            <div class="mt-2 flex items-end justify-between border-b border-gray-300">
-                <!-- Tabs -->
-                <div class="flex gap-x-3">
-                    <button @click="tab = 'kehilangan'" :class="tab === 'kehilangan'
-            ? 'bg-biruPrimary text-white border-b-4 border-abuForgot'
-            : 'bg-gray-100 text-biruPrimary border-b-4 border-transparent'"
-                        class="text-sm font-jomhuria font-semibold py-1.5 px-4 rounded-t-md transition-all duration-300 ease-in-out">
-                        Kehilangan
-                    </button>
-                    <button @click="tab = 'penemuan'" :class="tab === 'penemuan'
-            ? 'bg-biruPrimary text-white border-b-4 border-abuForgot'
-            : 'bg-gray-100 text-biruPrimary border-b-4 border-transparent'"
-                        class="text-sm font-jomhuria font-semibold py-1.5 px-4 rounded-t-md transition-all duration-300 ease-in-out">
-                        Penemuan
-                    </button>
-                </div>
-
-                <div class="flex items-center gap-x-2 bg-white rounded-md shadow px-3 py-2">
-                    <button @click="view = 'grid'"
-                        :class="view === 'grid' ? 'bg-biruPrimary text-white' : 'text-biruPrimary'"
-                        class="p-1 rounded transition-all duration-300 flex items-center justify-center">
-                        <img src="{{ asset('logo/grid.svg') }}" alt="Grid Icon" class="w-4 h-4"
-                            :class="view === 'grid' ? 'filter brightness-0 invert' : ''" />
-                    </button>
-                    <button @click="view = 'list'"
-                        :class="view === 'list' ? 'bg-biruPrimary text-white' : 'text-biruPrimary'"
-                        class="p-1 rounded transition-all duration-300 flex items-center justify-center">
-                        <img src="{{ asset('logo/list.svg') }}" alt="List Icon" class="w-4 h-4"
-                            :class="view === 'list' ? 'filter brightness-0 invert' : ''" />
-                    </button>
+    <!-- Grid Layout -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4 px-2">
+        <template x-for="item in items" :key="item.id">
+            <div class="bg-gray-200 shadow-md rounded-xl flex gap-3 p-3">
+                <img :src="item.image" class="w-32 h-32 object-cover rounded" alt="Barang Hilang">
+                <div class="flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold" x-text="item.nama"></h3>
+                        <p class="text-sm"><strong>Waktu:</strong> <span x-text="item.waktu"></span></p>
+                        <p class="text-sm"><strong>Tempat:</strong> <span x-text="item.tempat"></span></p>
+                        <p class="text-sm"><strong>Tipe:</strong> <span x-text="item.tipe"></span></p>
+                    </div>
+                    <a href="#" class="text-xs text-biruPrimary underline">Lihat Detail</a>
                 </div>
             </div>
+        </template>
+    </div>
+</div>
 
-            <div :class="view === 'grid' ? 'grid grid-cols-2 gap-4' : 'grid grid-cols-1 gap-4'" class="px-3 mt-2">
-                {{-- <template x-for="(item, index) in items" :key="index">
-                    <div :class="view === 'grid'
-            ? ((index % 4 === 0 || index % 4 === 3)
-                ? 'bg-white rounded-xl shadow-md overflow-hidden relative'
-                : 'bg-biruPrimary rounded-xl shadow-md overflow-hidden relative')
-            : (index % 2 === 0
-                ? 'bg-white rounded-xl shadow-md overflow-hidden relative flex items-center'
-                : 'bg-biruPrimary rounded-xl shadow-md overflow-hidden relative flex items-center')">
-                        <div class="w-full h-48"></div>
-                        <div class="absolute bottom-2 right-2">
-                            <a href="#"
-                                class="text-sm flex items-center gap-x-1 bg-black text-white px-2 py-1 rounded-full">
-                                <i data-feather="arrow-up-right" class="w-3 h-3"></i> Learn more
-                            </a>
-                        </div>
-                    </div>
-                </template> --}}
-                <template x-for="(item, index) in items" :key="index">
-                    <div :class="{
-            'bg-white text-black': index % 2 === 0,
-            'bg-biruPrimary text-white': index % 2 !== 0
-        }" class="rounded-xl shadow-md overflow-hidden relative flex flex-col md:flex-row items-start gap-3 p-3">
-                        <!-- Foto -->
-                        <div class="w-full md:w-1/3 h-40 bg-gray-200 rounded overflow-hidden">
-                            <img :src="'{{ asset('logo/barang1.png') }}'" alt="Foto Barang"
-                                class="w-full h-full object-cover">
-                        </div>
-
-                        <!-- Info -->
-                        <div class="w-full md:w-2/3 space-y-1">
-                            <h3 class="text-lg font-bold">HP Hilang</h3>
-                            <p class="text-sm"><strong>Waktu Hilang:</strong> 10 Juni 2025, 14:00 WITA</p>
-                            <p class="text-sm"><strong>Tempat:</strong> Lapangan Murjani, Banjarbaru</p>
-                            <p class="text-sm"><strong>Tipe:</strong> Elektronik</p>
-                            <p class="text-sm"><strong>Deskripsi:</strong> HP Xiaomi warna hitam, terakhir terlihat saat
-                                acara CFD.</p>
-                            <p class="text-sm"><strong>Kontak:</strong> 0812-3456-7890 (WhatsApp)</p>
-                        </div>
-
-                    </div>
-                </template>
-
-
-
-            </div>
-        </div>
 
         {{-- Sehandap BULIKAKAN --}}
         <div class="mt-7 p-2">
@@ -234,3 +170,35 @@
     </div> --}}
 
 </x-app-layout>
+<script>
+    function homeData() {
+        return {
+            items: [
+                {
+                    id: 1,
+                    nama: 'HP Hilang',
+                    waktu: '10 Juni 2025, 14:00 WITA',
+                    tempat: 'Lapangan Murjani, Banjarbaru',
+                    tipe: 'Elektronik',
+                    image: '{{ asset("logo/barang1.png") }}'
+                },
+                {
+                    id: 2,
+                    nama: 'Dompet Hilang',
+                    waktu: '9 Juni 2025',
+                    tempat: 'Pasar Lama',
+                    tipe: 'Barang Pribadi',
+                    image: '{{ asset("logo/barang1.png") }}'
+                },
+                {
+                    id: 3,
+                    nama: 'KTP Hilang',
+                    waktu: '8 Juni 2025',
+                    tempat: 'Terminal Pal 6',
+                    tipe: 'Dokumen',
+                    image: '{{ asset("logo/barang1.png") }}'
+                },
+            ]
+        };
+    }
+</script>

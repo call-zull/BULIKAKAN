@@ -19,7 +19,7 @@
                 <h2 class="font-jomhuria font-bold text-biruPrimary">Masukkan Email Anda</h2>
             </div>
 
-            <form action="#" method="POST" class="mt-4 flex justify-center">
+            <form action="{{ route('password.email') }}" method="POST" class="mt-4 flex justify-center">
                 @csrf
                 <div class="w-full max-w-lg">
                     <div class="mb-2">

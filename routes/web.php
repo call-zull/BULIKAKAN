@@ -31,8 +31,27 @@ Route::middleware('role:berwenang')->group(function () {
 });
 
 Route::get('/forgotPassword', fn() => view('pages.auth.forgotPassword'))->name('forgotPassword');
-Route::get('/newPassword', fn() => view('pages.auth.newPassword'))->name('newPassword');
+Route::get('/newPassword', fn() => view('pages.auth.reset-password'))->name('newPassword');
 Route::get('/passwordChanged', fn() => view('pages.auth.passwordChanged'))->name('passwordChanged');
 Route::get('/profile', fn() => view('pages.user.profile'))->name('profile');
 Route::get('/kehilangan', fn() => view('pages.user.kehilangan'))->name('kehilangan');
 Route::get('/penemuan', fn() => view('pages.user.penemuan'))->name('penemuan');
+
+Route::get('/test-flasher', function () {
+    flash()
+        // ->option('position', 'top-center')
+        // ->option('timeout', 5000)
+        ->success('Login dengan Google berhasil.');
+
+    return redirect()->route('home');
+});
+
+Route::get('/forgot-password', [AuthController::class, 'showForgotPasswordForm'])->name('password.request');
+    Route::post('/forgot-password', [AuthController::class, 'sendResetLinkEmail'])->name('password.email');
+
+    Route::get('/reset-password/{token}', [AuthController::class, 'showResetForm'])->name('password.reset');
+    Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
+
+Route::get('/kehilangan-detail', function () {
+    return view('pages.user.kehilangan-detail');
+})->name('kehilangan.detail');

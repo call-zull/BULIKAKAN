@@ -19,8 +19,10 @@
             <h2 class="font-jomhuria font-bold text-biruPrimary">Masukkan Password Baru Anda</h2>
         </div>
 
-        <form action="#" method="POST" class="mt-4 flex justify-center" x-data="{ password: '', password_confirmation: '', showPassword: false, showConfirmPassword: false }">
+        <form action="{{ route('password.update') }}" method="POST" class="mt-4 flex justify-center" x-data="{ password: '', password_confirmation: '', showPassword: false, showConfirmPassword: false }">
             @csrf
+             <input type="hidden" name="token" value="{{ $token }}">
+                <input type="hidden" name="email" value="{{ $email }}">
             <div class="w-full max-w-lg">
             <!-- Password Field with Show/Hide Toggle -->
             <div x-data="{ show: false }" class="mb-2 relative">

@@ -3,8 +3,8 @@
         <!-- Header + Icon -->
         <div class="flex w-full justify-center gap-x-2 mb-4">
             <h2 class="font-jomhuria font-semibold text-xl text-biruPrimary text-center">Informasi Kehilangan</h2>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"
-                id="Lost-And-Found--Streamline-Core" class="w-5">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14" id="Lost-And-Found--Streamline-Core"
+                class="w-5">
                 <g id="lost-and-found">
                     <path stroke="#4682B4" stroke-linecap="round" stroke-linejoin="round"
                         d="M11.5 4h-9c-1.10457 0 -2 0.89543 -2 2v5.5c0 1.1046 0.89543 2 2 2h9c1.1046 0 2 -0.8954 2 -2V6c0 -1.10457 -0.8954 -2 -2 -2Z"
@@ -27,19 +27,19 @@
             </svg>
         </div>
 
-        <!-- Search & Filter Controls -->
+        <!-- Search & Filter Controls + Tombol Tambah -->
         <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-6 px-4">
-            <input 
-                type="text" 
-                placeholder="Cari barang hilang..." 
-                x-model="search"
-                class="w-full md:w-1/2 p-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-biruPrimary"
-            >
+             <a href="#"
+                class="w-full md:w-auto text-center bg-biruPrimary text-white px-4 py-2 rounded-xl font-semibold text-sm ">
+                Tambah 
+            </a>
+            <!-- Form Pencarian -->
+            <input type="text" placeholder="Cari barang hilang..." x-model="search"
+                class="w-full md:w-1/2 p-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-biruPrimary">
 
-            <select 
-                x-model="selectedType"
-                class="w-full md:w-1/4 p-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-biruPrimary"
-            >
+            <!-- Select Tipe -->
+            <select x-model="selectedType"
+                class="w-full md:w-1/4 p-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-biruPrimary">
                 <option value="">Semua Tipe</option>
                 <option value="Barang Pribadi">Barang Pribadi</option>
                 <option value="Dokumen">Dokumen</option>
@@ -59,7 +59,7 @@
                             <p class="text-sm"><strong>Tempat:</strong> <span x-text="item.tempat"></span></p>
                             <p class="text-sm"><strong>Tipe:</strong> <span x-text="item.tipe"></span></p>
                         </div>
-                        <a href="#" class="text-xs text-biruPrimary underline">Lihat Detail</a>
+                        <a :href="`/kehilangan-detail?id=${item.id}`" class="text-xs text-biruPrimary underline">Lihat Detail</a>
                     </div>
                 </div>
             </template>

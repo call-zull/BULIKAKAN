@@ -69,7 +69,7 @@
             <a href="/penemuan"
             class="p-2 pt-1 flex gap-x-1.5 items-center rounded-xl bg-biruCircleShapes shadow-md shadow-gray-600">
                 <img src="{{ asset('logo/icon-find.png') }}" class="w-5" alt="icon-kehilangan">
-                <h2 class="text-xl font-semibold text-biruPrimary font-sans">PenemuPan</h2>
+                <h2 class="text-xl font-semibold text-biruPrimary font-sans">Penemuan</h2>
             </a>
         </div>
 

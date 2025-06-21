@@ -17,17 +17,31 @@
 
             <!-- Kehilangan -->
             <a href="{{ route('kehilangan') }}" class="flex flex-col items-center text-biruPrimary">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14" class="w-5">
-                    <g>
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"
+                    id="Lost-And-Found--Streamline-Core" class="w-5">
+                    <desc>
+                        Lost And Found Streamline Icon: https://streamlinehq.com
+                    </desc>
+                    <g id="lost-and-found">
+                        <path id="Vector" stroke="#4682B4" stroke-linecap="round" stroke-linejoin="round"
                             d="M11.5 4h-9c-1.10457 0 -2 0.89543 -2 2v5.5c0 1.1046 0.89543 2 2 2h9c1.1046 0 2 -0.8954 2 -2V6c0 -1.10457 -0.8954 -2 -2 -2Z"
-                            stroke-width="1" />
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="1"></path>
+                        <path id="Vector_2" stroke="#4682B4" stroke-linecap="round" stroke-linejoin="round"
                             d="M4.5 4v-0.5c0 -0.66304 0.26339 -1.29893 0.73223 -1.76777C5.70107 1.26339 6.33696 1 7 1c0.66304 0 1.29893 0.26339 1.76777 0.73223C9.23661 2.20107 9.5 2.83696 9.5 3.5V4"
-                            stroke-width="1" />
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="1"></path>
+                        <path id="Vector_3" stroke="#4682B4" stroke-linecap="round" stroke-linejoin="round"
                             d="M5.5 7.5c0 -0.29667 0.08797 -0.58668 0.2528 -0.83335 0.16482 -0.24668 0.39909 -0.43894 0.67317 -0.55247 0.27409 -0.11353 0.57569 -0.14324 0.86667 -0.08536 0.29097 0.05788 0.55824 0.20074 0.76802 0.41052 0.20978 0.20978 0.35264 0.47705 0.41052 0.76803 0.05788 0.29097 0.02817 0.59257 -0.08536 0.86666 -0.11353 0.27409 -0.30579 0.50835 -0.55246 0.67318C7.58668 8.91203 7.29667 9 7 9v0.5"
-                            stroke-width="1" />
+                            stroke-width="1"></path>
+                        <g id="Group 2631">
+                            <path id="Vector_4" stroke="#4682B4" stroke-linecap="round" stroke-linejoin="round"
+                                d="M7.00195 11.5c-0.13807 0 -0.25 -0.1119 -0.25 -0.25s0.11193 -0.25 0.25 -0.25"
+                                stroke-width="1">
+                            </path>
+                            <path id="Vector_5" stroke="#4682B4" stroke-linecap="round" stroke-linejoin="round"
+                                d="M7.00195 11.5c0.13807 0 0.25 -0.1119 0.25 -0.25s-0.11193 -0.25 -0.25 -0.25"
+                                stroke-width="1">
+                            </path>
+                        </g>
                     </g>
                 </svg>
                 <span
@@ -63,46 +77,57 @@
     </div>
 
     <!-- Modal Tambah Pengumuman -->
-    <div x-show="showAddModal"  x-transition:enter="transition ease-out duration-200"
-    x-transition:enter-start="opacity-0 scale-90"
-    x-transition:enter-end="opacity-100 scale-100"
-    x-transition:leave="transition ease-in duration-100"
-    x-transition:leave-start="opacity-100 scale-100"
-    x-transition:leave-end="opacity-0 scale-90" x-cloak
+    <div x-show="showAddModal" x-transition x-cloak
+     class="fixed bottom-20 left-0 right-0 flex justify-center z-50">
 
-        class="fixed inset-0 transition-opacity duration-200 ease-in-out flex items-center justify-center z-50">
-        <div @click.away="showAddModal = false" class="bg-white rounded-lg shadow-xl p-6 w-80 animate-fade-in-up">
+        <div @click.away="showAddModal = false" class="bg-white rounded-2xl shadow-xl p-6 w-80 animate-fade-in-up">
             <h2 class="text-lg font-semibold text-gray-800 mb-4 text-center">Buat Pengumuman</h2>
 
-            <div class="flex justify-between ">
+            <div class="flex justify-between w-full ">
                 <a href="#"
-                    class="w-1/2 flex items-center px-3 py-1 rounded-lg bg-biruPrimary text-white font-semibold text-center transition duration-200">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14" class="w-5">
-                        <g>
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                d="M11.5 4h-9c-1.10457 0 -2 0.89543 -2 2v5.5c0 1.1046 0.89543 2 2 2h9c1.1046 0 2 -0.8954 2 -2V6c0 -1.10457 -0.8954 -2 -2 -2Z"
-                                stroke-width="1" />
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                d="M4.5 4v-0.5c0 -0.66304 0.26339 -1.29893 0.73223 -1.76777C5.70107 1.26339 6.33696 1 7 1c0.66304 0 1.29893 0.26339 1.76777 0.73223C9.23661 2.20107 9.5 2.83696 9.5 3.5V4"
-                                stroke-width="1" />
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                d="M5.5 7.5c0 -0.29667 0.08797 -0.58668 0.2528 -0.83335 0.16482 -0.24668 0.39909 -0.43894 0.67317 -0.55247 0.27409 -0.11353 0.57569 -0.14324 0.86667 -0.08536 0.29097 0.05788 0.55824 0.20074 0.76802 0.41052 0.20978 0.20978 0.35264 0.47705 0.41052 0.76803 0.05788 0.29097 0.02817 0.59257 -0.08536 0.86666 -0.11353 0.27409 -0.30579 0.50835 -0.55246 0.67318C7.58668 8.91203 7.29667 9 7 9v0.5"
-                                stroke-width="1" />
+                    class=" flex items-center px-2 py-1 rounded-lg bg-biruPrimary text-white font-semibold text-center transition duration-200">
+                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"
+                    id="Lost-And-Found--Streamline-Core" class="w-5 mr-1.5">
+                    <desc>
+                        Lost And Found Streamline Icon: https://streamlinehq.com
+                    </desc>
+                    <g id="lost-and-found">
+                        <path id="Vector" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"
+                            d="M11.5 4h-9c-1.10457 0 -2 0.89543 -2 2v5.5c0 1.1046 0.89543 2 2 2h9c1.1046 0 2 -0.8954 2 -2V6c0 -1.10457 -0.8954 -2 -2 -2Z"
+                            stroke-width="1"></path>
+                        <path id="Vector_2" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"
+                            d="M4.5 4v-0.5c0 -0.66304 0.26339 -1.29893 0.73223 -1.76777C5.70107 1.26339 6.33696 1 7 1c0.66304 0 1.29893 0.26339 1.76777 0.73223C9.23661 2.20107 9.5 2.83696 9.5 3.5V4"
+                            stroke-width="1"></path>
+                        <path id="Vector_3" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"
+                            d="M5.5 7.5c0 -0.29667 0.08797 -0.58668 0.2528 -0.83335 0.16482 -0.24668 0.39909 -0.43894 0.67317 -0.55247 0.27409 -0.11353 0.57569 -0.14324 0.86667 -0.08536 0.29097 0.05788 0.55824 0.20074 0.76802 0.41052 0.20978 0.20978 0.35264 0.47705 0.41052 0.76803 0.05788 0.29097 0.02817 0.59257 -0.08536 0.86666 -0.11353 0.27409 -0.30579 0.50835 -0.55246 0.67318C7.58668 8.91203 7.29667 9 7 9v0.5"
+                            stroke-width="1"></path>
+                        <g id="Group 2631">
+                            <path id="Vector_4" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"
+                                d="M7.00195 11.5c-0.13807 0 -0.25 -0.1119 -0.25 -0.25s0.11193 -0.25 0.25 -0.25"
+                                stroke-width="1">
+                            </path>
+                            <path id="Vector_5" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"
+                                d="M7.00195 11.5c0.13807 0 0.25 -0.1119 0.25 -0.25s-0.11193 -0.25 -0.25 -0.25"
+                                stroke-width="1">
+                            </path>
                         </g>
-                    </svg>
-                    <h3>
+                    </g>
+                </svg>
+                    <h3 class="">
                         Kehilangan
                     </h3>
                 </a>
 
                 <a href="#"
-                    class="w-1/2 px-4 py-2 rounded-lg bg-white text-biruPrimary font-semibold text-center border border-biruPrimary  transition duration-200">
-                    <img src="{{ asset('logo/icon-find.png') }}" class="w-5" alt="icon-kehilangan">
+                    class="flex items-center px-4 py-2 rounded-lg bg-white text-biruPrimary font-semibold text-center border border-biruPrimary  transition duration-200">
+                    <img src="{{ asset('logo/icon-find.png') }}" class="w-5 mr-1.5" alt="icon-kehilangan">
                     <h3>
                         Penemuan
                     </h3>
                 </a>
             </div>
         </div>
+        {{-- <div class="absolute top-full -mt-6 p-6 bg-white rounded-full"></div> --}}
+
     </div>
 </div>

@@ -1,0 +1,26 @@
+name: Deploy
+
+# Trigger the workflow on push and
+# pull request events on the breeze branch
+on:
+  push:
+    branches:
+      - main
+
+# Authenticate to the the server via ssh
+# and run our deployment script
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Deploy to server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          port: ${{ secrets.SSH_PORT }}
+          password: ${{ secrets.SSH_PASSWORD   }}
+          # don't forget to run this command for changes folder scripts permission: chmod -R 755 .scripts
+          script: |
+            cd /www/wwwroot/bulikakan.my.id && ./.scripts/deploy.sh

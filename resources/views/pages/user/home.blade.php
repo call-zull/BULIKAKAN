@@ -63,7 +63,7 @@
                         </g>
                     </g>
                 </svg>
-                <h2 class="text-xl font-semibold text-white font-sans">Kehilangan</h2>
+                <h2 class="text-xl font-semibold text-white font-sans">Kehilangankah</h2>
             </a>
             {{-- fitur 2 --}}
             <a href="/penemuan"

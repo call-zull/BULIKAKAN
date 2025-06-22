@@ -19,10 +19,9 @@ jobs:
           command_timeout: 6m
           script: |
             cd /www/wwwroot/bulikakan.my.id
-            git reset --hard HEAD
             git pull origin main
-            composer install --no-interaction --prefer-dist --optimize-autoloader
-            npm install
+            composer install --no-dev --prefer-dist --optimize-autoloader
+            npm ci
             npm run build
             php artisan migrate --force
             php artisan optimize:clear

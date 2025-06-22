@@ -63,7 +63,7 @@
                         </g>
                     </g>
                 </svg>
-                <h2 class="text-xl font-semibold text-white font-sans">Kehilangankah</h2>
+                <h2 class="text-xl font-semibold text-white font-sans">Kehilangan</h2>
             </a>
             {{-- fitur 2 --}}
             <a href="/penemuan"
@@ -75,7 +75,7 @@
 
         {{-- Trend & Card --}}
        <div x-data="homeData()" class="mt-2 p-2">
-    <h2 class="text-xl font-semibold lg:text-2xl md:text-2xl">Trend Kehilangan</h2>
+    <h2 class="text-xl font-semibold lg:text-2xl md:text-2xl">Trend</h2>
 
     <!-- Grid Layout -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4 px-2">

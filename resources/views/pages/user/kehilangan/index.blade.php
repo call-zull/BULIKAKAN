@@ -29,10 +29,19 @@
 
         <!-- Search & Filter Controls + Tombol Tambah -->
         <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-6 px-4">
-             <a href="#"
-                class="w-full md:w-auto text-center bg-biruPrimary text-white px-4 py-2 rounded-xl font-semibold text-sm ">
-                Tambah 
-            </a>
+            @auth
+                <a href="{{ route('kehilangan.create') }}"
+                    class="w-full md:w-auto text-center bg-biruPrimary text-white px-4 py-2 rounded-xl font-semibold text-sm">
+                    Tambah
+                </a>
+            @else
+                <button
+                    onclick="alert('Untuk mengakses fitur ini, Anda harus login terlebih dahulu.'); window.location.href='{{ route('login') }}';"
+                    class="w-full md:w-auto text-center cursor-pointer bg-biruPrimary text-white px-4 py-2 rounded-xl font-semibold text-sm">
+                    Tambah
+                </button>
+            @endauth
+
             <!-- Form Pencarian -->
             <input type="text" placeholder="Cari barang hilang..." x-model="search"
                 class="w-full md:w-1/2 p-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-biruPrimary">
@@ -49,8 +58,10 @@
 
         <!-- Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-4">
-            <template x-for="item in filteredItems" :key="item.id">
-                <div class="bg-gray-200 shadow-md rounded-xl flex gap-3 p-3">
+            <template x-for="(item, index) in filteredItems" :key="item.id">
+                <div :class="index % 2 === 0 
+        ? 'bg-biruPrimary text-white' 
+        : 'bg-gray-200 text-black'" class="shadow-md rounded-xl flex gap-3 p-3">
                     <img :src="item.image" class="w-32 h-32 object-cover rounded" alt="Barang Hilang">
                     <div class="flex flex-col justify-between">
                         <div>
@@ -59,10 +70,14 @@
                             <p class="text-sm"><strong>Tempat:</strong> <span x-text="item.tempat"></span></p>
                             <p class="text-sm"><strong>Tipe:</strong> <span x-text="item.tipe"></span></p>
                         </div>
-                        <a :href="`/kehilangan-detail?id=${item.id}`" class="text-xs text-biruPrimary underline">Lihat Detail</a>
+                      <a :href="`/kehilangan-detail/${item.id}`"
+                            :class="index % 2 === 0 ? 'text-white' : 'text-biruPrimary'" class="text-xs underline">
+                            Lihat Detail
+                        </a>
                     </div>
                 </div>
             </template>
+
         </div>
 
         <!-- No result -->
@@ -72,45 +87,22 @@
     </div>
 
     <!-- Alpine JS -->
-    <script>
-        function kehilanganFilter() {
-            return {
-                search: '',
-                selectedType: '',
-                items: [
-                    {
-                        id: 1,
-                        nama: 'Dompet Hilang',
-                        waktu: '15 Juni 2025',
-                        tempat: 'Pasar Lama Banjarmasin',
-                        tipe: 'Barang Pribadi',
-                        image: '{{ asset("logo/barang1.png") }}'
-                    },
-                    {
-                        id: 2,
-                        nama: 'KTP Hilang',
-                        waktu: '14 Juni 2025',
-                        tempat: 'Terminal Pal 6',
-                        tipe: 'Dokumen',
-                        image: '{{ asset("logo/barang1.png") }}'
-                    },
-                    {
-                        id: 3,
-                        nama: 'Handphone Hilang',
-                        waktu: '13 Juni 2025',
-                        tempat: 'Duta Mall Banjarmasin',
-                        tipe: 'Elektronik',
-                        image: '{{ asset("logo/barang1.png") }}'
-                    },
-                ],
-                get filteredItems() {
-                    return this.items.filter(item => {
-                        const matchSearch = item.nama.toLowerCase().includes(this.search.toLowerCase());
-                        const matchType = this.selectedType === '' || item.tipe === this.selectedType;
-                        return matchSearch && matchType;
-                    });
-                }
-            }
+   <script>
+   function kehilanganFilter() {
+    return {
+        search: '',
+        selectedType: '',
+        items: @json($kehilangan),
+        get filteredItems() {
+            return this.items.filter(item => {
+                const matchSearch = item.nama.toLowerCase().includes(this.search.toLowerCase());
+                const matchType = this.selectedType === '' || item.tipe === this.selectedType;
+                return matchSearch && matchType;
+            });
         }
-    </script>
+    }
+}
+
+</script>
+
 </x-app-layout>

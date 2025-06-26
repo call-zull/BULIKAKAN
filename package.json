@@ -17,6 +17,9 @@
     },
     "dependencies": {
         "alpinejs": "^3.14.9",
-        "feather-icons": "^4.29.2"
+        "datatables.net": "^2.3.2",
+        "datatables.net-bs5": "^2.3.2",
+        "feather-icons": "^4.29.2",
+        "jquery": "^3.7.1"
     }
 }

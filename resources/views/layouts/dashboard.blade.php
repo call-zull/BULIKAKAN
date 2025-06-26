@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Dashboard</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,8 +14,10 @@
         rel="stylesheet">
     {{-- <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script> --}}
 
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.css" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    @stack('styles')
 </head>
 
 <body class="bg-body" x-data="{ sidebarOpen: false, open: false }">
@@ -25,14 +28,18 @@
         @include('includes.admin.sidebar')
 
         <!-- Main Content -->
-        <div id="main-content" class="w-full">
+        <div id="main-content" class="w-full overflow-x-hidden">
             @include('includes.admin.navbar')
 
-            <div class="p-6 ml-0">
+            <div class="p-2 ml-0">
                 {{ $slot }}
             </div>
         </div>
     </div>
+     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/eca8c42def.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
+     @stack('scripts')
 </body>
 
 

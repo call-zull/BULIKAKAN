@@ -16,14 +16,17 @@
 
         @auth
             <div class="w-full flex flex-col items-center mt-8">
-                <img class="w-28"
-                    src="https://avataaars.io/?avatarStyle=Circle&topType=ShortHairShortFlat&accessoriesType=Blank&hairColor=Blonde&facialHairType=Blank&clotheType=BlazerShirt&eyeType=Happy&eyebrowType=Default&mouthType=Smile&skinColor=Light"
-                    alt="Avatar" />
+                @php
+                    $photoPath = Auth::user()->profile_photo
+                        ? asset('storage/' . Auth::user()->profile_photo)
+                        : 'https://avataaars.io/?avatarStyle=Circle&topType=ShortHairShortFlat&accessoriesType=Blank&hairColor=Blonde&facialHairType=Blank&clotheType=BlazerShirt&eyeType=Happy&eyebrowType=Default&mouthType=Smile&skinColor=Light';
+                @endphp
+
+                <img class="w-28 h-28 rounded-full object-cover" src="{{ $photoPath }}" alt="Foto Profil" />
                 <h3 class="font-semibold text-xl mt-1.5">{{ Auth::user()->username }}</h3>
                 <h4 class="font-normal text-lg">{{ Auth::user()->email }}</h4>
-                <a href="#" class="text-xs text-biruPrimary mt-1.5">Edit Profile</a>
+                <a href="{{ route('profile.edit') }}" class="text-xs text-biruPrimary mt-1.5">Edit Profile</a>
             </div>
-
             <div x-data="{ tab: 'kehilangan' }" class="w-full mt-6 p-4 max-w-6xl">
                 <!-- Tabs -->
                 <div class="flex gap-x-3 justify-center border-b border-gray-300 mb-4">
@@ -37,53 +40,61 @@
 
                 <!-- Kehilangan -->
                 <div x-show="tab === 'kehilangan'" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    @foreach ([1, 2, 3, 4, 5, 6] as $index) {{-- Ganti array ini dengan data asli nanti --}}
+                    @forelse ($kehilangan as $item)
                         @php
                             $isEven = $loop->iteration % 2 === 0;
                             $bgClass = $isEven ? 'bg-biruPrimary text-white' : 'bg-gray-200 text-black';
                         @endphp
 
                         <div class="{{ $bgClass }} shadow-md rounded-xl flex gap-3 p-3">
-                            <img src="{{ asset('logo/barang1.png') }}" class="w-32 h-32 object-cover rounded"
-                                alt="Barang Hilang">
+                            <img src="{{ $item->foto_barang_url }}" class="w-32 h-32 object-cover rounded" alt="Foto Barang">
                             <div class="flex flex-col justify-between">
                                 <div>
-                                    <h3 class="text-lg font-bold">Dompet Hilang</h3>
-                                    <p class="text-sm"><strong>Waktu:</strong> 15 Juni 2025</p>
-                                    <p class="text-sm"><strong>Tempat:</strong> Pasar Lama Banjarmasin</p>
-                                    <p class="text-sm"><strong>Tipe:</strong> Barang Pribadi</p>
+                                    <h3 class="text-lg font-bold">{{ $item->judul }}</h3>
+                                    <p class="text-sm"><strong>Waktu:</strong> {{ $item->waktu->translatedFormat('d F Y') }}</p>
+                                    <p class="text-sm"><strong>Tempat:</strong> {{ $item->tempat }}</p>
+                                    <p class="text-sm"><strong>Tipe:</strong> {{ $item->tipeBarang->nama ?? '-' }}</p>
                                 </div>
-                                <a href="#" class="text-xs {{ $isEven ? 'text-white' : 'text-biruPrimary' }} underline">Lihat
-                                    Detail</a>
+                              <a :href="`{{ route('kehilangan.show', '') }}/${item.id}`" class="text-xs underline"
+   :class="(index % 2 === 0) ? 'text-biruPrimary' : 'text-white'">Lihat Detail</a>
                             </div>
                         </div>
-                    @endforeach
+                    @empty
+                        <p class="col-span-3 text-center text-sm text-gray-500">Belum ada data kehilangan.</p>
+                    @endforelse
+
+
                 </div>
 
 
                 <!-- Penemuan -->
                 <div x-show="tab === 'penemuan'" x-cloak class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-                    @foreach ([1, 2, 3, 4, 5,6] as $index) {{-- Ganti array ini dengan data penemuan --}}
+                    @forelse ($penemuan as $item)
                         @php
                             $isEven = $loop->iteration % 2 === 0;
                             $bgClass = $isEven ? 'bg-gray-200 text-black' : 'bg-biruPrimary text-white';
                         @endphp
 
                         <div class="{{ $bgClass }} shadow-md rounded-xl flex gap-3 p-3">
-                            <img src="{{ asset('logo/barang1.png') }}" class="w-32 h-32 object-cover rounded"
-                                alt="Barang Ditemukan">
+                            <img src="{{ $item->foto_barang_url }}" class="w-32 h-32 object-cover rounded" alt="Foto Barang">
                             <div class="flex flex-col justify-between">
                                 <div>
-                                    <h3 class="text-lg font-bold">Kunci Motor</h3>
-                                    <p class="text-sm"><strong>Waktu:</strong> 18 Juni 2025</p>
-                                    <p class="text-sm"><strong>Tempat:</strong> Taman Kamboja</p>
-                                    <p class="text-sm"><strong>Tipe:</strong> Aksesoris</p>
+                                    <h3 class="text-lg font-bold">{{ $item->judul }}</h3>
+                                    <p class="text-sm"><strong>Waktu:</strong> {{ $item->waktu->translatedFormat('d F Y') }}</p>
+                                    <p class="text-sm"><strong>Tempat:</strong> {{ $item->tempat }}</p>
+                                    <p class="text-sm"><strong>Tipe:</strong> {{ $item->tipeBarang->nama ?? '-' }}</p>
                                 </div>
-                                <a href="#" class="text-xs {{ $isEven ? 'text-biruPrimary' : 'text-white' }} underline">Lihat
-                                    Detail</a>
+                                <a href="{{ route('penemuan.show', $item->id) }}"
+                                    class="text-xs {{ $isEven ? 'text-biruPrimary' : 'text-white' }} underline">Lihat Detail</a>
+                                <a :href="`{{ route('kehilangan.show', '') }}/${item.id}`" class="text-xs underline"
+   :class="(index % 2 === 0) ? 'text-biruPrimary' : 'text-white'">Lihat Detail</a>
+
                             </div>
                         </div>
-                    @endforeach
+                    @empty
+                        <p class="col-span-3 text-center text-sm text-gray-500">Belum ada data penemuan.</p>
+                    @endforelse
+
                 </div>
 
             </div>

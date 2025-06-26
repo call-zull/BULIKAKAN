@@ -11,6 +11,7 @@
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
     <!-- Styles & Scripts -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <script src="https://unpkg.com/feather-icons"></script>
@@ -25,23 +26,51 @@
     }
     </script>
     <style>
+        html,
         body {
+            overflow-y: auto;
             overflow-x: hidden;
         }
+
+        [x-cloak] {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+        }
+
+        /* body {
+            overflow-x: hidden;
+        } */
 
         .swiper-button-next,
         .swiper-button-prev {
             color: white;
         }
+
+        @keyframes fade-in-up {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fade-in-up 0.3s ease-out;
+        }
     </style>
 </head>
 
 <body>
-    @if (Request::is('/') || Request::is('profile') || Request::is('kehilangan') || Request::is('penemuan'))
+    @if (!Request::is('login', 'register', 'forgotPassword', 'newPassword', 'passwordChanged'))
         @include('includes.navbar')
     @endif
 
-    <main class="p-2 lg:mb-20 md:mb-20 mb-20">
+    <main class="p-2 min-h-screen lg:mb-20 md:mb-20 mb-20">
         {{ $slot }}
     </main>
 

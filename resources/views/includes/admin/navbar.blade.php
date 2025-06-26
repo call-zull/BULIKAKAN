@@ -17,9 +17,10 @@
     <!-- User Dropdown -->
     <div x-cloak class="relative ml-auto">
         <button @click="open = !open" :aria-expanded="open.toString()" class="flex items-center space-x-3 focus:outline-none">
-            <img src="https://avataaars.io/?avatarStyle=Circle&topType=LongHairStraight&accessoriesType=Blank&hairColor=BrownDark&facialHairType=Blank&clotheType=BlazerShirt&eyeType=Default&eyebrowType=Default&mouthType=Default&skinColor=Light"
-                class="h-8 w-8 rounded-full" alt="User Avatar">
-            <span class="text-gray-700 font-semibold">Rian Hendra</span>
+            <img class="h-8 w-8 rounded-full"
+                    src="https://avataaars.io/?avatarStyle=Circle&topType=ShortHairShortFlat&accessoriesType=Blank&hairColor=Blonde&facialHairType=Blank&clotheType=BlazerShirt&eyeType=Happy&eyebrowType=Default&mouthType=Smile&skinColor=Light"
+                    alt="Avatar" />
+            <span class="text-gray-700 font-semibold">{{ Auth::user()->username }}</span>
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />

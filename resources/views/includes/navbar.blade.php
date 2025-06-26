@@ -9,14 +9,14 @@
 >
     <!-- Navbar -->
     <div :class="scroll
-        ? 'py-4 bg-white shadow-md fixed top-0 left-0 right-0 z-50'
-        : 'py-4 bg-transparent relative'" class="w-full border-b border-b-gray-300" @click.away="open = false">
+        ? 'py-1 bg-white shadow-md fixed top-0 left-0 right-0 z-50'
+        : 'py-1 bg-transparent relative'" class="w-full border-b border-b-gray-300" @click.away="open = false">
         
         <div class="flex items-center justify-between px-4">
             <!-- Logo -->
-            <a href="{{ route('home') }}">
-                <div class="flex items-center">
-                    <img class="h-10 w-auto" src="{{ asset('logo/loop-nobg.png') }}" alt="Logo">
+            <a href="{{ route('home') }}" class="">
+                <div class="flex items-center ">
+                    <img class="h-16 w-auto" src="{{ asset('logo/loop-nobg.png') }}" alt="Logo">
                     <h1 class="text-2xl text-biruPrimary font-bold font-jomhuria">Bulikakan</h1>
                 </div>
             </a>
@@ -47,8 +47,8 @@
     </div>
 
     <!-- Modal Konfirmasi Logout -->
-    <div x-show="confirmLogout" x-transition
-        class="fixed inset-0 transition-opacity duration-200 ease-in-out flex items-center justify-center z-50">
+    <div x-show="confirmLogout" x-transition x-cloak
+    :class="confirmLogout ? 'fixed inset-0 flex items-center justify-center z-50' : 'hidden'">
         <div @click.away="confirmLogout = false" class="bg-white rounded-lg shadow-xl p-6 w-80">
             <h2 class="text-lg font-semibold text-gray-800 mb-2">Konfirmasi Logout</h2>
             <p class="text-sm text-gray-600 mb-4">Apakah Anda yakin ingin logout?</p>

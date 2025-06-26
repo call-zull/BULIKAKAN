@@ -61,11 +61,11 @@ class AuthController extends Controller
             $user = Auth::user();
 
             if ($user->hasRole('admin')) {
-                return redirect()->route('home-admin');
+                return redirect()->route('admin.home')->with('success', 'Login berhasil sebagai admin.');
             } elseif ($user->hasRole('berwenang')) {
-                return redirect()->route('home-berwenang');
+                return redirect()->route('home-berwenang')->with('success', 'Login berhasil sebagai pihak berwenang.');
             } else {
-                return redirect()->route('home');
+                 return redirect()->route('home')->with('success', 'Login berhasil.');
             }
         }
 
@@ -123,7 +123,7 @@ class AuthController extends Controller
             Auth::login($user, true);
 
             if ($user->hasRole('admin')) {
-                return redirect()->route('home-admin')->with('success', 'Login dengan Google berhasil.');
+                return redirect()->route('admin'.'admin.home')->with('success', 'Login dengan Google berhasil.');
             } elseif ($user->hasRole('berwenang')) {
                 return redirect()->route('home-berwenang')->with('success', 'Login dengan Google berhasil.');
             } else {

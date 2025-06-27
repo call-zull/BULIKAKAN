@@ -2,7 +2,8 @@
     $isActive = fn($route) => Route::is($route);
 @endphp
 
-<div x-data="{ showAddModal: false, open: false, showLoginAlert: false }" x-effect="if (showLoginAlert) showAddModal = false" x-cloak>
+<div x-data="{ showAddModal: false, open: false, showLoginAlert: false }"
+    x-effect="if (showLoginAlert) showAddModal = false" x-cloak>
     <!-- Footer -->
     <div class="fixed bottom-0 left-0 right-0 z-50 border-t border-t-gray-300 bg-white shadow-md">
         <div class="flex justify-around items-center h-16">
@@ -51,10 +52,68 @@
             </a>
 
             <!-- Tombol Plus -->
-            <a href="#" @click.prevent="showAddModal = true"
+            {{-- <a href="#" @click.prevent="showAddModal = true"
                 class="flex flex-col items-center text-white bg-biruPrimary p-3 rounded-full -mt-6 shadow-lg transition hover:scale-110 duration-300 ease-in-out">
                 <i data-feather="plus"></i>
-            </a>
+            </a> --}}
+            <!-- Tombol Plus -->
+            <button data-modal-target="popup-modal" data-modal-toggle="popup-modal"
+                class="flex flex-col items-center text-white bg-biruPrimary p-3 rounded-full -mt-6 shadow-lg transition hover:scale-110 duration-300 ease-in-out cursor-pointer"
+                type="button">
+                <i data-feather="plus"></i>
+            </button>
+
+            <!-- Modal Buat Pengumuman -->
+            <div id="popup-modal" tabindex="-1" aria-hidden="true"
+                class="hidden fixed bottom-32 left-0 right-0 z-50 justify-center flex w-full">
+                <div class="bg-white rounded-2xl shadow-xl p-6 w-80 animate-fade-in-up relative">
+                    <!-- Tombol Close -->
+                    <button type="button"
+                        class="absolute top-2 right-2 text-gray-400 hover:text-gray-600 focus:outline-none"
+                        data-modal-hide="popup-modal">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+
+                    <!-- Konten Modal -->
+                    <h2 class="text-lg font-semibold text-gray-800 mb-4 text-center">Buat Pengumuman</h2>
+
+                    <div class="flex justify-between w-full">
+                        @auth
+                            <a href="{{ route('kehilangan.create') }}"
+                                class="flex items-center gap-x-2 px-2 py-1 rounded-lg bg-biruPrimary text-white font-semibold text-center transition duration-200">
+                                <x-icon-lost class="text-white w-5" />
+                                <h3>Kehilangan</h3>
+                            </a>
+                        @else
+                            <button data-modal-hide="popup-modal" data-modal-target="login-alert-modal"
+                                data-modal-toggle="login-alert-modal"
+                                class="flex items-center gap-x-2 px-2 py-1 rounded-lg bg-biruPrimary text-white font-semibold text-center transition duration-200">
+                                <x-icon-lost class="text-white w-5" />
+                                <h3>Kehilangan</h3>
+                            </button>
+                        @endauth
+
+                        @auth
+                            <a href="{{ route('penemuan.create') }}"
+                                class="flex items-center px-4 py-2 rounded-lg bg-white text-biruPrimary font-semibold text-center border border-biruPrimary transition duration-200">
+                                <img src="{{ asset('logo/icon-find.png') }}" class="w-5 mr-1.5" alt="icon-kehilangan">
+                                <h3>Penemuan</h3>
+                            </a>
+                        @else
+                            <button data-modal-hide="popup-modal" data-modal-target="login-alert-modal"
+                                data-modal-toggle="login-alert-modal"
+                                class="flex items-center px-4 py-2 rounded-lg bg-white text-biruPrimary font-semibold text-center border border-biruPrimary transition duration-200">
+                                <img src="{{ asset('logo/icon-find.png') }}" class="w-5 mr-1.5" alt="icon-kehilangan">
+                                <h3>Penemuan</h3>
+                            </button>
+                        @endauth
+                    </div>
+                </div>
+            </div>
 
             <!-- Penemuan -->
             <a href="{{ route('penemuan') }}" class="flex flex-col items-center text-biruPrimary">
@@ -162,7 +221,7 @@
 
     </div>
     <!-- Alert: Harus login dulu -->
-    <div x-show="showLoginAlert" x-transition x-cloak
+    {{-- <div x-show="showLoginAlert" x-transition x-cloak
         class="fixed inset-0 bg-transparent flex items-center justify-center z-50">
         <div @click.away="showLoginAlert = false" class="bg-white rounded-xl p-4 w-72 shadow-xl text-center">
             <h2 class="text-lg font-bold text-gray-800 mb-2">Login Diperlukan</h2>
@@ -170,10 +229,37 @@
             <div class="flex justify-center gap-3">
                 <button @click="showLoginAlert = false"
                     class="px-4 py-1 bg-gray-300 text-gray-800 rounded cursor-pointer hover:bg-gray-400">Tutup</button>
-                <a href="{{ route('login') }}"
-                    class="px-4 py-1 bg-biruPrimary text-white rounded">Login</a>
+                <a href="{{ route('login') }}" class="px-4 py-1 bg-biruPrimary text-white rounded">Login</a>
             </div>
         </div>
+    </div> --}}
+    <!-- Modal Login Alert -->
+<div id="login-alert-modal" tabindex="-1" aria-hidden="true"
+    class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+    <div class="bg-white rounded-xl p-4 w-72 shadow-xl text-center relative">
+        <!-- Tombol Close -->
+        <button type="button"
+            class="absolute top-2 right-2 text-gray-400 hover:text-gray-600 focus:outline-none"
+            data-modal-hide="login-alert-modal">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+
+        <h2 class="text-lg font-bold text-gray-800 mb-2">Login Diperlukan</h2>
+        <p class="text-sm text-gray-600 mb-4">Anda harus login terlebih dahulu untuk mengakses fitur ini.</p>
+        <div class="flex justify-center gap-3">
+            <button type="button" data-modal-hide="login-alert-modal"
+                class="px-4 py-1 bg-gray-300 text-gray-800 rounded hover:bg-gray-400">
+                Tutup
+            </button>
+            <a href="{{ route('login') }}"
+                class="px-4 py-1 bg-biruPrimary text-white rounded hover:bg-biruPrimary/90">Login</a>
+        </div>
     </div>
+</div>
+
 
 </div>

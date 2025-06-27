@@ -20,6 +20,7 @@
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <script src="https://unpkg.com/feather-icons"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="canonical" href="https://bulikakan.my.id/">
     <style>
           [x-cloak], [x-cloak=""] {
         display: none !important;

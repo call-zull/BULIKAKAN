@@ -20,11 +20,13 @@
 
             <form action="{{ route('login.submit') }}" method="POST" class="mt-4 flex justify-center">
                 @csrf
-                <div class="w-full max-w-lg"> 
+                <div class="w-full max-w-lg">
                     <div class="mb-2">
-                        <input type="email" name="email" id="email" required placeholder="Email Anda"
+                        <input type="text" name="login" id="login" required placeholder="Email atau Username"
+                            value="{{ old('login') }}"
                             class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-md shadow-gray-300 focus:ring focus:ring-blue-200 focus:outline-none font-jomhuria placeholder-abuPlaceholder"
                             style="box-shadow: inset 0 4px 6px -4px rgba(0, 0, 0, 0.3), 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+
                     </div>
                     <div x-data="{ show: false }" class="mb-2 relative">
                         <input :type="show ? 'text' : 'password'" name="password" id="password" required
@@ -45,7 +47,7 @@
 
                     <div class="flex justify-center mt-4">
                         <button type="submit"
-                            class="bg-biruPrimary text-white px-6 py-2 w-full rounded-md font-semibold font-jomhuria">
+                            class="bg-biruPrimary cursor-pointer text-white px-6 py-2 w-full rounded-md font-semibold font-jomhuria">
                             Login
                         </button>
                     </div>
@@ -69,9 +71,46 @@
 
             <div class="text-center">
                 <p class="text-sm font-jomhuria text-gray-600">Belum punya akun?
-                    <a href="{{ route('register') }}" class="text-biruPrimary font-semibold hover:underline">Register</a>
+                    <a href="{{ route('register') }}"
+                        class="text-biruPrimary font-semibold hover:underline">Register</a>
                 </p>
             </div>
         </div>
     </div>
+    @if ($errors->any())
+        <div id="login-error-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+            <div class="bg-white rounded-xl p-6 w-96 shadow-lg text-center relative">
+                <button type="button" class="absolute top-2 right-2 text-gray-400 hover:text-gray-600"
+                    onclick="document.getElementById('login-error-modal').classList.add('hidden')">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+
+                <h2 class="text-lg font-bold text-red-600 mb-3">Login Gagal</h2>
+                <ul class="text-left text-sm text-red-500 list-disc list-inside">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+
+                <div class="mt-4">
+                    <button onclick="document.getElementById('login-error-modal').classList.add('hidden')"
+                        class="px-4 py-1 bg-gray-300 text-gray-800 rounded hover:bg-gray-400">
+                        Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const modal = document.getElementById('login-error-modal');
+                if (modal) {
+                    modal.classList.remove('hidden');
+                }
+            });
+        </script>
+    @endif
+
 </x-app-layout>

@@ -97,4 +97,32 @@
             </form>
         </div>
     </div>
+    {{-- Modal Error --}}
+@if (session('create_failed') || $errors->any())
+    <div x-data="{ show: true }" x-show="show" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+        <div class="bg-white rounded-xl p-6 w-96 shadow-lg text-center relative">
+            <button @click="show = false" class="absolute top-2 right-2 text-gray-400 hover:text-gray-600">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <h2 class="text-lg font-bold text-red-600 mb-2">Gagal Menyimpan</h2>
+
+            @if ($errors->any())
+                <ul class="text-sm text-left text-red-500 list-disc list-inside mb-4">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            @elseif (session('create_failed'))
+                <p class="text-sm text-gray-600 mb-2">{{ session('create_failed') }}</p>
+            @endif
+
+            <button @click="show = false" class="px-4 py-1 bg-gray-300 text-gray-800 rounded hover:bg-gray-400">
+                Tutup
+            </button>
+        </div>
+    </div>
+@endif
+
 </x-app-layout>

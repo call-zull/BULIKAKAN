@@ -6,6 +6,7 @@ use App\Models\Pengumuman;
 use App\Models\TipeBarang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class PenemuanController extends Controller
 {
@@ -49,14 +50,15 @@ class PenemuanController extends Controller
     }
 
     public function store(Request $request)
-    {
-        if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'Anda harus login terlebih dahulu.');
-        }
+{
+    if (!Auth::check()) {
+        return redirect()->route('login')->with('error', 'Anda harus login terlebih dahulu.');
+    }
 
+    try {
         $request->validate([
             'judul' => 'required|string|max:255',
-            'foto_barang' => 'nullable|image|max:2048',
+            'foto_barang' => 'required|image|max:2048',
             'waktu' => 'required|date',
             'tempat' => 'required|string|max:255',
             'deskripsi' => 'required|string',
@@ -79,7 +81,15 @@ class PenemuanController extends Controller
         Pengumuman::create($data);
 
         return redirect()->route('penemuan')->with('success', 'Pengumuman penemuan berhasil ditambahkan.');
+    } catch (ValidationException $e) {
+        // biarkan Laravel tangani validasi seperti biasa
+        throw $e;
+    } catch (\Exception $e) {
+        return back()
+            ->with('create_failed', 'Terjadi kesalahan saat menyimpan.')
+            ->withInput();
     }
+}
 
     public function edit(Pengumuman $pengumuman)
     {
@@ -91,12 +101,13 @@ class PenemuanController extends Controller
         return view('pages.user.penemuan.edit', compact('pengumuman', 'tipeBarangs'));
     }
 
-    public function update(Request $request, Pengumuman $pengumuman)
-    {
-        if ($pengumuman->jenis_pengumuman !== 'penemuan') {
-            abort(404);
-        }
+   public function update(Request $request, Pengumuman $pengumuman)
+{
+    if ($pengumuman->jenis_pengumuman !== 'penemuan') {
+        abort(404);
+    }
 
+    try {
         $request->validate([
             'judul' => 'required|string|max:255',
             'foto_barang' => 'nullable|image|max:2048',
@@ -116,7 +127,15 @@ class PenemuanController extends Controller
         $pengumuman->update($data);
 
         return redirect()->route('penemuan')->with('success', 'Pengumuman penemuan berhasil diperbarui.');
+    } catch (ValidationException $e) {
+        // biarkan Laravel menangani error validasi dan tampilkan modal
+        throw $e;
+    } catch (\Exception $e) {
+        return back()
+            ->with('update_failed', 'Terjadi kesalahan saat memperbarui.')
+            ->withInput();
     }
+}
 
     public function destroy(Pengumuman $pengumuman)
     {

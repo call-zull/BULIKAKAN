@@ -55,8 +55,10 @@
                                     <p class="text-sm"><strong>Tempat:</strong> {{ $item->tempat }}</p>
                                     <p class="text-sm"><strong>Tipe:</strong> {{ $item->tipeBarang->nama ?? '-' }}</p>
                                 </div>
-                              <a :href="`{{ route('kehilangan.show', '') }}/${item.id}`" class="text-xs underline"
-   :class="(index % 2 === 0) ? 'text-biruPrimary' : 'text-white'">Lihat Detail</a>
+                                <a href="{{ route('kehilangan.show', $item->id) }}"
+                                    class="text-xs underline {{ $isEven ? 'text-white' : 'text-biruPrimary' }}">
+                                    Lihat Detail
+                                </a>
                             </div>
                         </div>
                     @empty
@@ -85,10 +87,9 @@
                                     <p class="text-sm"><strong>Tipe:</strong> {{ $item->tipeBarang->nama ?? '-' }}</p>
                                 </div>
                                 <a href="{{ route('penemuan.show', $item->id) }}"
-                                    class="text-xs {{ $isEven ? 'text-biruPrimary' : 'text-white' }} underline">Lihat Detail</a>
-                                <a :href="`{{ route('kehilangan.show', '') }}/${item.id}`" class="text-xs underline"
-   :class="(index % 2 === 0) ? 'text-biruPrimary' : 'text-white'">Lihat Detail</a>
-
+                                    class="text-xs underline {{ $isEven ? 'text-biruPrimary' : 'text-white' }}">
+                                    Lihat Detail
+                                </a>
                             </div>
                         </div>
                     @empty

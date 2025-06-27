@@ -35,11 +35,11 @@
                     Tambah
                 </a>
             @else
-                <button
-                    onclick="alert('Untuk mengakses fitur ini, Anda harus login terlebih dahulu.'); window.location.href='{{ route('login') }}';"
+                <button data-modal-target="login-alert-modal" data-modal-toggle="login-alert-modal"
                     class="w-full md:w-auto text-center cursor-pointer bg-biruPrimary text-white px-4 py-2 rounded-xl font-semibold text-sm">
                     Tambah
                 </button>
+
             @endauth
 
             <!-- Form Pencarian -->
@@ -70,7 +70,7 @@
                             <p class="text-sm"><strong>Tempat:</strong> <span x-text="item.tempat"></span></p>
                             <p class="text-sm"><strong>Tipe:</strong> <span x-text="item.tipe"></span></p>
                         </div>
-                      <a :href="`/kehilangan-detail/${item.id}`"
+                        <a :href="`/kehilangan-detail/${item.id}`"
                             :class="index % 2 === 0 ? 'text-white' : 'text-biruPrimary'" class="text-xs underline">
                             Lihat Detail
                         </a>
@@ -85,24 +85,110 @@
             Tidak ada hasil ditemukan.
         </div>
     </div>
+    <!-- Modal: Harus Login Dulu -->
+    <div id="login-alert-modal" tabindex="-1" aria-hidden="true"
+        class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+        <div class="bg-white rounded-xl p-6 w-80 shadow-lg text-center relative">
+            <!-- Close Button -->
+            <button type="button" class="absolute top-2 right-2 text-gray-400 hover:text-gray-600 focus:outline-none"
+                data-modal-hide="login-alert-modal">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                </svg>
+            </button>
+
+            <!-- Modal Content -->
+            <h2 class="text-lg font-bold text-gray-800 mb-2">Login Diperlukan</h2>
+            <p class="text-sm text-gray-600 mb-4">Anda harus login terlebih dahulu untuk mengakses fitur ini.</p>
+            <div class="flex justify-center gap-3">
+                <button type="button" data-modal-hide="login-alert-modal"
+                    class="px-4 py-1 bg-gray-300 text-gray-800 rounded hover:bg-gray-400">
+                    Tutup
+                </button>
+                <a href="{{ route('login') }}"
+                    class="px-4 py-1 bg-biruPrimary text-white rounded hover:bg-biruPrimary/90">Login</a>
+            </div>
+        </div>
+    </div>
+
+{{-- Modal: Gagal --}}
+@if (session('create_failed') || $errors->any())
+    <div id="failed-modal" tabindex="-1" aria-hidden="true"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+        <div class="bg-white rounded-xl p-6 w-80 shadow-lg text-center relative">
+            <button type="button" class="absolute top-2 right-2 text-gray-400 hover:text-gray-600"
+                data-modal-hide="failed-modal">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <h2 class="text-lg font-bold text-red-600 mb-2">Gagal Menyimpan</h2>
+            @if (session('create_failed'))
+                <p class="text-sm text-gray-600 mb-2">{{ session('create_failed') }}</p>
+            @endif
+
+            @if ($errors->any())
+                <ul class="text-sm text-left text-red-500 list-disc list-inside mb-4">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            @endif
+
+            <button type="button" data-modal-hide="failed-modal"
+                class="px-4 py-1 bg-gray-300 text-gray-800 rounded hover:bg-gray-400">
+                Tutup
+            </button>
+        </div>
+    </div>
+@endif
+
+@if (session('create_failed') || $errors->any())
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('failed-modal');
+            if (modal) modal.classList.remove('hidden');
+        });
+    </script>
+@endif
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('[data-modal-hide]').forEach(button => {
+            button.addEventListener('click', function () {
+                const modalId = button.getAttribute('data-modal-hide');
+                const modalElement = document.getElementById(modalId) || button.closest('.fixed');
+                if (modalElement) {
+                    modalElement.classList.add('hidden');
+                }
+            });
+        });
+    });
+</script>
+
+
 
     <!-- Alpine JS -->
-   <script>
-   function kehilanganFilter() {
-    return {
-        search: '',
-        selectedType: '',
-        items: @json($kehilangan),
-        get filteredItems() {
-            return this.items.filter(item => {
-                const matchSearch = item.nama.toLowerCase().includes(this.search.toLowerCase());
-                const matchType = this.selectedType === '' || item.tipe === this.selectedType;
-                return matchSearch && matchType;
-            });
+    <script>
+        function kehilanganFilter() {
+            return {
+                search: '',
+                selectedType: '',
+                items: @json($kehilangan),
+                get filteredItems() {
+                    return this.items.filter(item => {
+                        const matchSearch = item.nama.toLowerCase().includes(this.search.toLowerCase());
+                        const matchType = this.selectedType === '' || item.tipe === this.selectedType;
+                        return matchSearch && matchType;
+                    });
+                }
+            }
         }
-    }
-}
 
-</script>
+    </script>
 
 </x-app-layout>

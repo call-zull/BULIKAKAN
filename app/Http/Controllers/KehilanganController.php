@@ -6,6 +6,7 @@ use App\Models\Pengumuman;
 use App\Models\TipeBarang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class KehilanganController extends Controller
 {
@@ -44,31 +45,45 @@ class KehilanganController extends Controller
             return redirect()->route('login')->with('error', 'Anda harus login terlebih dahulu.');
         }
 
-        $request->validate([
-            'judul' => 'required|string|max:255',
-            'foto_barang' => 'nullable|image|max:2048',
-            'waktu' => 'required|date',
-            'tempat' => 'required|string|max:255',
-            'deskripsi' => 'required|string',
-            'kontak' => 'required|string|max:255',
-            'jenis_pengumuman' => 'in:kehilangan', 
-            'tipe_barang_id' => 'required|exists:tipe_barangs,id',
-        ]);
+        try {
+            $request->validate([
+                'judul' => 'required|string|max:255', // untuk uji coba error
+                'foto_barang' => 'required|image|max:2048',
+                'waktu' => 'required|date',
+                'tempat' => 'required|string|max:255',
+                'deskripsi' => 'required|string',
+                'kontak' => 'required|string|max:255',
+                'jenis_pengumuman' => 'in:kehilangan',
+                'tipe_barang_id' => 'required|exists:tipe_barangs,id',
+            ]);
 
-        $data = $request->only([
-            'judul', 'waktu', 'tempat', 'deskripsi', 'status',
-            'kontak', 'tipe_barang_id'
-        ]);
-        $data['jenis_pengumuman'] = 'kehilangan';
-        $data['user_id'] = Auth::id();
+            $data = $request->only([
+                'judul',
+                'waktu',
+                'tempat',
+                'deskripsi',
+                'status',
+                'kontak',
+                'tipe_barang_id'
+            ]);
+            $data['jenis_pengumuman'] = 'kehilangan';
+            $data['user_id'] = Auth::id();
 
-        if ($request->hasFile('foto_barang')) {
-            $data['foto_barang'] = $request->file('foto_barang')->store('foto_barang', 'public');
+            if ($request->hasFile('foto_barang')) {
+                $data['foto_barang'] = $request->file('foto_barang')->store('foto_barang', 'public');
+            }
+
+            Pengumuman::create($data);
+
+            return redirect()->route('kehilangan')->with('success', 'Pengumuman kehilangan berhasil ditambahkan.');
+        } catch (ValidationException $e) {
+            // biarkan Laravel redirect dan membawa $errors seperti biasa
+            throw $e;
+        } catch (\Exception $e) {
+            return back()
+                ->with('create_failed', 'Terjadi kesalahan saat menyimpan.')
+                ->withInput();
         }
-
-        Pengumuman::create($data);
-
-        return redirect()->route('kehilangan')->with('success', 'Pengumuman kehilangan berhasil ditambahkan.');
     }
 
     public function show(Pengumuman $pengumuman)
@@ -97,25 +112,33 @@ class KehilanganController extends Controller
             abort(404);
         }
 
-        $request->validate([
-            'judul' => 'required|string|max:255',
-            'foto_barang' => 'nullable|image|max:2048',
-            'waktu' => 'required|date',
-            'tempat' => 'required|string|max:255',
-            'deskripsi' => 'required|string',
-            'kontak' => 'required|string|max:255',
-            'tipe_barang_id' => 'required|exists:tipe_barangs,id',
-        ]);
+        try {
+            $request->validate([
+                'judul' => 'required|string|max:255',
+                'foto_barang' => 'nullable|image|max:2048',
+                'waktu' => 'required|date',
+                'tempat' => 'required|string|max:255',
+                'deskripsi' => 'required|string',
+                'kontak' => 'required|string|max:255',
+                'tipe_barang_id' => 'required|exists:tipe_barangs,id',
+            ]);
 
-        $data = $request->except('foto_barang');
+            $data = $request->except('foto_barang');
 
-        if ($request->hasFile('foto_barang')) {
-            $data['foto_barang'] = $request->file('foto_barang')->store('foto_barang', 'public');
+            if ($request->hasFile('foto_barang')) {
+                $data['foto_barang'] = $request->file('foto_barang')->store('foto_barang', 'public');
+            }
+
+            $pengumuman->update($data);
+
+            return redirect()->route('kehilangan')->with('success', 'Pengumuman kehilangan berhasil diperbarui.');
+        } catch (ValidationException $e) {
+            throw $e; // agar tetap pakai $errors bawaan Laravel
+        } catch (\Exception $e) {
+            return back()
+                ->with('update_failed', 'Terjadi kesalahan saat memperbarui.')
+                ->withInput();
         }
-
-        $pengumuman->update($data);
-
-        return redirect()->route('kehilangan')->with('success', 'Pengumuman kehilangan berhasil diperbarui.');
     }
 
     public function destroy(Pengumuman $pengumuman)

@@ -67,7 +67,7 @@
             <p class="mb-1"><strong>Tipe Barang:</strong> {{ $pengumuman->tipeBarang->nama ?? 'Tidak diketahui' }}</p>
             <p class="mb-1"><strong>Deskripsi:</strong> {!! nl2br(e($pengumuman->deskripsi)) !!}</p>
             <p class="mb-4"><strong>Kontak:</strong> {{ $pengumuman->kontak }}</p>
-            <a href="{{ route('penemuan') }}"
+            <a href="{{ url()->previous() }}"
                 class="inline-block bg-biruPrimary text-white px-4 py-2 rounded-lg text-sm mt-4">← Kembali</a>
         </div>
     </div>

@@ -51,11 +51,18 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
+            'login' => 'required|string',
+            'password' => 'required|string',
         ]);
 
-        if (Auth::attempt($request->only('email', 'password'), true)) {
+        $login_type = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        $credentials = [
+            $login_type => $request->login,
+            'password' => $request->password,
+        ];
+
+        if (Auth::attempt($credentials, true)) {
             $request->session()->regenerate();
 
             $user = Auth::user();
@@ -65,14 +72,15 @@ class AuthController extends Controller
             } elseif ($user->hasRole('berwenang')) {
                 return redirect()->route('home-berwenang')->with('success', 'Login berhasil sebagai pihak berwenang.');
             } else {
-                 return redirect()->route('home')->with('success', 'Login berhasil.');
+                return redirect()->route('home')->with('success', 'Login berhasil.');
             }
         }
 
         return back()->withErrors([
-            'email' => 'Email atau password salah.',
+            'login' => 'Email/Username atau password salah.',
         ])->withInput();
     }
+
 
     public function google_redirect()
     {
@@ -123,7 +131,7 @@ class AuthController extends Controller
             Auth::login($user, true);
 
             if ($user->hasRole('admin')) {
-                return redirect()->route('admin'.'admin.home')->with('success', 'Login dengan Google berhasil.');
+                return redirect()->route('admin' . 'admin.home')->with('success', 'Login dengan Google berhasil.');
             } elseif ($user->hasRole('berwenang')) {
                 return redirect()->route('home-berwenang')->with('success', 'Login dengan Google berhasil.');
             } else {
@@ -149,7 +157,7 @@ class AuthController extends Controller
         return redirect()->route('login')->with('success', 'Anda telah logout.');
     }
 
-     public function showForgotPasswordForm()
+    public function showForgotPasswordForm()
     {
         return view('pages.auth.forgotPassword');
     }

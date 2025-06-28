@@ -21,7 +21,7 @@ class PenemuanDataTable extends DataTable
                 : '-')
             ->editColumn('waktu', fn($row) => optional($row->waktu)->format('d M Y H:i'))
             ->addColumn('tipe_barang', fn($row) => optional($row->tipeBarang)->nama ?? '-')
-            ->addColumn('user', fn($row) => optional($row->user)->name ?? '-')
+            ->addColumn('user', fn($row) => optional($row->user)->username ?? '-')
             ->addColumn('action', function ($row) {
                 $edit = route('admin.penemuan.edit', $row->id);
                 $hapus = route('admin.penemuan.destroy', $row->id);

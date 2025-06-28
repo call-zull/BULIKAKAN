@@ -14,7 +14,7 @@ class KehilanganController extends Controller
     {
         $query = Pengumuman::kehilangan()
             ->where('status', 'publish')
-            ->with('tipeBarang');
+            ->with('tipeBarang', 'user');
 
         // Filter: Search
         if ($request->filled('search')) {
@@ -41,8 +41,11 @@ class KehilanganController extends Controller
                     'image' => $item->foto_barang
                         ? asset('storage/' . $item->foto_barang)
                         : asset('logo/barang1.png'),
+                    'user_name' => $item->user->username ?? 'Tidak diketahui',
+                    'is_official' => $item->user->status_user === 'official', // ✅ ini yang direvisi
                 ];
             });
+
         $tipeBarangs = TipeBarang::all();
 
         return view('pages.user.kehilangan.index', compact('kehilangan', 'tipeBarangs'));

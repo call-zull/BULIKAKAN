@@ -10,8 +10,10 @@ use App\Http\Controllers\Admin\CarouselController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Admin\KehilanganController as AdminKehilanganController;
 use App\Http\Controllers\Admin\PenemuanController as AdminPenemuanController;
+use App\Http\Controllers\Admin\RequestOfficialController as AdminRequestOfficialController;
 use App\Http\Controllers\Admin\TipeBarangController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RequestOfficialController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,6 +61,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
+    Route::get('/request-official', [RequestOfficialController::class, 'create'])->name('request-official.create');
+    Route::post('/request-official', [RequestOfficialController::class, 'store'])->name('request-official.store');
+
 
     // Tipe Barang
     // Route::resource('tipe-barang', TipeBarangController::class);
@@ -94,6 +99,13 @@ Route::prefix('admin')->middleware('role:admin')->group(function () {
     Route::put('tipe-barang/{id}', [TipeBarangController::class, 'update'])->name('admin.tipe-barang.update');
     Route::get('admin/tipe-barang/export/pdf', [TipeBarangController::class, 'exportPdf'])->name('admin.tipe-barang.export.pdf');
     Route::get('admin/tipe-barang/export-excel', [TipeBarangController::class, 'exportExcel'])->name('admin.tipe-barang.export');
+
+    // Request Official (Admin)
+    Route::get('request-official', [AdminRequestOfficialController::class, 'index'])->name('admin.request-official.index');
+    Route::patch('request-official/{id}/status', [AdminRequestOfficialController::class, 'updateStatus'])->name('admin.request-official.updateStatus');
+    Route::delete('request-official/{id}', [AdminRequestOfficialController::class, 'destroy'])->name('admin.request-official.destroy');
+
+
 
     // Kehilangan
     Route::get('kehilangan', [AdminKehilanganController::class, 'index'])->name('admin.kehilangan.index');

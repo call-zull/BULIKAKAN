@@ -108,7 +108,7 @@
         @role('admin')        
         <ul>
             <li class="mb-2">
-                <a href="#"
+                <a href="{{ route('admin.request-official.index') }}"
                     class="p-2 hover:bg-primary hover:text-biruPrimary rounded flex items-center gap-x-4 text-gray-500">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16">
                         <g fill="none" stroke="currentColor">

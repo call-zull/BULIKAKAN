@@ -9,9 +9,9 @@ class HomeController extends Controller
 {
    public function index()
 {
-    $kehilangan = Pengumuman::kehilangan()
-        ->where('status', 'publish') // ✅ hanya tampilkan yang publish
-        ->with('tipeBarang')
+      $kehilangan = Pengumuman::kehilangan()
+        ->where('status', 'publish')
+        ->with(['tipeBarang', 'user']) // relasi user disertakan
         ->latest()
         ->take(9)
         ->get()
@@ -25,12 +25,14 @@ class HomeController extends Controller
                 'image' => $item->foto_barang
                     ? asset('storage/' . $item->foto_barang)
                     : asset('logo/barang1.png'),
+                'user_name' => optional($item->user)->username ?? 'Anonim',
+                'is_official' => optional($item->user)->status_user === 'official',
             ];
         });
 
     $penemuan = Pengumuman::penemuan()
-        ->where('status', 'publish') // ✅ hanya tampilkan yang publish
-        ->with('tipeBarang')
+        ->where('status', 'publish')
+        ->with(['tipeBarang', 'user']) // relasi user disertakan
         ->latest()
         ->take(9)
         ->get()
@@ -44,6 +46,8 @@ class HomeController extends Controller
                 'image' => $item->foto_barang
                     ? asset('storage/' . $item->foto_barang)
                     : asset('logo/barang1.png'),
+                'user_name' => optional($item->user)->username ?? 'Anonim',
+               'is_official' => optional($item->user)->status_user === 'official',
             ];
         });
 
@@ -52,14 +56,13 @@ class HomeController extends Controller
     $totalPenemuan = Pengumuman::penemuan()->where('status', 'publish')->count();
     $totalSemua = $totalKehilangan + $totalPenemuan;
 
-
     return view('pages.user.home', compact(
-    'kehilangan',
-    'penemuan',
-    'carousels',
-    'totalKehilangan',
-    'totalPenemuan',
-    'totalSemua'
+        'kehilangan',
+        'penemuan',
+        'carousels',
+        'totalKehilangan',
+        'totalPenemuan',
+        'totalSemua'
     ));
 
 }

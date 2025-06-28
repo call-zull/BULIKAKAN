@@ -1,36 +1,39 @@
 <x-dashboard>
     <div class="px-4 py-6" x-data="{ showDetails: false }" x-init="$nextTick(() => showDetails = true)">
-        <h1 class="text-2xl font-bold text-gray-800 mb-6">Dashboard Admin</h1>
-
-        <div class="grid grid-cols-2 gap-6 transition-all duration-700 ease-in-out" x-show="showDetails" x-transition>
+        @if (auth()->user()->role === 'admin')
+            <h1 class="text-2xl font-bold text-gray-800 mb-6">Dashboard Admin</h1>
+        @else
+            <h1 class="text-2xl font-bold text-gray-800 mb-6">Dashboard Berwenang</h1>
+        @endif
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 transition-all duration-700 ease-in-out" x-show="showDetails" x-transition>
             <!-- Card -->
             <div
                 class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition duration-300 ease-in-out transform hover:-translate-y-1">
                 <div class="flex items-center gap-x-2 mb-2">
                     <div class="text-gray-500 text-sm">Total Pengumuman</div>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"
-                        id="Announcement-Megaphone--Streamline-Core" class="w-5">
+                        id="Announcement-Megaphone--Streamline-Core" class="w-5 text-gray-500">
                         <desc>
                             Announcement Megaphone Streamline Icon: https://streamlinehq.com
                         </desc>
                         <g id="annoncement-megaphone">
-                            <path id="Vector" stroke="#000000" stroke-linecap="round" stroke-linejoin="round"
+                            <path id="Vector" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                 d="m7.18164 3.74683 3.85766 6.68157" stroke-width="1"></path>
-                            <path id="Vector_2" stroke="#000000" stroke-linecap="round" stroke-linejoin="round"
+                            <path id="Vector_2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                 d="m10.8373 10.0774 -9.50948 2.2081 -0.60907 -1.055 6.66704 -7.13138" stroke-width="1">
                             </path>
-                            <path id="Vector_3" stroke="#000000" stroke-linecap="round" stroke-linejoin="round"
+                            <path id="Vector_3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                 d="m3.39648 11.8046 0.52363 0.9069c0.18996 0.3256 0.50147 0.5624 0.86601 0.6583 0.36453 0.0958 0.75223 0.043 1.0778 -0.147 0.32558 -0.1899 0.56236 -0.5014 0.65825 -0.866 0.09589 -0.3645 0.04305 -0.7522 -0.14691 -1.0778l-0.08386 -0.1452"
                                 stroke-width="1"></path>
-                            <path id="Vector 591" stroke="#000000" stroke-linecap="round" stroke-linejoin="round"
+                            <path id="Vector 591" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                 d="M7.44397 1.83698V0.583496" stroke-width="1"></path>
-                            <path id="Vector 602" stroke="#000000" stroke-linecap="round" stroke-linejoin="round"
+                            <path id="Vector 602" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                 d="m12.2465 6.63965 1.2535 0" stroke-width="1"></path>
-                            <path id="Vector 603" stroke="#000000" stroke-linecap="round" stroke-linejoin="round"
+                            <path id="Vector 603" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                 d="m1.38873 6.63965 1.25348 0" stroke-width="1"></path>
-                            <path id="Vector 605" stroke="#000000" stroke-linecap="round" stroke-linejoin="round"
+                            <path id="Vector 605" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                 d="m3.16114 2.3573 0.88635 0.88635" stroke-width="1"></path>
-                            <path id="Vector 600" stroke="#000000" stroke-linecap="round" stroke-linejoin="round"
+                            <path id="Vector 600" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                 d="m10.84 3.24353 0.8863 -0.88635" stroke-width="1"></path>
                         </g>
                     </svg>
@@ -42,7 +45,12 @@
                 class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition duration-300 ease-in-out transform hover:-translate-y-1">
                 <div class="flex items-center gap-x-2 mb-2">
                     <div class="text-gray-500 text-sm">Pengumuman Kehilangan</div>
-                    <x-icon-lost></x-icon-lost>
+                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 14 14">
+                        <g fill="none" stroke="currentColor" class="text-gray-500" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M11.5 4h-9a2 2 0 0 0-2 2v5.5a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2m-7 0v-.5a2.5 2.5 0 1 1 5 0V4" />
+                            <path d="M5.5 7.5A1.5 1.5 0 1 1 7 9v.5m.002 2a.25.25 0 1 1 0-.5m0 .5a.25.25 0 1 0 0-.5" />
+                        </g>
+                    </svg>
                 </div>
                 <div class="text-3xl font-bold text-yellow-500">{{ $totalKehilangan }}</div>
             </div>

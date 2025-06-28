@@ -64,7 +64,7 @@ class KehilanganController extends Controller
         try {
             $request->validate([
                 'judul' => 'required|string|max:255', // untuk uji coba error
-                'foto_barang' => 'required|image|max:2048',
+                'foto_barang' => 'required|image|max:6000',
                 'waktu' => 'required|date',
                 'tempat' => 'required|string|max:255',
                 'deskripsi' => 'required|string',
@@ -131,7 +131,7 @@ class KehilanganController extends Controller
         try {
             $request->validate([
                 'judul' => 'required|string|max:255',
-                'foto_barang' => 'nullable|image|max:2048',
+                'foto_barang' => 'nullable|image|max:6000',
                 'waktu' => 'required|date',
                 'tempat' => 'required|string|max:255',
                 'deskripsi' => 'required|string',

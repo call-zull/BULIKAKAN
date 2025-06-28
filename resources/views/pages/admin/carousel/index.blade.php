@@ -12,8 +12,9 @@
                 <i class="fa fa-plus mr-1"></i>Carousel
             </a>
         </div>
-
-        {{ $dataTable->table(['class' => 'w-full text-sm text-left']) }}
+        <div class="overflow-x-auto">
+            {{ $dataTable->table(['class' => 'w-full text-sm text-left']) }}
+        </div>
     </div>
 
     @push('scripts')

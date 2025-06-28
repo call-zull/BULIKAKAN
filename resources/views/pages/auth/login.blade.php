@@ -103,6 +103,7 @@
             </div>
         </div>
 
+    @endif
         <script>
             document.addEventListener('DOMContentLoaded', () => {
                 const modal = document.getElementById('login-error-modal');
@@ -111,6 +112,5 @@
                 }
             });
         </script>
-    @endif
 
 </x-app-layout>

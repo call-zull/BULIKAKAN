@@ -14,7 +14,7 @@ class PenemuanController extends Controller
     {
         $query = Pengumuman::penemuan()
             ->where('status', 'publish')
-            ->with('tipeBarang');
+            ->with('tipeBarang', 'user');
 
         if ($request->filled('search')) {
             $query->where('judul', 'like', '%' . $request->search . '%');
@@ -39,8 +39,11 @@ class PenemuanController extends Controller
                     'image' => $item->foto_barang
                         ? asset('storage/' . $item->foto_barang)
                         : asset('logo/barang1.png'),
+                    'user_name' => $item->user->username ?? 'Tidak diketahui',
+                    'is_official' => $item->user->status_user === 'official',
                 ];
             });
+
 
         $tipeBarangs = TipeBarang::all();
 

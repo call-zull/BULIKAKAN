@@ -26,11 +26,19 @@
   --color-borderAbu : #E8ECF4;
   
 }
+/* @layer base {
+  body {
+    @apply font-sans;
+  }} */
 
 .placeholder-urbanist::placeholder {
   font-family: 'Urbanist', sans-serif;
   font-size: 1rem; /* medium = 16px */
   font-weight: 500; /* medium */
+}
+
+* {
+  font-family: 'urbanist', sans-serif !important;
 }
 
 [x-cloak] {

@@ -13,7 +13,7 @@ class RedirectIfAuthenticatedByRole
             if (Auth::user()->hasRole('admin')) {
                 return redirect()->route('admin.home');
             } elseif (Auth::user()->hasRole('berwenang')) {
-                return redirect()->route('home-berwenang');
+                return redirect()->route('berwenang.home');
             } else {
                  return redirect()->route('profile');
             }

@@ -10,14 +10,28 @@ use Illuminate\Validation\ValidationException;
 
 class KehilanganController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $kehilangan = Pengumuman::kehilangan()
+        $query = Pengumuman::kehilangan()
             ->where('status', 'publish')
-            ->with('tipeBarang')
-            ->latest()
-            ->get()
-            ->map(function ($item) {
+            ->with('tipeBarang');
+
+        // Filter: Search
+        if ($request->filled('search')) {
+            $query->where('judul', 'like', '%' . $request->search . '%');
+        }
+
+        // Filter: Tipe
+        if ($request->filled('tipe')) {
+            $query->whereHas('tipeBarang', function ($q) use ($request) {
+                $q->where('nama', $request->tipe);
+            });
+        }
+
+        $kehilangan = $query->latest()
+            ->paginate(9)
+            ->withQueryString() // supaya query string (search, tipe) tetap saat ganti halaman
+            ->through(function ($item) {
                 return [
                     'id' => $item->id,
                     'nama' => $item->judul,
@@ -29,9 +43,11 @@ class KehilanganController extends Controller
                         : asset('logo/barang1.png'),
                 ];
             });
+        $tipeBarangs = TipeBarang::all();
 
-        return view('pages.user.kehilangan.index', compact('kehilangan'));
+        return view('pages.user.kehilangan.index', compact('kehilangan', 'tipeBarangs'));
     }
+
 
     public function create()
     {

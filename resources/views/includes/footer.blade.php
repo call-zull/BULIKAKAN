@@ -128,10 +128,11 @@
             <a href="{{ route('profile.index') }}" class="flex flex-col items-center text-biruPrimary">
                 <i data-feather="user"></i>
                 <span
-                    class="text-xs font-semibold mt-1 px-2 py-0.5 rounded-xl transition-all duration-200 {{ $isActive('profile') ? 'bg-biruPrimary text-white' : '' }}">
+                    class="text-xs font-semibold mt-1 px-2 py-0.5 rounded-xl transition-all duration-200 {{ Route::is('profile.*') ? 'bg-biruPrimary text-white' : '' }}">
                     Profile
                 </span>
             </a>
+
         </div>
     </div>
 
@@ -234,32 +235,31 @@
         </div>
     </div> --}}
     <!-- Modal Login Alert -->
-<div id="login-alert-modal" tabindex="-1" aria-hidden="true"
-    class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-    <div class="bg-white rounded-xl p-4 w-72 shadow-xl text-center relative">
-        <!-- Tombol Close -->
-        <button type="button"
-            class="absolute top-2 right-2 text-gray-400 hover:text-gray-600 focus:outline-none"
-            data-modal-hide="login-alert-modal">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
-        </button>
-
-        <h2 class="text-lg font-bold text-gray-800 mb-2">Login Diperlukan</h2>
-        <p class="text-sm text-gray-600 mb-4">Anda harus login terlebih dahulu untuk mengakses fitur ini.</p>
-        <div class="flex justify-center gap-3">
-            <button type="button" data-modal-hide="login-alert-modal"
-                class="px-4 py-1 bg-gray-300 text-gray-800 rounded hover:bg-gray-400">
-                Tutup
+    <div id="login-alert-modal" tabindex="-1" aria-hidden="true"
+        class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+        <div class="bg-white rounded-xl p-4 w-72 shadow-xl text-center relative">
+            <!-- Tombol Close -->
+            <button type="button" class="absolute top-2 right-2 text-gray-400 hover:text-gray-600 focus:outline-none"
+                data-modal-hide="login-alert-modal">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                </svg>
             </button>
-            <a href="{{ route('login') }}"
-                class="px-4 py-1 bg-biruPrimary text-white rounded hover:bg-biruPrimary/90">Login</a>
+
+            <h2 class="text-lg font-bold text-gray-800 mb-2">Login Diperlukan</h2>
+            <p class="text-sm text-gray-600 mb-4">Anda harus login terlebih dahulu untuk mengakses fitur ini.</p>
+            <div class="flex justify-center gap-3">
+                <button type="button" data-modal-hide="login-alert-modal"
+                    class="px-4 py-1 bg-gray-300 text-gray-800 rounded hover:bg-gray-400">
+                    Tutup
+                </button>
+                <a href="{{ route('login') }}"
+                    class="px-4 py-1 bg-biruPrimary text-white rounded hover:bg-biruPrimary/90">Login</a>
+            </div>
         </div>
     </div>
-</div>
 
 
 </div>

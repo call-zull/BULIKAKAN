@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\Models\Pengumuman;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Column;
@@ -30,15 +31,21 @@ class KehilanganDataTable extends DataTable
             </form>';
             })
             ->editColumn('status', function ($row) {
+                if (Auth::user()?->hasRole('berwenang')) {
+                    return '<span class="px-2 py-1 rounded bg-gray-100 text-sm text-gray-800">' . ucfirst($row->status) . '</span>';
+                }
+
                 $selectedPublish = $row->status === 'publish' ? 'selected' : '';
                 $selectedTakedown = $row->status === 'takedown' ? 'selected' : '';
+
                 return <<<HTML
-            <select class="status-select border px-1 py-0.5 rounded text-sm" data-id="{$row->id}">
-                <option value="publish" {$selectedPublish}>Publish</option>
-                <option value="takedown" {$selectedTakedown}>Takedown</option>
-            </select>
-        HTML;
+        <select class="status-select border px-1 py-0.5 rounded text-sm" data-id="{$row->id}">
+            <option value="publish" {$selectedPublish}>Publish</option>
+            <option value="takedown" {$selectedTakedown}>Takedown</option>
+        </select>
+    HTML;
             })
+
             ->rawColumns(['foto_barang', 'action', 'status']); // ✅ Tambahkan 'status' di sini
     }
 

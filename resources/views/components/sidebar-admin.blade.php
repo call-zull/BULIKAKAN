@@ -1,4 +1,4 @@
-<div :class="sidebarOpen ? 'translate-x-0' : 'md:translate-x-0 -translate-x-full'"
+<div x-cloak :class="sidebarOpen ? 'translate-x-0' : 'md:translate-x-0 -translate-x-full'"
     class="sidebar transform transition-transform duration-300 ease-in-out w-full md:w-80 bg-white text-[#484848] fixed md:sticky top-0 h-screen z-20">
     <!-- Sidebar Toggle Button (visible on mobile) -->
     <div class="md:hidden p-9 absolute">
@@ -43,7 +43,7 @@
        <ul x-data="{ open: {{ request()->routeIs('admin.kehilangan.*') || request()->routeIs('admin.penemuan.*') || request()->routeIs('admin.tipe-barang.*') ? 'true' : 'false' }} }">
     <li class="mb-2">
         <button @click="open = !open"
-            class="w-full text-left p-2 hover:bg-primary hover:text-biruPrimary rounded flex items-center justify-between text-gray-500 gap-x-4">
+            class="w-full text-left p-2 cursor-pointer hover:bg-primary hover:text-biruPrimary rounded flex items-center justify-between text-gray-500 gap-x-4">
             <span class="flex items-center gap-x-4">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"
                     xmlns="http://www.w3.org/2000/svg">

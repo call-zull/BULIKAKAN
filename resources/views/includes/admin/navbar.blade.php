@@ -20,19 +20,19 @@
             <img class="h-8 w-8 rounded-full"
                     src="https://avataaars.io/?avatarStyle=Circle&topType=ShortHairShortFlat&accessoriesType=Blank&hairColor=Blonde&facialHairType=Blank&clotheType=BlazerShirt&eyeType=Happy&eyebrowType=Default&mouthType=Smile&skinColor=Light"
                     alt="Avatar" />
-            <span class="text-gray-700 font-semibold">{{ Auth::user()->username }}</span>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+            <span class="text-gray-700 font-poppins cursor-pointer font-semibold">{{ Auth::user()->username }}</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 cursor-pointer" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
             </svg>
         </button>
         <div x-show="open" @click.outside="open = false" x-transition
             class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg">
-            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Profile</a>
+            <a href="#" class="block px-4 py-2 text-gray-700 cursor-pointer hover:bg-gray-100">Profile</a>
             <!-- Logout -->
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button type="submit" class="w-full text-left block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                <button type="submit" class="w-full cursor-pointer text-left block px-4 py-2 text-gray-700 hover:bg-gray-100">
                     Logout
                 </button>
             </form>

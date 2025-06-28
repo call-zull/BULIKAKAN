@@ -85,4 +85,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function isOfficial(): bool
+{
+    return $this->status_user === 'official';
+}
+
 }

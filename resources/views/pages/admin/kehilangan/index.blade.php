@@ -28,6 +28,7 @@
             </div>
 
             <div class="flex gap-2 justify-between md:justify-end">
+                @role('admin')
                 <a href="{{ route('admin.kehilangan.export.excel') }}"
                     class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded text-sm whitespace-nowrap">
                     Export Excel
@@ -36,7 +37,20 @@
                     class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded text-sm whitespace-nowrap">
                     Export PDF
                 </a>
+                @endrole
+
+                @role('berwenang')
+                <a href="{{ route('berwenang.kehilangan.export.excel') }}"
+                    class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded text-sm whitespace-nowrap">
+                    Export Excel
+                </a>
+                <a href="{{ route('berwenang.kehilangan.export.pdf') }}"
+                    class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded text-sm whitespace-nowrap">
+                    Export PDF
+                </a>
+                @endrole
             </div>
+
         </div>
 
 

@@ -10,6 +10,8 @@ use App\DataTables\KehilanganDataTable;
 use App\Exports\KehilanganExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
+
 class KehilanganController extends Controller
 {
   public function index(KehilanganDataTable $dataTable)
@@ -19,6 +21,12 @@ class KehilanganController extends Controller
 
     public function updateStatus(Request $request, $id)
 {
+    if (Auth::user()->hasRole('berwenang')) {
+        return response()->json([
+            'message' => 'Anda tidak memiliki izin untuk mengubah status.',
+        ], 403);
+    }
+
     $request->validate([
         'status' => ['required', 'in:publish,takedown'],
     ]);

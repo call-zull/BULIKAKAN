@@ -8,6 +8,7 @@ use App\Models\Pengumuman;
 use Illuminate\Http\Request;
 use App\Exports\PenemuanExport;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
 class PenemuanController extends Controller
@@ -18,7 +19,15 @@ class PenemuanController extends Controller
     }
   public function updateStatus(Request $request, $id)
 {
-    $request->validate(['status' => 'required|in:publish,takedown']);
+     if (Auth::user()->hasRole('berwenang')) {
+        return response()->json([
+            'message' => 'Anda tidak memiliki izin untuk mengubah status.',
+        ], 403);
+    }
+
+    $request->validate([
+        'status' => ['required', 'in:publish,takedown'],
+    ]);
     $pengumuman = Pengumuman::penemuan()->findOrFail($id);
     $pengumuman->update(['status' => $request->status]);
 

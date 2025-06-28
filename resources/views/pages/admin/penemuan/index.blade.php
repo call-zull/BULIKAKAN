@@ -7,6 +7,7 @@
             </div>
 
             <div class="flex gap-2 justify-between md:justify-end">
+                @role('admin')
                 <a href="{{ route('admin.penemuan.export.excel') }}"
                     class="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600 whitespace-nowrap">
                     Export Excel
@@ -15,7 +16,20 @@
                     class="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600 whitespace-nowrap">
                     Export PDF
                 </a>
+                @endrole
+
+                @role('berwenang')
+                <a href="{{ route('berwenang.penemuan.export.excel') }}"
+                    class="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600 whitespace-nowrap">
+                    Export Excel
+                </a>
+                <a href="{{ route('berwenang.penemuan.export.pdf') }}"
+                    class="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600 whitespace-nowrap">
+                    Export PDF
+                </a>
+                @endrole
             </div>
+
         </div>
 
 

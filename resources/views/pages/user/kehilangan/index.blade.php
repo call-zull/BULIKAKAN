@@ -1,5 +1,5 @@
 <x-app-layout title="Kehilangan">
-    <div class="flex flex-col w-full" x-data="kehilanganFilter()">
+    <div class="flex flex-col w-full">
         <!-- Header + Icon -->
         <div class="flex w-full justify-center gap-x-2 mb-4">
             <h2 class="font-jomhuria font-semibold text-xl text-biruPrimary text-center">Informasi Kehilangan</h2>
@@ -27,63 +27,76 @@
             </svg>
         </div>
 
-        <!-- Search & Filter Controls + Tombol Tambah -->
+        <!-- Search + Filter + Tombol Tambah di 1 baris -->
         <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-6 px-4">
+            <!-- Form -->
+            <form method="GET" action="{{ route('kehilangan') }}"
+                class="flex flex-col md:flex-row justify-between items-center gap-4 w-full">
+                <!-- Search -->
+                <input type="text" name="search" placeholder="Cari barang hilang..." value="{{ request('search') }}"
+                    class="w-full md:w-1/2 p-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-biruPrimary">
+
+                <!-- Tipe -->
+                <select name="tipe"
+                    class="w-full md:w-1/4 p-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-biruPrimary">
+                    <option value="">Semua Tipe</option>
+                    @foreach ($tipeBarangs as $tipe)
+                        <option value="{{ $tipe->nama }}" {{ request('tipe') == $tipe->nama ? 'selected' : '' }}>
+                            {{ $tipe->nama }}
+                        </option>
+                    @endforeach
+
+                </select>
+            </form>
+
+            <!-- Tombol Tambah -->
             @auth
                 <a href="{{ route('kehilangan.create') }}"
-                    class="w-full md:w-auto text-center bg-biruPrimary text-white px-4 py-2 rounded-xl font-semibold text-sm">
+                    class="w-full md:w-auto text-center bg-biruPrimary text-white px-4 py-2 rounded-xl font-semibold text-sm whitespace-nowrap">
                     Tambah
                 </a>
             @else
                 <button data-modal-target="login-alert-modal" data-modal-toggle="login-alert-modal"
-                    class="w-full md:w-auto text-center cursor-pointer bg-biruPrimary text-white px-4 py-2 rounded-xl font-semibold text-sm">
+                    class="w-full md:w-auto text-center cursor-pointer bg-biruPrimary text-white px-4 py-2 rounded-xl font-semibold text-sm whitespace-nowrap">
                     Tambah
                 </button>
-
             @endauth
 
-            <!-- Form Pencarian -->
-            <input type="text" placeholder="Cari barang hilang..." x-model="search"
-                class="w-full md:w-1/2 p-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-biruPrimary">
-
-            <!-- Select Tipe -->
-            <select x-model="selectedType"
-                class="w-full md:w-1/4 p-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-biruPrimary">
-                <option value="">Semua Tipe</option>
-                <option value="Barang Pribadi">Barang Pribadi</option>
-                <option value="Dokumen">Dokumen</option>
-                <option value="Elektronik">Elektronik</option>
-            </select>
         </div>
+
+
 
         <!-- Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-4">
-            <template x-for="(item, index) in filteredItems" :key="item.id">
-                <div :class="index % 2 === 0 
-        ? 'bg-biruPrimary text-white' 
-        : 'bg-gray-200 text-black'" class="shadow-md rounded-xl flex gap-3 p-3">
-                    <img :src="item.image" class="w-32 h-32 object-cover rounded" alt="Barang Hilang">
+            @forelse ($kehilangan as $index => $item)
+                <div
+                    class="{{ $index % 2 === 0 ? 'bg-biruPrimary text-white' : 'bg-gray-200 text-black' }} shadow-md rounded-xl flex gap-3 p-3">
+                    <img src="{{ $item['image'] }}" class="w-32 h-32 object-cover rounded" alt="Barang Hilang">
                     <div class="flex flex-col justify-between">
                         <div>
-                            <h3 class="text-lg font-bold" x-text="item.nama"></h3>
-                            <p class="text-sm"><strong>Waktu:</strong> <span x-text="item.waktu"></span></p>
-                            <p class="text-sm"><strong>Tempat:</strong> <span x-text="item.tempat"></span></p>
-                            <p class="text-sm"><strong>Tipe:</strong> <span x-text="item.tipe"></span></p>
+                            <h3 class="text-lg font-bold">{{ $item['nama'] }}</h3>
+                            <p class="text-sm"><strong>Waktu:</strong> {{ $item['waktu'] }}</p>
+                            <p class="text-sm"><strong>Tempat:</strong> {{ $item['tempat'] }}</p>
+                            <p class="text-sm"><strong>Tipe:</strong> {{ $item['tipe'] }}</p>
                         </div>
-                        <a :href="`/kehilangan-detail/${item.id}`"
-                            :class="index % 2 === 0 ? 'text-white' : 'text-biruPrimary'" class="text-xs underline">
+                        <a href="{{ url('/kehilangan-detail/' . $item['id']) }}"
+                            class="text-xs underline {{ $index % 2 === 0 ? 'text-white' : 'text-biruPrimary' }}">
                             Lihat Detail
                         </a>
                     </div>
                 </div>
-            </template>
-
+            @empty
+                <div class="col-span-full text-center text-gray-500 italic py-8">
+                    Tidak ada hasil ditemukan.
+                </div>
+            @endforelse
         </div>
 
-        <!-- No result -->
-        <div x-show="filteredItems.length === 0" class="text-center text-gray-500 italic py-8">
-            Tidak ada hasil ditemukan.
+        <div class="px-4 mt-6 flex justify-center">
+            {{ $kehilangan->links('vendor.pagination.flowbite') }}
         </div>
+
+
     </div>
     <!-- Modal: Harus Login Dulu -->
     <div id="login-alert-modal" tabindex="-1" aria-hidden="true"
@@ -113,82 +126,81 @@
         </div>
     </div>
 
-{{-- Modal: Gagal --}}
-@if (session('create_failed') || $errors->any())
-    <div id="failed-modal" tabindex="-1" aria-hidden="true"
-        class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-        <div class="bg-white rounded-xl p-6 w-80 shadow-lg text-center relative">
-            <button type="button" class="absolute top-2 right-2 text-gray-400 hover:text-gray-600"
-                data-modal-hide="failed-modal">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-            <h2 class="text-lg font-bold text-red-600 mb-2">Gagal Menyimpan</h2>
-            @if (session('create_failed'))
-                <p class="text-sm text-gray-600 mb-2">{{ session('create_failed') }}</p>
-            @endif
+    {{-- Modal: Gagal --}}
+    @if (session('create_failed') || $errors->any())
+        <div id="failed-modal" tabindex="-1" aria-hidden="true"
+            class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+            <div class="bg-white rounded-xl p-6 w-80 shadow-lg text-center relative">
+                <button type="button" class="absolute top-2 right-2 text-gray-400 hover:text-gray-600"
+                    data-modal-hide="failed-modal">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+                <h2 class="text-lg font-bold text-red-600 mb-2">Gagal Menyimpan</h2>
+                @if (session('create_failed'))
+                    <p class="text-sm text-gray-600 mb-2">{{ session('create_failed') }}</p>
+                @endif
 
-            @if ($errors->any())
-                <ul class="text-sm text-left text-red-500 list-disc list-inside mb-4">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            @endif
+                @if ($errors->any())
+                    <ul class="text-sm text-left text-red-500 list-disc list-inside mb-4">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                @endif
 
-            <button type="button" data-modal-hide="failed-modal"
-                class="px-4 py-1 bg-gray-300 text-gray-800 rounded hover:bg-gray-400">
-                Tutup
-            </button>
+                <button type="button" data-modal-hide="failed-modal"
+                    class="px-4 py-1 bg-gray-300 text-gray-800 rounded hover:bg-gray-400">
+                    Tutup
+                </button>
+            </div>
         </div>
-    </div>
-@endif
+    @endif
 
-@if (session('create_failed') || $errors->any())
+    @if (session('create_failed') || $errors->any())
+        <script>
+            window.addEventListener('DOMContentLoaded', () => {
+                const modal = document.getElementById('failed-modal');
+                if (modal) modal.classList.remove('hidden');
+            });
+        </script>
+    @endif
+
     <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            const modal = document.getElementById('failed-modal');
-            if (modal) modal.classList.remove('hidden');
-        });
-    </script>
-@endif
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('[data-modal-hide]').forEach(button => {
-            button.addEventListener('click', function () {
-                const modalId = button.getAttribute('data-modal-hide');
-                const modalElement = document.getElementById(modalId) || button.closest('.fixed');
-                if (modalElement) {
-                    modalElement.classList.add('hidden');
-                }
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('[data-modal-hide]').forEach(button => {
+                button.addEventListener('click', function () {
+                    const modalId = button.getAttribute('data-modal-hide');
+                    const modalElement = document.getElementById(modalId) || button.closest('.fixed');
+                    if (modalElement) {
+                        modalElement.classList.add('hidden');
+                    }
+                });
             });
         });
-    });
-</script>
-
-
-
-    <!-- Alpine JS -->
-    <script>
-        function kehilanganFilter() {
-            return {
-                search: '',
-                selectedType: '',
-                items: @json($kehilangan),
-                get filteredItems() {
-                    return this.items.filter(item => {
-                        const matchSearch = item.nama.toLowerCase().includes(this.search.toLowerCase());
-                        const matchType = this.selectedType === '' || item.tipe === this.selectedType;
-                        return matchSearch && matchType;
-                    });
-                }
-            }
-        }
-
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.querySelector('input[name="search"]');
+            const selectFilter = document.querySelector('select[name="tipe"]');
+            const form = searchInput.closest('form');
+
+            function submitForm() {
+                form.submit();
+            }
+
+            searchInput.addEventListener('input', function () {
+                clearTimeout(this._timeout);
+                this._timeout = setTimeout(submitForm, 500); // debounce
+            });
+
+            selectFilter.addEventListener('change', submitForm);
+        });
+    </script>
+
+
+
 
 </x-app-layout>

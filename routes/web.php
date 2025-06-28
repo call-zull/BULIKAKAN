@@ -133,9 +133,29 @@ Route::prefix('admin')->middleware('role:admin')->group(function () {
 | Berwenang Routes
 |--------------------------------------------------------------------------
 */
-Route::middleware('role:berwenang')->group(function () {
-    Route::get('/berwenang', fn() => view('pages.berwenang.home'))->name('home-berwenang');
+Route::prefix('berwenang')->middleware('role:berwenang')->group(function () {
+    // Route::get('/', fn() => view('pages.berwenang.home'))->name('home-berwenang');
+    Route::get('/', [AdminHomeController::class, 'index'])->name('berwenang.home');
+
+
+    // Kehilangan (akses tampilan admin)
+    Route::get('/kehilangan', [AdminKehilanganController::class, 'index'])->name('berwenang.kehilangan.index');
+    Route::get('/kehilangan/data', [AdminKehilanganController::class, 'data'])->name('berwenang.kehilangan.data');
+    Route::get('/kehilangan/{id}/edit', [AdminKehilanganController::class, 'edit'])->name('berwenang.kehilangan.edit');
+    Route::patch('/kehilangan/{id}/status', [AdminKehilanganController::class, 'updateStatus'])->name('berwenang.kehilangan.updateStatus');
+    Route::delete('/kehilangan/{id}', [AdminKehilanganController::class, 'destroy'])->name('berwenang.kehilangan.destroy');
+    Route::get('/kehilangan/export/excel', [AdminKehilanganController::class, 'exportExcel'])->name('berwenang.kehilangan.export.excel');
+    Route::get('/kehilangan/export/pdf', [AdminKehilanganController::class, 'exportPDF'])->name('berwenang.kehilangan.export.pdf');
+
+    // Penemuan (akses tampilan admin)
+    Route::get('/penemuan', [AdminPenemuanController::class, 'index'])->name('berwenang.penemuan.index');
+    Route::get('/penemuan/{id}/edit', [AdminPenemuanController::class, 'edit'])->name('berwenang.penemuan.edit');
+    Route::patch('/penemuan/{id}/status', [AdminPenemuanController::class, 'updateStatus'])->name('berwenang.penemuan.updateStatus');
+    Route::delete('/penemuan/{id}', [AdminPenemuanController::class, 'destroy'])->name('berwenang.penemuan.destroy');
+    Route::get('/penemuan/export/excel', [AdminPenemuanController::class, 'exportExcel'])->name('berwenang.penemuan.export.excel');
+    Route::get('/penemuan/export/pdf', [AdminPenemuanController::class, 'exportPDF'])->name('berwenang.penemuan.export.pdf');
 });
+
 
 /*
 |--------------------------------------------------------------------------

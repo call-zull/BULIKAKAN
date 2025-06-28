@@ -3,9 +3,7 @@
         <!-- Header -->
         <div class="flex w-full justify-center items-center gap-x-2 mb-6">
             <h2 class="font-jomhuria font-semibold text-xl text-biruPrimary text-center">Tambah Pengumuman Penemuan</h2>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14" class="w-5" stroke="#4682B4">
-                <path d="M7 1v12M1 7h12" />
-            </svg>
+            <img src="{{ asset('logo/icon-find.png') }}" class="w-5" alt="icon-penemuan">
         </div>
 
         <!-- Form Card -->

@@ -36,7 +36,7 @@
         <div x-show="open" x-transition
             class="absolute top-full right-4 mt-2 w-48 bg-white rounded shadow-lg border border-gray-200 py-2 space-y-2 text-sm md:text-base font-semibold text-biruPrimary z-40">
             <a href="#" class="block px-4 py-2 hover:bg-gray-100 transition">Tutorial</a>
-            <a href="#" class="block px-4 py-2 hover:bg-gray-100 transition">Contact Kami</a>
+            <a href="{{ route('contact.show') }}" class="block px-4 py-2 hover:bg-gray-100 transition">Contact Kami</a>
             @role('admin')
             <a href="{{ route('admin.home') }}" class="block px-4 py-2 hover:bg-gray-100 transition">Admin Panel</a>
             @endrole

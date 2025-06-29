@@ -16,6 +16,8 @@ use App\Http\Controllers\Admin\TipeBarangController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RequestOfficialController;
 use App\Http\Controllers\Berwenang\ProfileController as BerwenangProfileController;
+use App\Http\Controllers\ContactController;
+
 /*
 |--------------------------------------------------------------------------
 | Guest Routes
@@ -65,6 +67,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/request-official', [RequestOfficialController::class, 'create'])->name('request-official.create');
     Route::post('/request-official', [RequestOfficialController::class, 'store'])->name('request-official.store');
 
+    Route::get('/contact', [ContactController::class, 'show'])->name('contact.show');
+    Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 
     // Tipe Barang
     // Route::resource('tipe-barang', TipeBarangController::class);

@@ -40,7 +40,7 @@
                     </div>
 
                     <div class="w-full flex justify-end">
-                        <a href="{{ route('forgotPassword') }}">
+                        <a href="{{ route('password.request') }}">
                             <p class="font-jomhuria font-normal text-sm text-abuForgot">Lupa Password?</p>
                         </a>
                     </div>

@@ -6,7 +6,7 @@
     <div class="relative z-10 px-2">
         <div class="mt-5 ml-2 flex flex-col gap-y-1.5">
             <div class="flex gap-x-1.5 items-center">
-                <a href="{{ route('forgotPassword') }}" class="" style="box-shadow: 0 2px 4px rgba(232, 236, 244, 0.6);">
+                <a href="{{ route('password.request') }}" class="" style="box-shadow: 0 2px 4px rgba(232, 236, 244, 0.6);">
                     <i data-feather="chevron-left" width="25" height="25" class="text-black font-bold"></i>
                 </a>
                 <h1 class="font-jomhuria font-bold text-xl text-black">Password Baru</h1>

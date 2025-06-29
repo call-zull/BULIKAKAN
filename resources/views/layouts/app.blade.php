@@ -2,7 +2,7 @@
 <html class="scroll-smooth" lang="en">
 
 <head>
-
+    <link rel="canonical" href="https://bulikakan.my.id/" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="canonical" href="{{ url()->current() }}">

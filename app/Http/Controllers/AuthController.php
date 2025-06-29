@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Password;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Mail;
 
 use Str;
@@ -163,77 +165,58 @@ class AuthController extends Controller
     }
 
     // Kirim link reset password
-    public function sendResetLinkEmail(Request $request)
-    {
-        $request->validate(['email' => 'required|email']);
+ public function sendResetLinkEmail(Request $request)
+{
+    $request->validate([
+        'email' => 'required|email|exists:users,email',
+    ], [
+        'email.exists' => 'Email yang Anda masukkan belum terdaftar di sistem kami.',
+    ]);
 
-        $user = User::where('email', $request->email)->first();
-        if (!$user) {
-            return back()->with('error', 'Email tidak ditemukan.');
-        }
+    $status = Password::sendResetLink($request->only('email'));
 
-        // Generate token
-        $token = Str::random(60);
-        $user->reset_token = $token;
-        $user->save();
+    return $status === Password::RESET_LINK_SENT
+        ? back()->with('success', 'Link reset password berhasil dikirim ke email Anda.')
+        : back()->withErrors(['email' => 'Gagal mengirim link reset password.']);
+}
 
-        // Link reset
-        $resetLink = url("/reset-password/$token?email=" . urlencode($request->email));
 
-        // Kirim email
-        Mail::send([], [], function ($message) use ($user, $resetLink) {
-            $message->to($user->email)
-                ->subject('Reset Password - SI NOTARIS')
-                ->html(
-                    '<h2>Halo ' . $user->name . ',</h2>' .
-                        '<p>Kami menerima permintaan reset password.</p>' .
-                        '<p><a href="' . $resetLink . '" style="background-color: #1d4ed8; padding: 10px 15px; color: white; text-decoration: none; border-radius: 5px;">Reset Password</a></p>' .
-                        '<p>Jika Anda tidak meminta ini, abaikan saja.</p>'
-                );
-        });
-
-        return back()->with('success', 'Link reset password telah dikirim ke email Anda.');
-    }
 
     // Tampilkan form reset password
     public function showResetForm(Request $request, $token)
-    {
-        $user = User::where('email', $request->email)
-            ->where('reset_token', $token)
-            ->first();
+{
+    return view('pages.auth.reset-password', [
+        'token' => $token,
+        'email' => $request->email,
+    ]);
+}
 
-        if (!$user) {
-            return redirect()->route('password.request')->with('error', 'Token tidak valid atau telah digunakan.');
-        }
-
-        return view('pages.auth.reset-password', [
-            'token' => $token,
-            'email' => $user->email,
-        ]);
-    }
 
 
     // Proses simpan password baru
-    public function resetPassword(Request $request)
-    {
-        $request->validate([
-            'token' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|confirmed|min:8',
-        ]);
+   public function resetPassword(Request $request)
+{
+    $request->validate([
+        'token' => 'required',
+        'email' => 'required|email',
+        'password' => 'required|confirmed|min:8',
+    ]);
 
-        $user = User::where('email', $request->email)
-            ->where('reset_token', $request->token)
-            ->first();
+    $status = Password::reset(
+        $request->only('email', 'password', 'password_confirmation', 'token'),
+        function ($user, $password) {
+            $user->forceFill([
+                'password' => Hash::make($password),
+            ])->save();
 
-        if (!$user) {
-            return redirect()->route('password.request')->with('error', 'Token tidak valid.');
+            event(new PasswordReset($user));
         }
+    );
 
-        $user->password = bcrypt($request->password);
-        $user->reset_token = null;
-        $user->save();
+    return $status === Password::PASSWORD_RESET
+    ? redirect()->route('password.changed')->with('success', 'Password Anda berhasil diubah.')
+    : back()->withErrors(['email' => [__($status)]]);
 
-        return redirect()->route('login')->with('success', 'Password berhasil direset.');
-    }
+}
+
 }

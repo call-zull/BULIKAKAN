@@ -37,9 +37,10 @@ Route::post('/forgot-password', [AuthController::class, 'sendResetLinkEmail'])->
 Route::get('/reset-password/{token}', [AuthController::class, 'showResetForm'])->name('password.reset');
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
 
-Route::get('/forgotPassword', fn() => view('pages.auth.forgotPassword'))->name('forgotPassword');
-Route::get('/newPassword', fn() => view('pages.auth.reset-password'))->name('newPassword');
-Route::get('/passwordChanged', fn() => view('pages.auth.passwordChanged'))->name('passwordChanged');
+Route::get('/password-changed', function () {
+    return view('pages.auth.passwordChanged');
+})->name('password.changed');
+
 
 Route::get('/kehilangan', [KehilanganController::class, 'index'])->name('kehilangan');
 Route::get('/kehilangan-detail/{pengumuman}', [KehilanganController::class, 'show'])->name('kehilangan.show');

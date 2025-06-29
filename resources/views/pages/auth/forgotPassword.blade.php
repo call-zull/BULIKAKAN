@@ -1,4 +1,5 @@
 <x-app-layout title="Lupa Password">
+
     <div class="relative">
         <!-- Quarter circle top-right -->
         <div class="absolute -top-5 right-0 w-52 h-52 bg-biruCircleShapes rounded-bl-full z-0"></div>
@@ -17,6 +18,9 @@
             <div class="mt-2 flex flex-col justify-center items-center">
                 <img src="{{ asset('logo/loop-nobg.png') }}" width="210" alt="logo bulikakan">
                 <h2 class="font-jomhuria font-bold text-biruPrimary">Masukkan Email Anda</h2>
+                @if ($errors->has('email'))
+                    <p class="text-red-500 text-sm mt-1">{{ $errors->first('email') }}</p>
+                @endif
             </div>
 
             <form action="{{ route('password.email') }}" method="POST" class="mt-4 flex justify-center">
@@ -30,7 +34,7 @@
 
                     <div class="flex justify-center mt-4">
                         <button type="submit"
-                            class="bg-biruPrimary text-white px-6 py-2 w-full rounded-md hover:bg-blue-600 transition duration-200 font-semibold font-jomhuria">
+                            class="bg-biruPrimary cursor-pointer text-white px-6 py-2 w-full rounded-md hover:bg-blue-600 transition duration-200 font-semibold font-jomhuria">
                             Kirim
                         </button>
                     </div>

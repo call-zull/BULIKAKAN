@@ -16,12 +16,12 @@
                 <!-- Left: Image Upload -->
                 <div class="w-full md:w-1/2">
                     <label class="block mb-2 font-medium text-biruPrimary">Foto Barang</label>
-                    <label class="block text-center bg-biruPrimary text-white px-4 py-2 rounded-xl cursor-pointer hover:bg-opacity-90">
-    Pilih dari Kamera / Galeri
-    <input type="file" name="foto_barang" accept="image/*" capture="environment" required
-        class="hidden"
-        @change="preview = URL.createObjectURL($event.target.files[0]); showModalGambar = false">
-</label>
+                    <label
+                        class="w-full flex items-center justify-center px-4 py-2 bg-biruPrimary text-white rounded-xl cursor-pointer hover:bg-opacity-90">
+                        Pilih Gambar
+                        <input type="file" name="foto_barang" accept=".jpeg,.jpg,.png" required class="hidden"
+                            @change="preview = URL.createObjectURL($event.target.files[0])">
+                    </label>
 
 
                     {{-- <label

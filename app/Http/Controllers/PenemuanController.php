@@ -75,7 +75,7 @@ class PenemuanController extends Controller
         try {
             $request->validate([
                 'judul' => 'required|string|max:255',
-                'foto_barang' => 'required|image|max:6000',
+                'foto_barang' => 'required|file|mimes:jpeg,jpg,png|max:6000',
                 'waktu' => 'required|date',
                 'tempat' => 'required|string|max:255',
                 'deskripsi' => 'required|string',
@@ -132,7 +132,7 @@ class PenemuanController extends Controller
         try {
             $request->validate([
                 'judul' => 'required|string|max:255',
-                'foto_barang' => 'nullable|image|max:6000',
+                'foto_barang' => 'required|file|mimes:jpeg,jpg,png|max:6000',
                 'waktu' => 'required|date',
                 'tempat' => 'required|string|max:255',
                 'deskripsi' => 'required|string',

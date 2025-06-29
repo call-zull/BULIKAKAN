@@ -31,12 +31,32 @@
                             @change="preview = URL.createObjectURL($event.target.files[0])">
                     </label> --}}
 
-                    <label
-                        class="w-full flex items-center justify-center px-4 py-2 bg-biruPrimary text-white rounded-xl cursor-pointer hover:bg-opacity-90">
-                        Pilih dari Kamera / Galeri
-                        <input type="file" name="foto_barang" accept="image/*" class="hidden"
-                            @change="preview = URL.createObjectURL($event.target.files[0])">
-                    </label>
+                  <!-- Tombol Pilih Gambar -->
+<button @click="showModal = true"
+    class="px-4 py-2 bg-biruPrimary text-white rounded-xl hover:bg-opacity-90">
+    Pilih dari Kamera / Galeri
+</button>
+
+<!-- Modal -->
+<div x-show="showModal" @click.away="showModal = false"
+    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <div class="bg-white p-6 rounded-xl space-y-4">
+        <p class="text-lg font-semibold text-gray-700">Pilih Sumber Gambar</p>
+        <!-- Kamera -->
+        <label class="block cursor-pointer text-center bg-biruPrimary text-white px-4 py-2 rounded-xl hover:bg-opacity-90">
+            Gunakan Kamera
+            <input type="file" name="foto_barang" accept="image/*" capture="environment"
+                class="hidden" @change="preview = URL.createObjectURL($event.target.files[0]); showModal = false">
+        </label>
+        <!-- Galeri -->
+        <label class="block cursor-pointer text-center bg-emerald-600 text-white px-4 py-2 rounded-xl hover:bg-opacity-90">
+            Pilih dari Galeri
+            <input type="file" name="foto_barang" accept="image/*"
+                class="hidden" @change="preview = URL.createObjectURL($event.target.files[0]); showModal = false">
+        </label>
+    </div>
+</div>
+
 
 
                     <template x-if="preview">

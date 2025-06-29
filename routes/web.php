@@ -48,7 +48,12 @@ Route::get('/kehilangan-detail/{pengumuman}', [KehilanganController::class, 'sho
 Route::get('/penemuan', [PenemuanController::class, 'index'])->name('penemuan');
 Route::get('/penemuan-detail/{pengumuman}', [PenemuanController::class, 'show'])->name('penemuan.show');
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+
+Route::get('/tutorial', function () {
+    return view('pages.tutorial');
+})->name('tutorial');
 // });
+Route::get('/contact', [ContactController::class, 'show'])->name('contact.show');
 
 /*
 |--------------------------------------------------------------------------
@@ -68,7 +73,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/request-official', [RequestOfficialController::class, 'create'])->name('request-official.create');
     Route::post('/request-official', [RequestOfficialController::class, 'store'])->name('request-official.store');
 
-    Route::get('/contact', [ContactController::class, 'show'])->name('contact.show');
     Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 
     // Tipe Barang

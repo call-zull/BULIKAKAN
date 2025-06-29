@@ -1,4 +1,4 @@
-<div :class="sidebarOpen ? 'translate-x-0' : 'md:translate-x-0 -translate-x-full'"
+<div x-cloak :class="sidebarOpen ? 'translate-x-0' : 'md:translate-x-0 -translate-x-full'"
     class="sidebar transform transition-transform duration-300 ease-in-out w-full md:w-80 bg-white text-[#484848] fixed md:sticky top-0 h-screen z-20">
     <!-- Sidebar Toggle Button (visible on mobile) -->
     <div class="md:hidden p-9 absolute">

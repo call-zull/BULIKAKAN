@@ -38,7 +38,7 @@ class RequestOfficialController extends Controller
             $validated = $request->validate([
                 'nama_instansi' => 'required|string|max:255',
                 'alasan' => 'required|string',
-                'dokumen_pendukung' => 'required|file|mimes:pdf,jpg,png|max:2048',
+                'dokumen_pendukung' => 'required|file|mimes:pdf,jpg,png|max:8000',
             ]);
 
             $path = $request->file('dokumen_pendukung')->store('dokumen', 'public');

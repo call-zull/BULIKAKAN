@@ -32,9 +32,10 @@
                     <label
                         class="w-full flex items-center justify-center px-4 py-2 bg-biruPrimary text-white rounded-xl cursor-pointer hover:bg-opacity-90">
                         Pilih dari Kamera / Galeri
-                        <input type="file" name="foto_barang" accept="image/*" capture="environment" class="hidden"
+                        <input type="file" name="foto_barang" accept="image/*" class="hidden"
                             @change="preview = URL.createObjectURL($event.target.files[0])">
                     </label>
+
 
                     <template x-if="preview">
                         <div class="mt-4 rounded-xl border border-gray-300 overflow-hidden">

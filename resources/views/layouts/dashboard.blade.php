@@ -17,6 +17,7 @@
 
     <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.css" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="https://unpkg.com/feather-icons"></script>
 
     @stack('styles')
 </head>
@@ -45,6 +46,10 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/eca8c42def.js" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
+      <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        feather.replace();
+    </script>
     @stack('scripts')
 </body>
 

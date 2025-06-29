@@ -17,19 +17,26 @@
                 <div class="w-full md:w-1/2">
                     <label class="block mb-2 font-medium text-biruPrimary">Foto Barang</label>
 
-                    {{-- <label class="w-full flex items-center justify-center px-4 py-2 bg-biruPrimary text-white rounded-xl cursor-pointer hover:bg-opacity-90">
+                    {{-- <label
+                        class="w-full flex items-center justify-center px-4 py-2 bg-biruPrimary text-white rounded-xl cursor-pointer hover:bg-opacity-90">
                         Pilih Gambar
-                        <input type="file" name="foto_barang" accept="image/*"
-                            class="hidden"
+                        <input type="file" name="foto_barang" accept="image/*" class="hidden"
                             @change="preview = URL.createObjectURL($event.target.files[0])">
                     </label> --}}
 
-                      <label
+                    {{-- <label
                         class="w-full flex items-center justify-center px-4 py-2 bg-biruPrimary text-white rounded-xl cursor-pointer hover:bg-opacity-90">
                         Pilih dari Kamera / Galeri
                         <input type="file" name="foto_barang" accept="image/*" capture="environment" class="hidden"
                             @change="preview = URL.createObjectURL($event.target.files[0])">
+                    </label> --}}
+                    <label
+                        class="w-full flex items-center justify-center px-4 py-2 bg-biruPrimary text-white rounded-xl cursor-pointer hover:bg-opacity-90">
+                        Pilih dari Kamera / Galeri
+                        <input type="file" name="foto_barang" accept="image/*" class="hidden"
+                            @change="preview = URL.createObjectURL($event.target.files[0])">
                     </label>
+
 
                     <template x-if="preview">
                         <div class="mt-4 rounded-xl border border-gray-300 overflow-hidden">
@@ -103,31 +110,31 @@
         </div>
     </div>
     {{-- Modal Error --}}
-@if (session('create_failed') || $errors->any())
-    <div x-data="{ show: true }" x-show="show" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-        <div class="bg-white rounded-xl p-6 w-96 shadow-lg text-center relative">
-            <button @click="show = false" class="absolute top-2 right-2 text-gray-400 hover:text-gray-600">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-            <h2 class="text-lg font-bold text-red-600 mb-2">Gagal Menyimpan</h2>
+    @if (session('create_failed') || $errors->any())
+        <div x-data="{ show: true }" x-show="show" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+            <div class="bg-white rounded-xl p-6 w-96 shadow-lg text-center relative">
+                <button @click="show = false" class="absolute top-2 right-2 text-gray-400 hover:text-gray-600">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+                <h2 class="text-lg font-bold text-red-600 mb-2">Gagal Menyimpan</h2>
 
-            @if ($errors->any())
-                <ul class="text-sm text-left text-red-500 list-disc list-inside mb-4">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            @elseif (session('create_failed'))
-                <p class="text-sm text-gray-600 mb-2">{{ session('create_failed') }}</p>
-            @endif
+                @if ($errors->any())
+                    <ul class="text-sm text-left text-red-500 list-disc list-inside mb-4">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                @elseif (session('create_failed'))
+                    <p class="text-sm text-gray-600 mb-2">{{ session('create_failed') }}</p>
+                @endif
 
-            <button @click="show = false" class="px-4 py-1 bg-gray-300 text-gray-800 rounded hover:bg-gray-400">
-                Tutup
-            </button>
+                <button @click="show = false" class="px-4 py-1 bg-gray-300 text-gray-800 rounded hover:bg-gray-400">
+                    Tutup
+                </button>
+            </div>
         </div>
-    </div>
-@endif
+    @endif
 
 </x-app-layout>

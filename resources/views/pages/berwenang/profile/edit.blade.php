@@ -1,4 +1,4 @@
-<x-app-layout title="Edit Profile">
+<x-dashboard title="Edit Profile">
     <div class="max-w-xl mx-auto mt-10 bg-white shadow-lg rounded-lg p-6">
         <h2 class="text-xl font-bold text-biruPrimary mb-6 text-center">Edit Profil</h2>
 
@@ -35,7 +35,7 @@
         @endif
 
 
-        <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+        <form action="{{ route('berwenang.profile.update') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
             @csrf
 
             {{-- Foto Profil --}}
@@ -86,24 +86,11 @@
                 </div>
             </div>
 
-            {{-- Konfirmasi Password --}}
-            {{-- <div x-data="{ show: false }">
-                <label class="block text-sm font-semibold text-gray-700">Konfirmasi Password</label>
-                <div class="relative">
-                    <input :type="show ? 'text' : 'password'" name="password_confirmation"
-                        class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring focus:ring-biruPrimary focus:outline-none">
-                    <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer"
-                        @click="show = !show; $nextTick(() => feather.replace())"
-                        x-html="show ? feather.icons['eye-off'].toSvg({ width: '16', height: '16' }) : feather.icons['eye'].toSvg({ width: '16', height: '16' })">
-                    </span>
-                </div>
-            </div> --}}
-
 
             {{-- Tombol --}}
             <div class="flex justify-end">
-                <a href="{{ route('profile.index') }}"
-                    class="mr-2 px-4 py-2 text-sm text-white bg-abuPlaceholder rounded-md font-semibold">Batal</a>
+                {{-- <a href="{{ route('admin.home') }}"
+                    class="mr-2 px-4 py-2 text-sm text-white bg-abuPlaceholder rounded-md font-semibold">Back</a> --}}
                 <button type="submit"
                     class="bg-biruPrimary cursor-pointer text-white px-4 py-2 rounded-md font-semibold text-sm transition">
                     Simpan
@@ -133,4 +120,4 @@
         </script>
     @endif
 
-</x-app-layout>
+</x-dashboard>

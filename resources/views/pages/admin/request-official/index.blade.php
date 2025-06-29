@@ -5,7 +5,7 @@
     </div>
 @endif
 
-    <div class="px-4 py-6">
+    <div class="px-4 py-6 overflow-x-auto">
         <h1 class="text-2xl font-bold text-biruPrimary mb-4">Request Official</h1>
 
         {{ $dataTable->table(['class' => 'w-full text-sm'], true) }}

@@ -8,7 +8,8 @@
     <!-- Sidebar Toggle Button (visible on mobile) -->
     <div class="md:hidden ml-3">
         <button id="sidebarToggle" class="focus:outline-none" @click="sidebarOpen = !sidebarOpen">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
         </button>
@@ -16,10 +17,11 @@
 
     <!-- User Dropdown -->
     <div x-cloak class="relative ml-auto">
-        <button @click="open = !open" :aria-expanded="open.toString()" class="flex items-center space-x-3 focus:outline-none">
+        <button @click="open = !open" :aria-expanded="open.toString()"
+            class="flex items-center space-x-3 focus:outline-none">
             <img class="h-8 w-8 rounded-full"
-                    src="https://avataaars.io/?avatarStyle=Circle&topType=ShortHairShortFlat&accessoriesType=Blank&hairColor=Blonde&facialHairType=Blank&clotheType=BlazerShirt&eyeType=Happy&eyebrowType=Default&mouthType=Smile&skinColor=Light"
-                    alt="Avatar" />
+                src="https://avataaars.io/?avatarStyle=Circle&topType=ShortHairShortFlat&accessoriesType=Blank&hairColor=Blonde&facialHairType=Blank&clotheType=BlazerShirt&eyeType=Happy&eyebrowType=Default&mouthType=Smile&skinColor=Light"
+                alt="Avatar" />
             <span class="text-gray-700 font-poppins cursor-pointer font-semibold">{{ Auth::user()->username }}</span>
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 cursor-pointer" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
@@ -28,7 +30,16 @@
         </button>
         <div x-show="open" @click.outside="open = false" x-transition
             class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg">
-            <a href="#" class="block px-4 py-2 text-biruPrimary cursor-pointer">Profile</a>
+            @role('admin')
+            <a href="{{ route('admin.profile.edit') }}"
+                class="block px-4 py-2 text-biruPrimary cursor-pointer">Profile</a>
+            @endrole
+
+            @role('berwenang')
+            <a href="{{ route('berwenang.profile.edit') }}"
+                class="block px-4 py-2 text-biruPrimary cursor-pointer">Profile</a>
+            @endrole
+
             <a href="{{ route('home') }}" class="block px-4 py-2 text-biruPrimary cursor-pointer">User View</a>
             <!-- Logout -->
             <form method="POST" action="{{ route('logout') }}">
@@ -37,7 +48,7 @@
                     Logout
                 </button>
             </form>
-        
+
         </div>
     </div>
 </div>

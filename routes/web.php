@@ -10,11 +10,12 @@ use App\Http\Controllers\Admin\CarouselController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Admin\KehilanganController as AdminKehilanganController;
 use App\Http\Controllers\Admin\PenemuanController as AdminPenemuanController;
+use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
 use App\Http\Controllers\Admin\RequestOfficialController as AdminRequestOfficialController;
 use App\Http\Controllers\Admin\TipeBarangController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RequestOfficialController;
-
+use App\Http\Controllers\Berwenang\ProfileController as BerwenangProfileController;
 /*
 |--------------------------------------------------------------------------
 | Guest Routes
@@ -90,6 +91,9 @@ Route::prefix('admin')->middleware('role:admin')->group(function () {
     // Dashboard
     Route::get('/', [AdminHomeController::class, 'index'])->name('admin.home');
 
+    Route::get('profile', [AdminProfileController::class, 'edit'])->name('admin.profile.edit');
+    Route::post('profile', [AdminProfileController::class, 'update'])->name('admin.profile.update');
+
     // Jenis Barang 
     Route::get('tipe-barang', [TipeBarangController::class, 'index'])->name('admin.tipe-barang.index');
     Route::delete('tipe-barang/{id}', [TipeBarangController::class, 'destroy'])->name('admin.tipe-barang.destroy');
@@ -148,6 +152,9 @@ Route::prefix('admin')->middleware('role:admin')->group(function () {
 Route::prefix('berwenang')->middleware('role:berwenang')->group(function () {
     // Route::get('/', fn() => view('pages.berwenang.home'))->name('home-berwenang');
     Route::get('/', [AdminHomeController::class, 'index'])->name('berwenang.home');
+
+      Route::get('profile', [BerwenangProfileController::class, 'edit'])->name('berwenang.profile.edit');
+    Route::post('profile', [BerwenangProfileController::class, 'update'])->name('berwenang.profile.update');
 
 
     // Kehilangan (akses tampilan admin)

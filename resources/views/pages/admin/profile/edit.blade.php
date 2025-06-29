@@ -1,4 +1,9 @@
 <x-dashboard title="Edit Profile">
+       @php
+    $photoUrl = $user->profile_photo
+        ? asset('storage/' . $user->profile_photo)
+        : 'https://avataaars.io/?avatarStyle=Circle&topType=ShortHairShortFlat&accessoriesType=Blank&hairColor=Blonde&facialHairType=Blank&clotheType=BlazerShirt&eyeType=Happy&eyebrowType=Default&mouthType=Smile&skinColor=Light';
+@endphp
     <div class="max-w-xl mx-auto mt-10 bg-white shadow-lg rounded-lg p-6">
         <h2 class="text-xl font-bold text-biruPrimary mb-6 text-center">Edit Profil</h2>
 
@@ -38,25 +43,46 @@
         <form action="{{ route('admin.profile.update') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
             @csrf
 
-            {{-- Foto Profil --}}
-            <div class="relative w-fit mx-auto mb-4">
-                @php
-                    $photoUrl = $user->profile_photo
-                        ? asset('storage/' . $user->profile_photo)
-                        : 'https://avataaars.io/?avatarStyle=Circle&topType=ShortHairShortFlat&accessoriesType=Blank&hairColor=Blonde&facialHairType=Blank&clotheType=BlazerShirt&eyeType=Happy&eyebrowType=Default&mouthType=Smile&skinColor=Light';
-                @endphp
+             {{-- Foto Profil --}}
+<div class="relative w-fit mx-auto mb-4" x-data="{ preview: '{{ $photoUrl }}', showModalGambar: false }">
+    <img :src="preview" class="w-24 h-24 rounded-full object-cover" />
 
-                <img id="preview" src="{{ $photoUrl }}" class="w-24 h-24 rounded-full object-cover" />
+    {{-- Icon edit --}}
+    <button type="button"
+        class="absolute bottom-0 right-0 bg-biruPrimary p-1.5 rounded-full cursor-pointer hover:bg-blue-300 transition"
+        @click="showModalGambar = true">
+        <i data-feather="edit" class="w-4 h-4 text-white"></i>
+    </button>
 
-                {{-- Icon edit --}}
-                <label for="profile_photo"
-                    class="absolute bottom-0 right-0 bg-biruPrimary p-1.5 rounded-full cursor-pointer hover:bg-blue-300 transition">
-                    <i data-feather="edit" class="w-4 h-4 text-white"></i>
-                </label>
+    {{-- Modal Pilih Gambar --}}
+    <div x-show="showModalGambar" @click.away="showModalGambar = false"
+        class="fixed inset-0 flex items-center justify-center bg-transparent z-50">
+        <div class="bg-white p-6 rounded-xl space-y-4 text-center">
+            <p class="text-lg font-semibold text-gray-700">Pilih Sumber Foto</p>
 
-                <input type="file" id="profile_photo" name="profile_photo" accept="image/*" class="hidden"
-                    onchange="previewImage(event)" />
-            </div>
+            {{-- Kamera --}}
+            <label
+                class="block cursor-pointer bg-biruPrimary text-white px-4 py-2 rounded-xl hover:bg-opacity-90">
+                Gunakan Kamera
+                <input type="file" accept="image/*" capture="environment" name="profile_photo" class="hidden"
+                    @change="preview = URL.createObjectURL($event.target.files[0]); showModalGambar = false">
+            </label>
+
+            {{-- Galeri --}}
+            <label
+                class="block cursor-pointer bg-emerald-600 text-white px-4 py-2 rounded-xl hover:bg-opacity-90">
+                Pilih dari Galeri
+                <input type="file" accept="image/*" name="profile_photo" class="hidden"
+                    @change="preview = URL.createObjectURL($event.target.files[0]); showModalGambar = false">
+            </label>
+
+            <button type="button" @click="showModalGambar = false"
+                class="mt-3 px-4 py-1 bg-gray-300 text-gray-800 rounded hover:bg-gray-400">
+                Batal
+            </button>
+        </div>
+    </div>
+</div>
 
             {{-- Username --}}
             <div>

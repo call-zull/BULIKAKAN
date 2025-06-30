@@ -125,7 +125,7 @@
                             <img :src="item.image" class="w-32 h-32 object-cover rounded" alt="Barang Hilang">
                             <div class="flex flex-col justify-between">
                                 <div>
-                                    <h3 class="text-lg font-bold" x-text="item.nama"></h3>
+                                   <h3 class="text-lg font-bold" :title="item.nama" x-text="item.nama.length > 10 ? item.nama.substring(0, 10) + '...' : item.nama"></h3>
                                     <p class="text-sm"><strong>Waktu:</strong> <span x-text="item.waktu"></span></p>
                                     <p class="text-sm"><strong>Tempat:</strong> <span x-text="item.tempat"></span></p>
                                     <p class="text-sm"><strong>Tipe:</strong> <span x-text="item.tipe"></span></p>
@@ -165,7 +165,7 @@
                             <img :src="item.image" class="w-32 h-32 object-cover rounded" alt="Barang Ditemukan">
                             <div class="flex flex-col justify-between">
                                 <div>
-                                    <h3 class="text-lg font-bold" x-text="item.nama"></h3>
+                                    <h3 class="text-lg font-bold" :title="item.nama" x-text="item.nama.length > 10 ? item.nama.substring(0, 10) + '...' : item.nama"></h3>
                                     <p class="text-sm"><strong>Waktu:</strong> <span x-text="item.waktu"></span></p>
                                     <p class="text-sm"><strong>Tempat:</strong> <span x-text="item.tempat"></span></p>
                                     <p class="text-sm"><strong>Tipe:</strong> <span x-text="item.tipe"></span></p>

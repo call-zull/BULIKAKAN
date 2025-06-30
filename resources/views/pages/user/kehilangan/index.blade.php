@@ -74,7 +74,10 @@
             <img src="{{ $item['image'] }}" class="w-32 h-32 object-cover rounded" alt="Barang Hilang">
             <div class="flex flex-col justify-between">
                 <div>
-                    <h3 class="text-lg font-bold">{{ $item['nama'] }}</h3>
+                   <h3 class="text-lg font-bold" title="{{ $item['nama'] }}">
+    {{ \Illuminate\Support\Str::limit($item['nama'], 10) }}
+</h3>
+
                     <p class="text-sm"><strong>Waktu:</strong> {{ $item['waktu'] }}</p>
                     <p class="text-sm"><strong>Tempat:</strong> {{ $item['tempat'] }}</p>
                     <p class="text-sm"><strong>Tipe:</strong> {{ $item['tipe'] }}</p>

@@ -43,6 +43,9 @@ class KehilanganController extends Controller
 
     public function destroy($id)
     {
+          if (Auth::user()->hasRole('berwenang')) {
+        abort(403, 'Anda tidak memiliki izin untuk menghapus data.');
+    }
         $kehilangan = Pengumuman::kehilangan()->findOrFail($id);
         $kehilangan->delete();
 

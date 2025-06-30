@@ -5,6 +5,7 @@ namespace App\DataTables;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -36,19 +37,38 @@ class UsersDataTable extends DataTable
                     : '-';
             })
             ->editColumn('status_user', function ($user) {
-            $options = [
-                'umum'     => 'Umum',
-                'official' => 'Official',
-            ];
-            $html = '<select class="status-select px-2 py-1 border rounded" data-id="' . $user->id . '">';
-            foreach ($options as $val => $label) {
-                $sel = $user->status_user === $val ? ' selected' : '';
-                $html .= "<option value=\"{$val}\"{$sel}>{$label}</option>";
-            }
-            $html .= '</select>';
-            return $html;
-        })
-            ->rawColumns(['profile_photo', 'status_user'])
+                $options = [
+                    'umum'     => 'Umum',
+                    'official' => 'Official',
+                ];
+                $html = '<select class="status-select px-2 py-1 border rounded" data-id="' . $user->id . '">';
+                foreach ($options as $val => $label) {
+                    $sel = $user->status_user === $val ? ' selected' : '';
+                    $html .= "<option value=\"{$val}\"{$sel}>{$label}</option>";
+                }
+                $html .= '</select>';
+                return $html;
+            })
+            ->addColumn('action', function ($user) {
+                if (Auth::user()->hasRole('berwenang')) {
+                    return '-'; // atau bisa dikosongkan saja ''
+                }
+
+            $editUrl = route('admin.users.edit', $user->id);
+            $deleteUrl = route('admin.users.destroy', $user->id);
+            $csrf = csrf_token();
+
+            return <<<HTML
+        <a href="{$editUrl}" class="text-blue-500 underline">Edit</a> |
+        <form action="{$deleteUrl}" method="POST" class="inline-block" onsubmit="return confirm('Yakin ingin menghapus user ini?')">
+            <input type="hidden" name="_token" value="{$csrf}">
+            <input type="hidden" name="_method" value="DELETE">
+            <button type="submit" class="text-red-500 underline">Hapus</button>
+        </form>
+    HTML;
+            })
+
+            ->rawColumns(['profile_photo', 'status_user', 'action'])
             ->setRowId('id');
     }
 
@@ -107,6 +127,12 @@ class UsersDataTable extends DataTable
             Column::make('updated_at')
                 ->title('Diperbarui')
                 ->addClass('whitespace-nowrap'),
+
+            Column::computed('action')
+                ->title('Aksi')
+                ->exportable(false)
+                ->printable(false)
+                ->addClass('text-center'),
 
         ];
     }

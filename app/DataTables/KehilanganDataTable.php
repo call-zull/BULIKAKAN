@@ -22,14 +22,19 @@ class KehilanganDataTable extends DataTable
             ->editColumn('waktu', fn($row) => optional($row->waktu)->format('d M Y H:i'))
             ->addColumn('tipe_barang', fn($row) => optional($row->tipeBarang)->nama ?? '-')
             ->addColumn('user', fn($row) => optional($row->user)->username ?? '-')
-            ->addColumn('action', function ($row) {
-                $hapus = route('admin.kehilangan.destroy', $row->id);
-                return '
-            <form action="' . $hapus . '" method="POST" class="inline-block" onsubmit="return confirm(\'Yakin?\')">
-                ' . csrf_field() . method_field('DELETE') . '
-                <button type="submit" class="text-red-500 underline">Hapus</button>
-            </form>';
-            })
+          ->addColumn('action', function ($row) {
+    if (Auth::user()->hasRole('berwenang')) {
+        return '-'; // atau bisa dikosongkan saja ''
+    }
+
+    $hapus = route('admin.kehilangan.destroy', $row->id);
+    return '
+        <form action="' . $hapus . '" method="POST" class="inline-block" onsubmit="return confirm(\'Yakin?\')">
+            ' . csrf_field() . method_field('DELETE') . '
+            <button type="submit" class="text-red-500 underline">Hapus</button>
+        </form>';
+})
+
             ->editColumn('status', function ($row) {
                 if (Auth::user()?->hasRole('berwenang')) {
                     return '<span class="px-2 py-1 rounded bg-gray-100 text-sm text-gray-800">' . ucfirst($row->status) . '</span>';

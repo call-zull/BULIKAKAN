@@ -23,6 +23,9 @@ class PenemuanDataTable extends DataTable
             ->addColumn('tipe_barang', fn($row) => optional($row->tipeBarang)->nama ?? '-')
             ->addColumn('user', fn($row) => optional($row->user)->username ?? '-')
             ->addColumn('action', function ($row) {
+                if (Auth::user()->hasRole('berwenang')) {
+                    return '-'; // Atau kosongkan string: ''
+                }
                 $edit = route('admin.penemuan.edit', $row->id);
                 $hapus = route('admin.penemuan.destroy', $row->id);
 
@@ -33,7 +36,7 @@ class PenemuanDataTable extends DataTable
                         <button type="submit" class="text-red-500 underline">Hapus</button>
                     </form>';
             })
-             ->editColumn('status', function ($row) {
+            ->editColumn('status', function ($row) {
                 if (Auth::user()?->hasRole('berwenang')) {
                     return '<span class="px-2 py-1 rounded bg-gray-100 text-sm text-gray-800">' . ucfirst($row->status) . '</span>';
                 }

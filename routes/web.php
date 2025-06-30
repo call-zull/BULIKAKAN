@@ -151,6 +151,12 @@ Route::prefix('admin')->middleware('role:admin')->group(function () {
     Route::patch('users/{user}/status', [UsersController::class, 'updateStatus'])->name('admin.users.updateStatus');
     Route::get('users/create', [UsersController::class, 'create'])->name('admin.users.create');
     Route::post('users', [UsersController::class, 'store'])->name('admin.users.store');
+
+    Route::get('users/{user}/edit', [UsersController::class, 'edit'])->name('admin.users.edit');
+    Route::put('users/{user}', [UsersController::class, 'update'])->name('admin.users.update');
+
+    // ✅ Tambahkan route delete user
+    Route::delete('users/{user}', [UsersController::class, 'destroy'])->name('admin.users.destroy');
 });
 
 /*
@@ -162,7 +168,7 @@ Route::prefix('berwenang')->middleware('role:berwenang')->group(function () {
     // Route::get('/', fn() => view('pages.berwenang.home'))->name('home-berwenang');
     Route::get('/', [AdminHomeController::class, 'index'])->name('berwenang.home');
 
-      Route::get('profile', [BerwenangProfileController::class, 'edit'])->name('berwenang.profile.edit');
+    Route::get('profile', [BerwenangProfileController::class, 'edit'])->name('berwenang.profile.edit');
     Route::post('profile', [BerwenangProfileController::class, 'update'])->name('berwenang.profile.update');
 
 

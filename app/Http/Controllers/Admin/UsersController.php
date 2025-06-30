@@ -55,4 +55,40 @@ class UsersController extends Controller
 
     return redirect()->route('admin.users.index')->with('success', 'User berhasil ditambahkan.');
 }
+    public function edit(User $user)
+{
+    $roles = Role::pluck('name');
+    return view('pages.admin.users.edit', compact('user', 'roles'));
+}
+
+public function update(Request $request, User $user)
+{
+    $validated = $request->validate([
+        'username' => 'required|string|max:255|unique:users,username,' . $user->id,
+        'email' => 'required|email|unique:users,email,' . $user->id,
+        'status_user' => 'required|in:umum,official',
+        'role' => 'required|exists:roles,name',
+        'password' => 'nullable|string|min:6|confirmed',
+    ]);
+
+    $user->update([
+        'username' => $validated['username'],
+        'email' => $validated['email'],
+        'status_user' => $validated['status_user'],
+        'password' => $validated['password']
+            ? Hash::make($validated['password'])
+            : $user->password,
+    ]);
+
+    $user->syncRoles([$validated['role']]);
+
+    return redirect()->route('admin.users.index')->with('success', 'User berhasil diperbarui.');
+}
+
+public function destroy(User $user)
+{
+    $user->delete();
+    return redirect()->route('admin.users.index')->with('success', 'User berhasil dihapus.');
+}
+
 }

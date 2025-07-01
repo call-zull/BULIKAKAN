@@ -1,10 +1,11 @@
 <x-dashboard>
     <div class="px-4 py-6" x-data="{ showDetails: false }" x-init="$nextTick(() => showDetails = true)">
-        @if (auth()->user()->role === 'admin')
-            <h1 class="text-2xl font-bold text-gray-800 mb-6">Dashboard Admin</h1>
-        @else
-            <h1 class="text-2xl font-bold text-gray-800 mb-6">Dashboard Berwenang</h1>
-        @endif
+    @if (auth()->user()->hasRole('admin'))
+        <h1 class="text-2xl font-bold text-gray-800 mb-6">Dashboard Admin</h1>
+    @else
+        <h1 class="text-2xl font-bold text-gray-800 mb-6">Dashboard Berwenang</h1>
+    @endif
+
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 transition-all duration-700 ease-in-out" x-show="showDetails" x-transition>
             <!-- Card -->
             <div

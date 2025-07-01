@@ -2,10 +2,10 @@
 <html class="scroll-smooth" lang="en">
 
 <head>
-    <link rel="canonical" href="https://bulikakan.my.id/" />
+    {{-- <link rel="canonical" href="https://bulikakan.my.id/" /> --}}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="canonical" href="{{ url()->current() }}">
+    {!! seo() !!}
     <title>@yield('title', 'Bulikakan')</title>
 
 
@@ -23,7 +23,7 @@
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <script src="https://unpkg.com/feather-icons"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <link rel="canonical" href="https://bulikakan.my.id/">
+    {{-- <link rel="canonical" href="https://bulikakan.my.id/"> --}}
     <style>
         [x-cloak],
         [x-cloak=""] {

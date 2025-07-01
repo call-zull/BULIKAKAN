@@ -18,6 +18,17 @@ use App\Http\Controllers\RequestOfficialController;
 use App\Http\Controllers\Berwenang\ProfileController as BerwenangProfileController;
 use App\Http\Controllers\ContactController;
 
+use Spatie\Sitemap\Sitemap;
+use Spatie\Sitemap\Tags\Url;
+
+Route::get('/sitemap.xml', function () {
+    return Sitemap::create()
+        ->add(Url::create('/')->setLastModificationDate(now()))
+        ->add(Url::create('/kehilangan')->setLastModificationDate(now()))
+        ->add(Url::create('/penemuan')->setLastModificationDate(now()))
+        ->toResponse(request());
+});
+
 /*
 |--------------------------------------------------------------------------
 | Guest Routes

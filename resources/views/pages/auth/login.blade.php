@@ -9,7 +9,7 @@
                     <h1 class="font-jomhuria font-bold text-xl text-black">Login</h1>
                     <i data-feather="user" width="25" height="25" class="text-black font-bold"></i>
                 </div>
-                <p class="font-outfit font-normal">Salamat datang di <span
+                <p class="font-outfit font-normal">Selamat datang di <span
                         class="font-outfit font-semibold">BULIKAKAN</span></p>
             </div>
 

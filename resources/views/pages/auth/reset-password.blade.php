@@ -19,6 +19,31 @@
             <h2 class="font-jomhuria font-bold text-biruPrimary">Masukkan Password Baru Anda</h2>
         </div>
 
+        {{-- FLASH MESSAGE --}}
+@if (session('success'))
+    <div class="mb-4 text-green-600 bg-green-100 px-4 py-2 rounded-md shadow">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if (session('error'))
+    <div class="mb-4 text-red-600 bg-red-100 px-4 py-2 rounded-md shadow">
+        {{ session('error') }}
+    </div>
+@endif
+
+{{-- VALIDATION ERRORS --}}
+@if ($errors->any())
+    <div class="mb-4 text-red-600 bg-red-100 px-4 py-2 rounded-md shadow">
+        <ul class="list-disc list-inside">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+
         <form action="{{ route('password.update') }}" method="POST" class="mt-4 flex justify-center" x-data="{ password: '', password_confirmation: '', showPassword: false, showConfirmPassword: false }">
             @csrf
              <input type="hidden" name="token" value="{{ $token }}">
@@ -68,7 +93,7 @@
             <!-- Submit Button -->
             <div class="flex justify-center mt-4">
                 <button type="submit"
-                    class="bg-biruPrimary text-white px-6 py-2 w-full rounded-md hover:bg-blue-600 transition duration-200 font-semibold font-jomhuria">
+                    class="bg-biruPrimary text-white px-6 py-2 w-full rounded-md cursor-pointer font-semibold font-jomhuria">
                     Reset Password
                 </button>
             </div>

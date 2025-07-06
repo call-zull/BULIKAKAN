@@ -34,7 +34,7 @@
 
                     <div class="flex justify-center mt-4">
                         <button type="submit"
-                            class="bg-biruPrimary cursor-pointer text-white px-6 py-2 w-full rounded-md hover:bg-blue-600 transition duration-200 font-semibold font-jomhuria">
+                            class="bg-biruPrimary cursor-pointer text-white px-6 py-2 w-full rounded-md  font-semibold font-jomhuria">
                             Kirim
                         </button>
                     </div>

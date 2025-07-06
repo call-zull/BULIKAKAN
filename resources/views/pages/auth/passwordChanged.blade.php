@@ -1,4 +1,9 @@
 <x-app-layout title="Password Berubah">
+    @if (session('success'))
+    <div class="bg-green-100 text-green-700 p-4 rounded">
+        {{ session('success') }}
+    </div>
+@endif
 <div class="relative h-screen overflow-y-hidden bg-white flex justify-center md:items-center px-4 py-10">
     <!-- Quarter circle top-right with responsive icon -->
     <div class="absolute top-0 right-0 w-40 h-40 md:w-52 md:h-52 bg-biruCircleShapes rounded-bl-full overflow-hidden z-0">

@@ -67,15 +67,17 @@
 </head>
 
 <body>
-    @if (!Request::is('login', 'register', 'forgotPassword', 'newPassword', 'passwordChanged'))
-        @include('includes.navbar')
+    @if (!Request::is('login', 'register', 'forgot-password', 'new-password', 'password-changed', 'reset-password*'))
+    @include('includes.navbar')
     @endif
 
     <main class="p-2 min-h-screen lg:mb-20 md:mb-20 mb-20">
         {{ $slot }}
     </main>
 
+    @if (!Request::is('reset-password*'))
     @include('includes.footer')
+    @endif
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
     <script src="https://unpkg.com/feather-icons"></script>

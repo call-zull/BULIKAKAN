@@ -177,7 +177,7 @@ class AuthController extends Controller
 
     return $status === Password::RESET_LINK_SENT
         ? back()->with('success', 'Link reset password berhasil dikirim ke email Anda.')
-        : back()->withErrors(['email' => 'Gagal mengirim link reset password.']);
+        : back()->withErrors(['email' => 'Gagal mengirim link reset password / Sudah ada link.']);
 }
 
 

@@ -30,7 +30,7 @@ Route::get('/sitemap.xml', function () {
 });
 
 Route::fallback(function () {
-    abort(404);
+   return view('errors.404');
 });
 
 Route::get('/error/{code}', function ($code) {

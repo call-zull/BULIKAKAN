@@ -43,7 +43,7 @@
                         --}}
 
                         <div x-show="showNotif" x-transition @click.away="showNotif = false" x-cloak
-                         class="absolute -right-9 md:right-0 mt-2 w-80 max-h-96 overflow-y-auto bg-white border border-gray-200 shadow-lg rounded-md z-50">
+                         class="absolute right-0 mt-2 w-80 max-h-96 overflow-y-auto bg-white border border-gray-200 shadow-lg rounded-md z-50">
 
                             <div class="py-2 px-4 text-sm font-semibold text-biruPrimary border-b">Notifikasi</div>
                             @forelse (auth()->user()->notifications->take(5) as $notification)

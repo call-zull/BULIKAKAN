@@ -27,7 +27,7 @@
                 <div class="relative" x-data="{ showNotif: false }">
                     <button @click="showNotif = !showNotif" class="relative focus:outline-none">
                         <i data-feather="bell" width="24" height="24"
-                            class="fill-biruPrimary cursor-pointer mt-1.5 stroke-biruPrimary stroke-2"></i>
+                            class="fill-{#4682B4} cursor-pointer mt-1.5 stroke-{#4682B4} stroke-2"></i>
                         @if (auth()->user()?->unreadNotifications->count())
                             <span
                                 class="absolute top-0 right-0 inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">

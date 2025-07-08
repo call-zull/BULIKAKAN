@@ -29,6 +29,10 @@ Route::get('/sitemap.xml', function () {
         ->toResponse(request());
 });
 
+Route::fallback(function () {
+    abort(404);
+});
+
 Route::get('/error/{code}', function ($code) {
     abort((int) $code);
 });

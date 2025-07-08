@@ -25,10 +25,11 @@
                     class="fill-biruPrimary stroke-biruPrimary stroke-2"></i> --}}
                 <!-- Notifikasi -->
                 <div class="relative" x-data="{ showNotif: false }">
+                    @auth
                     <button @click="showNotif = !showNotif" class="relative focus:outline-none">
                         <i data-feather="bell" width="24" height="24"
                               style="fill: #4682B4; stroke: #4682B4; stroke-width: 2px;"
-   class="cursor-pointer mt-1.5"></i>
+                                class="cursor-pointer mt-1.5"></i>
                         @if (auth()->user()?->unreadNotifications->count())
                             <span
                                 class="absolute top-0 right-0 inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
@@ -36,7 +37,7 @@
                             </span>
                         @endif
                     </button>
-
+                    
                     <!-- Dropdown Notifikasi -->
                     {{-- <div x-show="showNotif" x-transition @click.away="showNotif = false"
                         class="absolute right-0 mt-2 w-80 max-h-96 overflow-y-auto bg-white border border-gray-200 shadow-lg rounded-md z-50">
@@ -44,7 +45,6 @@
 
                         <div x-show="showNotif" x-transition @click.away="showNotif = false" x-cloak
                          class="absolute right-0 mt-2 w-80 max-h-96 overflow-y-auto bg-white border border-gray-200 shadow-lg rounded-md z-50">
-
                             <div class="py-2 px-4 text-sm font-semibold text-biruPrimary border-b">Notifikasi</div>
                             @forelse (auth()->user()->notifications->take(5) as $notification)
                                 <a href="{{ route('notifications.read', $notification->id) }}"
@@ -63,7 +63,8 @@
                                     class="text-sm text-biruPrimary hover:underline">Tandai semua sudah dibaca</a>
                             </div>
                         </div>
-                    </div>
+                    @endauth
+                    {{-- </div> --}}
 
                     {{-- dropdown menu --}}
                     <button @click="open = !open" class="text-biruPrimary cursor-pointer focus:outline-none relative">

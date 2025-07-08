@@ -2,7 +2,13 @@
 
 namespace App\Providers;
 
+use App\Models\Pengumuman;
+use App\Models\RequestOfficial;
 use Illuminate\Support\ServiceProvider;
+use App\Models\User;
+use App\Observers\PengumumanObserver;
+use App\Observers\RequestOfficialObserver;
+use App\Observers\UserObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +25,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        User::observe(UserObserver::class);
+        RequestOfficial::observe(RequestOfficialObserver::class);
+        Pengumuman::observe(PengumumanObserver::class);
     }
 }

@@ -29,6 +29,10 @@ Route::get('/sitemap.xml', function () {
         ->toResponse(request());
 });
 
+Route::get('/error/{code}', function ($code) {
+    abort((int) $code);
+});
+
 /*
 |--------------------------------------------------------------------------
 | Guest Routes
@@ -74,6 +78,16 @@ Route::get('/contact', [ContactController::class, 'show'])->name('contact.show')
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+    Route::get('/notifications/mark-all-read', function () {
+        auth()->user()->unreadNotifications->markAsRead();
+        return back();
+    })->name('notifications.markAllRead');
+
+    Route::get('/notifications/{id}/read', function ($id) {
+        $notification = auth()->user()->notifications()->findOrFail($id);
+        $notification->markAsRead();
+        return back();
+    })->name('notifications.read');
     // Halaman profil
     // Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
 
@@ -128,8 +142,6 @@ Route::prefix('admin')->middleware('role:admin')->group(function () {
     Route::get('request-official', [AdminRequestOfficialController::class, 'index'])->name('admin.request-official.index');
     Route::patch('request-official/{id}/status', [AdminRequestOfficialController::class, 'updateStatus'])->name('admin.request-official.updateStatus');
     Route::delete('request-official/{id}', [AdminRequestOfficialController::class, 'destroy'])->name('admin.request-official.destroy');
-
-
 
     // Kehilangan
     Route::get('kehilangan', [AdminKehilanganController::class, 'index'])->name('admin.kehilangan.index');

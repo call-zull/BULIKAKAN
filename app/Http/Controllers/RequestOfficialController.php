@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\RequestOfficial;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use App\Notifications\RequestOfficialSent;
 
 class RequestOfficialController extends Controller
 {
@@ -44,12 +46,20 @@ class RequestOfficialController extends Controller
             $path = $request->file('dokumen_pendukung')->store('dokumen', 'public');
 
             RequestOfficial::create([
-                'user_id' => Auth::id(),
-                'nama_instansi' => $validated['nama_instansi'],
-                'alasan' => $validated['alasan'],
-                'dokumen_pendukung' => $path,
-                'status_request' => 'diproses',
-            ]);
+            'user_id' => Auth::id(),
+            'nama_instansi' => $validated['nama_instansi'],
+            'alasan' => $validated['alasan'],
+            'dokumen_pendukung' => $path,
+            'status_request' => 'diproses',
+        ]);
+
+            // // Kirim notifikasi ke user
+            // Auth::user()->notify(new RequestOfficialSent($requestOfficial));
+            // $admins = User::role('admin')->get();
+            // foreach ($admins as $admin) {
+            //     $admin->notify(new RequestOfficialSent($requestOfficial));
+            // }
+
             return redirect()->route('profile.index')->with('success', 'Permintaan telah dikirim.');
         } catch (ValidationException $e) {
             throw $e;

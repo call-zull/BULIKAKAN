@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
+use App\Notifications\StatusUserChanged;
 
 class UsersController extends Controller
 {
@@ -24,6 +25,7 @@ class UsersController extends Controller
 
         $user->status_user = $validated['status_user'];
         $user->save();
+        // $user->notify(new StatusUserChanged($user->status_user));
 
         return response()->json([
             'message' => 'Status user berhasil diubah.',

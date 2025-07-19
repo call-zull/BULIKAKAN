@@ -22,32 +22,37 @@
             @auth
                 @if (auth()->user()->id === $pengumuman->user_id || auth()->user()->role === 'admin')
                     <div class="flex justify-between items-center mb-2" x-data="{ confirmDelete: false }">
+                        <!-- Edit -->
                         <a href="{{ route('penemuan.edit', $pengumuman->id) }}"
                             class="text-orange-600 flex items-center gap-1 text-sm font-medium">
-                            <!-- SVG edit -->
-                            Edit
+                            ✏️ Edit
                         </a>
 
-                        <button @click="confirmDelete = true" class="text-red-600 flex items-center gap-1 text-sm font-medium">
-                            <!-- SVG trash -->
-                            Hapus
+                        <!-- Hapus -->
+                        <button @click="confirmDelete = true"
+                            class="text-red-600 flex items-center gap-1 text-sm font-medium">
+                            🗑️ Hapus
                         </button>
 
-                        <!-- Modal Konfirmasi -->
-                        <div x-show="confirmDelete" x-transition x-cloak class="fixed inset-0 flex items-center justify-center z-50">
-                            <div @click.away="confirmDelete = false" class="bg-white rounded-lg shadow-xl p-6 w-80">
+                        <!-- Modal Konfirmasi Hapus -->
+                        <div x-show="confirmDelete" x-transition x-cloak
+                            class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-30">
+                            <div @click.away="confirmDelete = false"
+                                class="bg-white rounded-lg shadow-xl p-6 w-80">
                                 <h2 class="text-lg font-semibold text-gray-800 mb-2">Konfirmasi Hapus</h2>
                                 <p class="text-sm text-gray-600 mb-4">Yakin ingin menghapus pengumuman ini?</p>
+
                                 <div class="flex justify-end gap-2">
                                     <button @click="confirmDelete = false"
-                                        class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300">
+                                        class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition">
                                         Batal
                                     </button>
+
                                     <form method="POST" action="{{ route('penemuan.destroy', $pengumuman->id) }}">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"
-                                            class="px-4 py-2 bg-biruPrimary text-white rounded hover:bg-opacity-90">
+                                            class="px-4 py-2 bg-biruPrimary text-white rounded hover:bg-opacity-90 transition">
                                             Ya, Hapus
                                         </button>
                                     </form>
@@ -58,30 +63,75 @@
                 @endif
             @endauth
 
+            <!-- Konten Pengumuman -->
             <img src="{{ $pengumuman->foto_barang ? asset('storage/' . $pengumuman->foto_barang) : asset('logo/barang1.png') }}"
                 alt="Gambar Barang" class="w-full h-64 object-cover rounded mb-4">
+
             <h2 class="text-2xl font-bold text-biruPrimary mb-2">{{ $pengumuman->judul }}</h2>
-             <p class="mb-1 flex items-center gap-1">
+            <p class="mb-1 flex items-center gap-1">
                 <strong>Diposting oleh:</strong> {{ $pengumuman->user->username }}
                 @if ($pengumuman->user->status_user === 'official')
-                    <svg class="w-5 h-5 text-biruPrimary" viewBox="0 0 24 24" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M11.5283 1.5999C11.7686 1.29437 12.2314 1.29437 12.4717 1.5999L14.2805 3.90051C14.4309 4.09173 14.6818 4.17325 14.9158 4.10693L17.7314 3.3089C18.1054 3.20292 18.4799 3.475 18.4946 3.86338L18.6057 6.78783C18.615 7.03089 18.77 7.24433 18.9984 7.32823L21.7453 8.33761C22.1101 8.47166 22.2532 8.91189 22.0368 9.23478L20.4078 11.666C20.2724 11.8681 20.2724 12.1319 20.4078 12.334L22.0368 14.7652C22.2532 15.0881 22.1101 15.5283 21.7453 15.6624L18.9984 16.6718C18.77 16.7557 18.615 16.9691 18.6057 17.2122L18.4946 20.1366C18.4799 20.525 18.1054 20.7971 17.7314 20.6911L14.9158 19.8931C14.6818 19.8267 14.4309 19.9083 14.2805 20.0995L12.4717 22.4001C12.2314 22.7056 11.7686 22.7056 11.5283 22.4001L9.71949 20.0995C9.56915 19.9083 9.31823 19.8267 9.08421 19.8931L6.26856 20.6911C5.89463 20.7971 5.52014 20.525 5.50539 20.1366L5.39427 17.2122C5.38503 16.9691 5.22996 16.7557 5.00164 16.6718L2.25467 15.6624C1.88986 15.5283 1.74682 15.0881 1.96317 14.7652L3.59221 12.334C3.72761 12.1319 3.72761 11.8681 3.59221 11.666L1.96317 9.23478C1.74682 8.91189 1.88986 8.47166 2.25467 8.33761L5.00165 7.32823C5.22996 7.24433 5.38503 7.03089 5.39427 6.78783L5.50539 3.86338C5.52014 3.475 5.89463 3.20292 6.26857 3.3089L9.08421 4.10693C9.31823 4.17325 9.56915 4.09173 9.71949 3.90051L11.5283 1.5999Z"
-                                stroke="currentColor" stroke-width="1.5" />
-                            <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
+                    <span class="text-biruPrimary ml-1">✔️ Official</span>
                 @endif
             </p>
-            <p class="mb-1"><strong>Waktu Ditemukan:</strong>
-                {{ \Carbon\Carbon::parse($pengumuman->waktu)->translatedFormat('d F Y') }}</p>
-            <p class="mb-1"><strong>Tempat Ditemukan:</strong> {{ $pengumuman->tempat }}</p>
+
+            <p class="mb-1"><strong>Waktu Ditemukan:</strong> {{ \Carbon\Carbon::parse($pengumuman->waktu)->translatedFormat('d F Y') }}</p>
+            <p class="mb-1"><strong>Lokasi Penemuan:</strong> {{ $pengumuman->lokasi }}</p>
             <p class="mb-1"><strong>Tipe Barang:</strong> {{ $pengumuman->tipeBarang->nama ?? 'Tidak diketahui' }}</p>
-            <p class="mb-1"><strong>Deskripsi:</strong> {!! nl2br(e($pengumuman->deskripsi)) !!}</p>
+            <p class="mb-1"><strong>Ciri-ciri:</strong> {!! nl2br(e($pengumuman->ciri_ciri)) !!}</p>
             <p class="mb-4"><strong>Kontak:</strong> {{ $pengumuman->kontak }}</p>
-            <a href="{{ url()->previous() }}"
-                class="inline-block bg-biruPrimary text-white px-4 py-2 rounded-lg text-sm mt-4">← Kembali</a>
+
+            <!-- Tombol Kembali & Bagikan -->
+            <div class="flex justify-between items-center mt-6" x-data="{ open: false }">
+                <a href="{{ url()->previous() }}"
+                    class="bg-biruPrimary text-white px-4 py-2 rounded-lg text-sm hover:bg-opacity-90 transition">
+                    ← Kembali
+                </a>
+
+                <button @click="open = true"
+                    class="bg-borderAbu text-biruPrimary px-4 py-2 rounded-lg text-sm cursor-pointer">
+                    🔗 Bagikan
+                </button>
+
+                <!-- Modal -->
+                <div x-show="open" x-cloak class="fixed inset-0 z-50 flex items-center justify-center" x-transition>
+                    <div @click.away="open = false" class="bg-white rounded-lg p-6 w-full max-w-sm shadow-lg">
+                        <h2 class="text-lg font-semibold mb-4 text-center">Bagikan Pengumuman Ini</h2>
+
+                        @php
+                            $shareUrl = urlencode(route('penemuan.show', $pengumuman->id));
+                            $shareText = urlencode("Saya menemukan barang berikut, silakan dicek apakah milik Anda: {$pengumuman->judul}. Lihat di sini:");
+                        @endphp
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <a href="https://wa.me/?text={{ $shareText }}%20{{ $shareUrl }}" target="_blank"
+                                class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 text-center">
+                                📱 WhatsApp
+                            </a>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}" target="_blank"
+                                class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-center">
+                                📘 Facebook
+                            </a>
+                            <a href="https://www.instagram.com/" target="_blank"
+                                class="bg-violet-500 text-white px-4 py-2 rounded hover:bg-violet-600 text-center">
+                                📸 Instagram
+                            </a>
+                            <button
+                                onclick="navigator.clipboard.writeText('{{ route('penemuan.show', $pengumuman->id) }}'); alert('Tautan berhasil disalin!')"
+                                class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 text-center">
+                                🔗 Salin Tautan
+                            </button>
+                        </div>
+
+                        <div class="mt-4 text-center">
+                            <button @click="open = false"
+                                class="text-sm text-gray-600 hover:text-gray-800">
+                                ✖ Tutup
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </x-app-layout>

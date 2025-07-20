@@ -137,22 +137,22 @@ class PenemuanController extends Controller
     if ($pengumuman->jenis_pengumuman !== 'penemuan') {
         abort(404);
     }
-
+// dd($request);
     try {
-        $request->validate([
-            'judul' => 'required|string|max:255',
-            'foto_barang' => 'file|mimes:jpeg,jpg,png|max:6000',
-            'waktu' => 'required|date',
-            'tempat' => 'required|string|max:255',
-            'deskripsi' => 'required|string',
-            'kontak' => 'required|string|max:255',
-            'tipe_barang_id' => 'required|exists:tipe_barangs,id',
-            'provinsi' => 'string',
-            'kabupaten' => 'string',
-            'kecamatan' => 'string',
-            'kelurahan' => 'string',
-            'selesai' => 'sometimes|boolean' // Tambahkan ini
-        ]);
+          $request->validate([
+                'judul' => 'required|string|max:255',
+                'foto_barang' => 'file|mimes:jpeg,jpg,png|max:6000',
+                'waktu' => 'required|date',
+                'tempat' => 'required|string|max:255',
+                'deskripsi' => 'required|string',
+                'kontak' => 'required|string|max:255',
+                'tipe_barang_id' => 'required|exists:tipe_barangs,id',
+                'provinsi' => $pengumuman->provinsi ? 'required|string' : 'nullable|string',
+                'kabupaten' => $pengumuman->kabupaten ? 'required|string' : 'nullable|string',
+                'kecamatan' => $pengumuman->kecamatan ? 'required|string' : 'nullable|string',
+                'kelurahan' => $pengumuman->kelurahan ? 'required|string' : 'nullable|string',
+                'selesai' => 'sometimes|boolean',
+            ]);
 
         $data = $request->except('foto_barang');
 

@@ -28,7 +28,8 @@
                             this.lokasi.kelurahan_id = '{{ $pengumuman->kelurahan }}';
                         }
                     }
-                }">
+                }"
+                 x-init="init()">
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="jenis_pengumuman" value="kehilangan">
@@ -156,6 +157,10 @@
                             </select>
                         </div>
                     
+                        {{-- <input type="hidden" name="provinsi" :value="provinsi_nama">
+                        <input type="hidden" name="provinsi" :value="kabupaten_nama">
+                        <input type="hidden" name="provinsi" :value="kecamatan_nama"> --}}
+
                         <input type="hidden" name="provinsi" x-model="provinsi_nama">
                         <input type="hidden" name="kabupaten" x-model="kabupaten_nama">
                         <input type="hidden" name="kecamatan" x-model="kecamatan_nama">
@@ -213,90 +218,98 @@
 
     <script>
     function lokasiSelector() {
-        return {
-            provinsi: [],
-            kabupaten: [],
-            kecamatan: [],
-            kelurahan: [],
-            provinsi_id: '',
-            kabupaten_id: '',
-            kecamatan_id: '',
-            kelurahan_id: '',
-            provinsi_nama: '{{ $pengumuman->provinsi ?? '' }}',
-            kabupaten_nama: '{{ $pengumuman->kabupaten ?? '' }}',
-            kecamatan_nama: '{{ $pengumuman->kecamatan ?? '' }}',
-            kelurahan_nama: '{{ $pengumuman->kelurahan ?? '' }}',
+    return {
+        provinsi: [],
+        kabupaten: [],
+        kecamatan: [],
+        kelurahan: [],
+        provinsi_id: '',
+        kabupaten_id: '',
+        kecamatan_id: '',
+        kelurahan_id: '',
+        provinsi_nama: '{{ $pengumuman->provinsi ?? '' }}',
+        kabupaten_nama: '{{ $pengumuman->kabupaten ?? '' }}',
+        kecamatan_nama: '{{ $pengumuman->kecamatan ?? '' }}',
+        kelurahan_nama: '{{ $pengumuman->kelurahan ?? '' }}',
 
-            async init() {
-                const res = await fetch('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json');
-                this.provinsi = await res.json();
-                
-                // Jika ada data provinsi sebelumnya, load kabupaten
-                if(this.provinsi_nama) {
-                    const prov = this.provinsi.find(p => p.name === this.provinsi_nama);
-                    if(prov) {
-                        this.provinsi_id = prov.id;
-                        await this.getKabupaten();
-                    }
+        async init() {
+            const res = await fetch('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json');
+            this.provinsi = await res.json();
+
+            if (this.provinsi_nama) {
+                const prov = this.provinsi.find(p => p.name === this.provinsi_nama);
+                if (prov) {
+                    this.provinsi_id = prov.id;
+                    await this.getKabupaten();
                 }
-            },
+            }
+        },
 
-            async getKabupaten() {
-                this.kabupaten = [];
-                this.kecamatan = [];
-                this.kelurahan = [];
-                this.kabupaten_id = '';
-                this.kecamatan_id = '';
-                this.kelurahan_id = '';
+        async getKabupaten() {
+            this.kabupaten = [];
+            this.kecamatan = [];
+            this.kelurahan = [];
+            this.kabupaten_id = '';
+            this.kecamatan_id = '';
+            this.kelurahan_id = '';
 
-                const res = await fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${this.provinsi_id}.json`);
-                this.kabupaten = await res.json();
-                
-                // Jika ada data kabupaten sebelumnya, load kecamatan
-                if(this.kabupaten_nama) {
-                    const kab = this.kabupaten.find(k => k.name === this.kabupaten_nama);
-                    if(kab) {
-                        this.kabupaten_id = kab.id;
-                        await this.getKecamatan();
-                    }
+            const res = await fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${this.provinsi_id}.json`);
+            this.kabupaten = await res.json();
+
+            // Update nama provinsi saat dipilih
+            const selectedProv = this.provinsi.find(p => p.id == this.provinsi_id);
+            this.provinsi_nama = selectedProv ? selectedProv.name : '';
+
+            if (this.kabupaten_nama) {
+                const kab = this.kabupaten.find(k => k.name === this.kabupaten_nama);
+                if (kab) {
+                    this.kabupaten_id = kab.id;
+                    await this.getKecamatan();
                 }
-            },
+            }
+        },
 
-            async getKecamatan() {
-                this.kecamatan = [];
-                this.kelurahan = [];
-                this.kecamatan_id = '';
-                this.kelurahan_id = '';
+        async getKecamatan() {
+            this.kecamatan = [];
+            this.kelurahan = [];
+            this.kecamatan_id = '';
+            this.kelurahan_id = '';
 
-                const res = await fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/districts/${this.kabupaten_id}.json`);
-                this.kecamatan = await res.json();
-                
-                // Jika ada data kecamatan sebelumnya, load kelurahan
-                if(this.kecamatan_nama) {
-                    const kec = this.kecamatan.find(c => c.name === this.kecamatan_nama);
-                    if(kec) {
-                        this.kecamatan_id = kec.id;
-                        await this.getKelurahan();
-                    }
+            const res = await fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/districts/${this.kabupaten_id}.json`);
+            this.kecamatan = await res.json();
+
+            // Update nama kabupaten saat dipilih
+            const selectedKab = this.kabupaten.find(k => k.id == this.kabupaten_id);
+            this.kabupaten_nama = selectedKab ? selectedKab.name : '';
+
+            if (this.kecamatan_nama) {
+                const kec = this.kecamatan.find(c => c.name === this.kecamatan_nama);
+                if (kec) {
+                    this.kecamatan_id = kec.id;
+                    await this.getKelurahan();
                 }
-            },
+            }
+        },
 
-            async getKelurahan() {
-                this.kelurahan = [];
-                this.kelurahan_id = '';
+        async getKelurahan() {
+            this.kelurahan = [];
+            this.kelurahan_id = '';
 
-                const res = await fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/villages/${this.kecamatan_id}.json`);
-                this.kelurahan = await res.json();
-                
-                // Set kelurahan_id setelah data kelurahan dimuat
-                if(this.kelurahan_nama) {
-                    // Tunggu hingga render selesai
-                    this.$nextTick(() => {
-                        this.kelurahan_id = this.kelurahan_nama;
-                    });
-                }
+            const res = await fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/villages/${this.kecamatan_id}.json`);
+            this.kelurahan = await res.json();
+
+            // Update nama kecamatan saat dipilih
+            const selectedKec = this.kecamatan.find(c => c.id == this.kecamatan_id);
+            this.kecamatan_nama = selectedKec ? selectedKec.name : '';
+
+            if (this.kelurahan_nama) {
+                this.$nextTick(() => {
+                    this.kelurahan_id = this.kelurahan_nama;
+                });
             }
         }
     }
+}
 </script>
+
 </x-app-layout>

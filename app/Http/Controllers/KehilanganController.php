@@ -105,7 +105,7 @@ class KehilanganController extends Controller
 
             // dd($data);
 
-          
+
 
             Pengumuman::create($data);
 
@@ -146,6 +146,8 @@ class KehilanganController extends Controller
             abort(404);
         }
 
+        // dd($request);
+
         try {
             $request->validate([
                 'judul' => 'required|string|max:255',
@@ -155,11 +157,11 @@ class KehilanganController extends Controller
                 'deskripsi' => 'required|string',
                 'kontak' => 'required|string|max:255',
                 'tipe_barang_id' => 'required|exists:tipe_barangs,id',
-                'provinsi' => 'string',
-                'kabupaten' => 'string',
-                'kecamatan' => 'string',
-                'kelurahan' => 'string',
-                'selesai' => 'sometimes|boolean'
+                'provinsi' => $pengumuman->provinsi ? 'required|string' : 'nullable|string',
+                'kabupaten' => $pengumuman->kabupaten ? 'required|string' : 'nullable|string',
+                'kecamatan' => $pengumuman->kecamatan ? 'required|string' : 'nullable|string',
+                'kelurahan' => $pengumuman->kelurahan ? 'required|string' : 'nullable|string',
+                'selesai' => 'sometimes|boolean',
             ]);
 
             $data = $request->except('foto_barang');
@@ -177,7 +179,7 @@ class KehilanganController extends Controller
             throw $e; // agar tetap pakai $errors bawaan Laravel
         } catch (\Exception $e) {
             return back()
-                ->with('update_failed', 'Gagal memperbarui: '.$e->getMessage())
+                ->with('update_failed', 'Gagal memperbarui: ' . $e->getMessage())
                 ->withInput();
         }
     }

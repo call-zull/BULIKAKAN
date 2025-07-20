@@ -156,7 +156,7 @@
         </div>
     @endif
 
-    {{-- Script untuk modal & search realtime --}}
+ 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             document.querySelectorAll('[data-modal-hide]').forEach(button => {
@@ -179,7 +179,7 @@
 
             searchInput.addEventListener('input', function () {
                 clearTimeout(this._timeout);
-                this._timeout = setTimeout(submitForm, 500); // debounce 500ms
+                this._timeout = setTimeout(submitForm, 500); 
             });
 
             selectFilter.addEventListener('change', submitForm);

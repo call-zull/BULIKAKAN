@@ -155,10 +155,10 @@ class KehilanganController extends Controller
                 'deskripsi' => 'required|string',
                 'kontak' => 'required|string|max:255',
                 'tipe_barang_id' => 'required|exists:tipe_barangs,id',
-                'provinsi' => 'required|string',
-                'kabupaten' => 'required|string',
-                'kecamatan' => 'required|string',
-                'kelurahan' => 'required|string',
+                'provinsi' => 'string',
+                'kabupaten' => 'string',
+                'kecamatan' => 'string',
+                'kelurahan' => 'string',
                 'selesai' => 'sometimes|boolean'
             ]);
 

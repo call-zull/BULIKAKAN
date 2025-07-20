@@ -83,7 +83,7 @@
             <ul class="list-disc list-inside text-gray-700 space-y-1">
                 <li>Login terlebih dahulu</li>
                 <li>Klik menu "Request Official" di dropdown kanan atas</li>
-                <li>Isi data dan unggah dokumen pendukung</li>
+                <li>Isi data dan unggah dokumen pendukung seperti : id card/ kartu anggota instansi, surat pengantar resmi dari instansi yang menegaskan bahwa orang tersebut atau akun tersebut memang diberi wewenang dalam menangani keamanan instansi tersebut</li>
                 <li>Tunggu verifikasi dari admin</li>
                 <li>Jika disetujui, akun Anda akan memiliki lencana verifikasi</li>
             </ul>

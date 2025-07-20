@@ -8,13 +8,13 @@
             <input type="text" name="nama_instansi" id="nama_instansi" class="w-full border rounded-lg px-3 py-2" required>
         </div>
 
-        <div class="mb-4">
+        <div class="mb-2">
             <label for="alasan" class="block text-sm font-medium">Alasan</label>
             <textarea name="alasan" id="alasan" rows="4" class="w-full border rounded px-3 py-2" required></textarea>
         </div>
 
         <div class="mb-4">
-            <label for="dokumen_pendukung" class="block text-sm font-medium">Dokumen Pendukung</label>
+            <label for="dokumen_pendukung" class="block mb-1 text-sm font-medium">Dokumen Pendukung (Ex: Kartu Anggota Instansi, dll)</label>
             <input type="file" name="dokumen_pendukung" id="dokumen_pendukung" class="w-full border rounded px-3 py-2" accept=".pdf,.jpg,.png" required>
         </div>
         <div class="flex justify-center">

@@ -22,9 +22,11 @@
                 <!-- Left: Image Upload -->
                 <div class="w-full md:w-1/2">
                     <label class="block mb-2 font-medium text-biruPrimary">Foto Barang</label>
-                    {{-- <label class="block text-center bg-biruPrimary text-white px-4 py-2 rounded-xl cursor-pointer hover:bg-opacity-90">
+                    {{-- <label
+                        class="block text-center bg-biruPrimary text-white px-4 py-2 rounded-xl cursor-pointer hover:bg-opacity-90">
                         Pilih dari Kamera / Galeri
-                        <input type="file" name="foto_barang" accept="image/*" capture="environment" required class="hidden"
+                        <input type="file" name="foto_barang" accept="image/*" capture="environment" required
+                            class="hidden"
                             @change="preview = URL.createObjectURL($event.target.files[0]); showModalGambar = false">
                     </label> --}}
 
@@ -59,12 +61,6 @@
                     </div>
 
                     <div>
-                        <label class="block mb-1 font-medium text-biruPrimary">Tempat Kehilangan</label>
-                        <input type="text" name="tempat"
-                            class="w-full p-2 border border-gray-300 rounded-xl focus:ring-biruPrimary focus:outline-none">
-                    </div>
-
-                    <div>
                         <label class="block mb-1 font-medium text-biruPrimary">Deskripsi</label>
                         <textarea name="deskripsi" rows="3"
                             class="w-full p-2 border border-gray-300 rounded-xl focus:ring-biruPrimary focus:outline-none"></textarea>
@@ -86,6 +82,65 @@
                             @endforeach
                         </select>
                     </div>
+
+                     <div>
+                        <label class="block mb-1 font-medium text-biruPrimary">Tempat Spesifik</label>
+                        <input type="text" name="tempat"
+                            class="w-full p-2 border border-gray-300 rounded-xl focus:ring-biruPrimary focus:outline-none">
+                    </div>
+
+                    <div x-data="lokasiSelector()" x-init="init()">
+                        <div class="mb-2">
+                            <label class="block mb-1 font-medium text-biruPrimary">Provinsi</label>
+                            <select x-model="provinsi_id" @change="getKabupaten()"
+                                class="w-full p-2 border border-gray-300 rounded-xl">
+                                <option value="">-- Pilih Provinsi --</option>
+                                <template x-for="prov in provinsi" :key="prov.id">
+                                    <option :value="prov.id" x-text="prov.name"></option>
+                                </template>
+                            </select>
+                        </div>
+
+                        <div class="mb-2" x-show="kabupaten.length > 0">
+                            <label class="block mb-1 font-medium text-biruPrimary">Kabupaten/Kota</label>
+                            <select x-model="kabupaten_id" @change="getKecamatan()"
+                                class="w-full p-2 border border-gray-300 rounded-xl">
+                                <option value="">-- Pilih Kabupaten/Kota --</option>
+                                <template x-for="kab in kabupaten" :key="kab.id">
+                                    <option :value="kab.id" x-text="kab.name"></option>
+                                </template>
+                            </select>
+                        </div>
+
+                        <div class="mb-2" x-show="kecamatan.length > 0">
+                            <label class="block mb-1 font-medium text-biruPrimary">Kecamatan</label>
+                            <select x-model="kecamatan_id" @change="getKelurahan()"
+                                class="w-full p-2 border border-gray-300 rounded-xl">
+                                <option value="">-- Pilih Kecamatan --</option>
+                                <template x-for="kec in kecamatan" :key="kec.id">
+                                    <option :value="kec.id" x-text="kec.name"></option>
+                                </template>
+                            </select>
+                        </div>
+
+                        <div class="mb-4" x-show="kelurahan.length > 0">
+                            <label class="block mb-1 font-medium text-biruPrimary">Kelurahan</label>
+                            <select name="kelurahan" x-model="kelurahan_id"
+                                class="w-full p-2 border border-gray-300 rounded-xl">
+                                <option value="">-- Pilih Kelurahan --</option>
+                                <template x-for="kel in kelurahan" :key="kel.id">
+                                    <option :value="kel.name" x-text="kel.name"></option>
+                                </template>
+                            </select>
+                        </div>
+
+                       <input type="hidden" name="provinsi" x-model="provinsi_nama">
+<input type="hidden" name="kabupaten" x-model="kabupaten_nama">
+<input type="hidden" name="kecamatan" x-model="kecamatan_nama">
+
+                    </div>
+
+
 
                     <div class="text-center pt-2">
                         <button type="submit"
@@ -126,5 +181,66 @@
             </div>
         </div>
     @endif
+
+    <script>
+       function lokasiSelector() {
+    return {
+        provinsi: [],
+        kabupaten: [],
+        kecamatan: [],
+        kelurahan: [],
+        provinsi_id: '',
+        kabupaten_id: '',
+        kecamatan_id: '',
+        kelurahan_id: '',
+
+        provinsi_nama: '',
+        kabupaten_nama: '',
+        kecamatan_nama: '',
+
+        async init() {
+            const res = await fetch('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json');
+            this.provinsi = await res.json();
+        },
+
+        async getKabupaten() {
+            this.kabupaten = [];
+            this.kecamatan = [];
+            this.kelurahan = [];
+            this.kabupaten_id = '';
+            this.kecamatan_id = '';
+            this.kelurahan_id = '';
+
+            this.provinsi_nama = this.provinsi.find(p => p.id == this.provinsi_id)?.name || '';
+
+            const res = await fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${this.provinsi_id}.json`);
+            this.kabupaten = await res.json();
+        },
+
+        async getKecamatan() {
+            this.kecamatan = [];
+            this.kelurahan = [];
+            this.kecamatan_id = '';
+            this.kelurahan_id = '';
+
+            this.kabupaten_nama = this.kabupaten.find(k => k.id == this.kabupaten_id)?.name || '';
+
+            const res = await fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/districts/${this.kabupaten_id}.json`);
+            this.kecamatan = await res.json();
+        },
+
+        async getKelurahan() {
+            this.kelurahan = [];
+            this.kelurahan_id = '';
+
+            this.kecamatan_nama = this.kecamatan.find(c => c.id == this.kecamatan_id)?.name || '';
+
+            const res = await fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/villages/${this.kecamatan_id}.json`);
+            this.kelurahan = await res.json();
+        }
+    }
+}
+
+    </script>
 
 </x-app-layout>

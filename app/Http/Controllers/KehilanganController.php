@@ -42,7 +42,8 @@ class KehilanganController extends Controller
                         ? asset('storage/' . $item->foto_barang)
                         : asset('logo/barang1.png'),
                     'user_name' => $item->user->username ?? 'Tidak diketahui',
-                    'is_official' => $item->user->status_user === 'official', // ✅ ini yang direvisi
+                    'is_official' => $item->user->status_user === 'official',
+                    'selesai' => $item->selesai
                 ];
             });
 
@@ -64,6 +65,8 @@ class KehilanganController extends Controller
             return redirect()->route('login')->with('error', 'Anda harus login terlebih dahulu.');
         }
 
+        //   dd($request->all());
+
         try {
             $request->validate([
                 'judul' => 'required|string|max:255', // untuk uji coba error
@@ -74,6 +77,10 @@ class KehilanganController extends Controller
                 'kontak' => 'required|string|max:255',
                 'jenis_pengumuman' => 'in:kehilangan',
                 'tipe_barang_id' => 'required|exists:tipe_barangs,id',
+                'provinsi' => 'required|string',
+                'kabupaten' => 'required|string',
+                'kecamatan' => 'required|string',
+                'kelurahan' => 'required|string',
             ]);
 
             $data = $request->only([
@@ -83,7 +90,11 @@ class KehilanganController extends Controller
                 'deskripsi',
                 'status',
                 'kontak',
-                'tipe_barang_id'
+                'tipe_barang_id',
+                'provinsi',
+                'kabupaten',
+                'kecamatan',
+                'kelurahan',
             ]);
             $data['jenis_pengumuman'] = 'kehilangan';
             $data['user_id'] = Auth::id();
@@ -91,6 +102,10 @@ class KehilanganController extends Controller
             if ($request->hasFile('foto_barang')) {
                 $data['foto_barang'] = $request->file('foto_barang')->store('foto_barang', 'public');
             }
+
+            // dd($data);
+
+          
 
             Pengumuman::create($data);
 
@@ -134,12 +149,17 @@ class KehilanganController extends Controller
         try {
             $request->validate([
                 'judul' => 'required|string|max:255',
-               'foto_barang' => 'required|file|mimes:jpeg,jpg,png|max:6000',
+                'foto_barang' => 'file|mimes:jpeg,jpg,png|max:6000',
                 'waktu' => 'required|date',
                 'tempat' => 'required|string|max:255',
                 'deskripsi' => 'required|string',
                 'kontak' => 'required|string|max:255',
                 'tipe_barang_id' => 'required|exists:tipe_barangs,id',
+                'provinsi' => 'required|string',
+                'kabupaten' => 'required|string',
+                'kecamatan' => 'required|string',
+                'kelurahan' => 'required|string',
+                'selesai' => 'sometimes|boolean'
             ]);
 
             $data = $request->except('foto_barang');
@@ -148,6 +168,8 @@ class KehilanganController extends Controller
                 $data['foto_barang'] = $request->file('foto_barang')->store('foto_barang', 'public');
             }
 
+            // dd($data);
+
             $pengumuman->update($data);
 
             return redirect()->route('kehilangan')->with('success', 'Pengumuman kehilangan berhasil diperbarui.');
@@ -155,7 +177,7 @@ class KehilanganController extends Controller
             throw $e; // agar tetap pakai $errors bawaan Laravel
         } catch (\Exception $e) {
             return back()
-                ->with('update_failed', 'Terjadi kesalahan saat memperbarui.')
+                ->with('update_failed', 'Gagal memperbarui: '.$e->getMessage())
                 ->withInput();
         }
     }

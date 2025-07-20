@@ -77,8 +77,28 @@
                 @endif
             @endauth
 
+            {{-- <img
+                src="{{ $pengumuman->foto_barang ? asset('storage/' . $pengumuman->foto_barang) : asset('logo/barang1.png') }}"
+                alt="Gambar Barang" class="w-full h-64 object-cover rounded mb-4"> --}}
+            <!-- Di bagian gambar, tambahkan ini -->
+        <div class="relative">
             <img src="{{ $pengumuman->foto_barang ? asset('storage/' . $pengumuman->foto_barang) : asset('logo/barang1.png') }}"
                 alt="Gambar Barang" class="w-full h-64 object-cover rounded mb-4">
+        
+            @if($pengumuman->selesai)
+                <div class="absolute top-0 left-0 w-full h-full bg-black/10 flex items-center justify-center">
+                    <div class="bg-gray-800/80 bg-opacity-70 p-2 rounded-lg shadow-xl">
+                        <div class="flex flex-col items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9 text-biruPrimary" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span class="block text-center font-bold text-white text-base mt-1">SELESAI</span>
+                        </div>
+                    </div>
+                </div>
+            @endif
+        </div>
             <h2 class="text-2xl font-bold text-biruPrimary mb-2">{{ $pengumuman->judul }}</h2>
             <p class="mb-1 flex items-center gap-1">
                 <strong>Diposting oleh:</strong> {{ $pengumuman->user->username }}
@@ -96,7 +116,13 @@
 
             <p class="mb-1"><strong>Waktu Kehilangan:</strong>
                 {{ \Carbon\Carbon::parse($pengumuman->waktu)->translatedFormat('d F Y') }}</p>
-            <p class="mb-1"><strong>Tempat Kehilangan:</strong> {{ $pengumuman->tempat }}</p>
+            {{-- <p class="mb-1"><strong>Tempat Kehilangan:</strong> {{ $pengumuman->tempat }}</p> --}}
+            <p class="mb-1"><strong>Provinsi:</strong> {{ $pengumuman->provinsi ?? 'Belum tercantum' }}</p>
+            <p class="mb-1"><strong>Kabupaten:</strong> {{ $pengumuman->kabupaten ?? 'Belum tercantum' }}</p>
+            <p class="mb-1"><strong>Kecamatan:</strong> {{ $pengumuman->kecamatan ?? 'Belum tercantum' }}</p>
+            <p class="mb-1"><strong>Kelurahan:</strong> {{ $pengumuman->kelurahan ?? 'Belum tercantum' }}</p>
+            <p class="mb-1"><strong>Tempat Spesifik:</strong> {{ $pengumuman->tempat ?? 'Belum tercantum' }}</p>
+
             <p class="mb-1"><strong>Tipe Barang:</strong> {{ $pengumuman->tipeBarang->nama ?? 'Tidak diketahui' }}</p>
             <p class="mb-1"><strong>Deskripsi:</strong> {!! nl2br(e($pengumuman->deskripsi)) !!}</p>
             <p class="mb-4"><strong>Kontak:</strong> {{ $pengumuman->kontak }}</p>
@@ -118,8 +144,8 @@
                         <h2 class="text-lg font-semibold mb-4 text-center">Bagikan Pengumuman Ini</h2>
 
                         @php
-                            $shareUrl = urlencode(route('kehilangan.show', $pengumuman->id));
-                            $shareText = urlencode("Saya kehilangan barang tolong jika mengetahui atau menemukan mohon diinfokan : {$pengumuman->judul}. Lihat di sini:");
+$shareUrl = urlencode(route('kehilangan.show', $pengumuman->id));
+$shareText = urlencode("Saya kehilangan barang tolong jika mengetahui atau menemukan mohon diinfokan : {$pengumuman->judul}. Lihat di sini:");
                         @endphp
 
                         <div class="grid grid-cols-2 gap-3">
@@ -131,16 +157,23 @@
                                 class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition text-center">
                                 📘 Facebook
                             </a>
-                            <a href="https://www.instagram.com/" target="_blank"
+                            <a href="{{ asset('storage/' . $pengumuman->foto_barang) }}" download
                                 class="bg-violet-500 text-white px-4 py-2 rounded hover:bg-violet-600 transition text-center">
-                                📸 Instagram
+                                📥 Gambar
                             </a>
-                            <button
-                                onclick="navigator.clipboard.writeText('{{ $shareUrl }}'); alert('Tautan berhasil disalin!')"
-                                class="bg-gray-500 text-white px-4 cursor-pointer py-2 rounded hover:bg-gray-600 transition text-center">
-                                🔗 Salin Tautan
+                            <button onclick="copyCaption()"
+                                class="bg-biruPrimary cursor-pointer text-white px-4 py-2 rounded text-center">
+                                ✍️ Salin Caption
                             </button>
 
+
+                            <div class="col-span-2 flex justify-center">
+                                <button
+                                    onclick="navigator.clipboard.writeText('{{ $shareUrl }}'); alert('Tautan berhasil disalin!')"
+                                    class="bg-gray-500 cursor-pointer text-white px-4 py-2 rounded hover:bg-gray-600 transition text-center">
+                                    🔗 Salin Tautan
+                                </button>
+                            </div>
                         </div>
 
 
@@ -156,4 +189,12 @@
             </div>
         </div>
     </div>
+    <script>
+        function copyCaption() {
+            const caption = `Saya kehilangan barang: {{ $pengumuman->judul }}.\n\nCek info lengkapnya di:\n{{ route('kehilangan.show', $pengumuman->id) }}\n\nMohon bantuannya 🙏🏼`;
+            navigator.clipboard.writeText(caption).then(() => {
+                alert("Caption berhasil disalin! Silakan tempel dimana anda mau.");
+            });
+        }
+    </script>
 </x-app-layout>

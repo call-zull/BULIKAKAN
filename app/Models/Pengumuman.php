@@ -23,10 +23,16 @@ class Pengumuman extends Model
         'kontak',
         'jenis_pengumuman',
         'tipe_barang_id',
+        'provinsi',
+        'kabupaten',
+        'kecamatan',
+        'kelurahan',
+        'selesai'
     ];
 
     protected $casts = [
         'waktu' => 'datetime',
+        'selesai' => 'boolean'
     ];
 
     public function user()

@@ -8,7 +8,7 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('contact.send') }}" id="contact-form">
+        <form method="POST" action="{{ route('contact.send') }}" enctype="multipart/form-data" id="contact-form">
             @csrf
 
             <div class="mb-4">
@@ -25,6 +25,15 @@
                 <textarea name="pesan" rows="5"
                     class="w-full border border-gray-300 rounded p-2 focus:ring focus:ring-biruPrimary focus:outline-none">{{ old('pesan') }}</textarea>
                 @error('pesan')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div class="mb-4">
+                <label class="block font-medium text-biruPrimary">Gambar (Opsional)</label>
+                <input type="file" name="gambar"
+                    class="w-full border border-gray-300 rounded p-2 focus:ring focus:ring-biruPrimary focus:outline-none">
+                @error('gambar')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
             </div>

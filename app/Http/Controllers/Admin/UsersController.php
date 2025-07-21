@@ -96,7 +96,7 @@ public function destroy(User $user)
 public function banned(Request $request, $id)
 {
     $validated = $request->validate([
-        'banned' => 'required|boolean',
+       'banned' => 'required|in:0,1',
     ]);
 
     $user = User::findOrFail($id); // Ganti binding otomatis dengan manual

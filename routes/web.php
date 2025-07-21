@@ -132,6 +132,10 @@ Route::prefix('admin')->middleware('role:admin')->group(function () {
     Route::get('profile', [AdminProfileController::class, 'edit'])->name('admin.profile.edit');
     Route::post('profile', [AdminProfileController::class, 'update'])->name('admin.profile.update');
 
+   Route::post('/users/{id}/banned', [UsersController::class, 'banned'])->name('admin.users.banned');
+
+
+
     // Jenis Barang 
     Route::get('tipe-barang', [TipeBarangController::class, 'index'])->name('admin.tipe-barang.index');
     Route::delete('tipe-barang/{id}', [TipeBarangController::class, 'destroy'])->name('admin.tipe-barang.destroy');

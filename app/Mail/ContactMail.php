@@ -3,11 +3,12 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 
-class ContactMail extends Mailable
+class ContactMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -15,7 +16,7 @@ class ContactMail extends Mailable
     public $pesan;
     public $lampiran;
 
-   
+
     public function __construct($judul, $pesan, $lampiran = null)
     {
         $this->judul = $judul;
@@ -25,18 +26,25 @@ class ContactMail extends Mailable
 
 
     public function build()
-{
-    $email = $this->subject($this->judul)
-                  ->view('emails.contact')
-                  ->with([
-                      'judul' => $this->judul,
-                      'pesan' => $this->pesan,
-                  ]);
+    {
+        $this->withSymfonyMessage(function ($message) {
+            // Tambahkan listener untuk menghapus file setelah attach
+            if ($this->lampiran && Storage::exists($this->lampiran)) {
+                $message->getHeaders()->addTextHeader('X-Attachment-Path', $this->lampiran);
+            }
+        });
 
-    if ($this->lampiran && Storage::exists($this->lampiran)) {
-        $email->attachFromStorage($this->lampiran);
+        $email = $this->subject($this->judul)
+            ->view('emails.contact')
+            ->with([
+                'judul' => $this->judul,
+                'pesan' => $this->pesan,
+            ]);
+
+        if ($this->lampiran && Storage::exists($this->lampiran)) {
+            $email->attachFromStorage($this->lampiran);
+        }
+
+        return $email;
     }
-
-    return $email;
-}
 }

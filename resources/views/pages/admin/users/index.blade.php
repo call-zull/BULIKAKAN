@@ -29,6 +29,36 @@
                 }
             });
 
+            $(document).on('change', '.banned-dropdown', function () {
+                console.log('Dropdown changed');
+
+                const userId = $(this).data('id');
+                const bannedStatus = $(this).val();
+                console.log({ userId, bannedStatus });
+
+                $.ajax({
+                    url: '{{ route("admin.users.banned", ":id") }}'.replace(':id', userId),
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        banned: bannedStatus
+                    },
+                    success: function (res) {
+                        console.log('Success:', res);
+                        $('#datatable').DataTable().ajax.reload();
+                        const alertBox = $('<div class="fixed top-4 right-4 bg-green-500 text-white p-2 rounded shadow">')
+                            .text(res.message ?? 'Status banned berhasil diperbarui.')
+                            .appendTo('body')
+                            .delay(2000)
+                            .fadeOut(500, function () { $(this).remove(); });
+                    },
+                    error: function (xhr) {
+                        console.log('Error:', xhr.responseText);
+                        alert('Terjadi kesalahan.');
+                    }
+                });
+            });
+
             // Ketika dropdown status diubah
             $(document).on('change', '.status-select', function () {
                 const userId = $(this).data('id');

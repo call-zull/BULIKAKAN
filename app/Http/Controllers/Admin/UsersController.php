@@ -93,4 +93,23 @@ public function destroy(User $user)
     return redirect()->route('admin.users.index')->with('success', 'User berhasil dihapus.');
 }
 
+public function banned(Request $request, $id)
+{
+    $validated = $request->validate([
+        'banned' => 'required|boolean',
+    ]);
+
+    $user = User::findOrFail($id); // Ganti binding otomatis dengan manual
+
+    $user->banned = $validated['banned'];
+    $user->save();
+
+    return response()->json(['message' => 'Status banned diperbarui.']);
+}
+
+
+
+
+
+
 }

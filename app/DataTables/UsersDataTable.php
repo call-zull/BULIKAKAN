@@ -49,16 +49,28 @@ class UsersDataTable extends DataTable
                 $html .= '</select>';
                 return $html;
             })
+            ->editColumn('banned', function ($row) {
+                $status = $row->banned ? 'Banned' : 'Active';
+
+                return '
+    <select class="form-select form-select-sm banned-dropdown" data-id="' . $row->id . '">
+        <option value="0" ' . ($row->banned ? '' : 'selected') . '>Active</option>
+        <option value="1" ' . ($row->banned ? 'selected' : '') . '>Banned</option>
+    </select>';
+            })
+
+
+
             ->addColumn('action', function ($user) {
                 if (Auth::user()->hasRole('berwenang')) {
                     return '-'; // atau bisa dikosongkan saja ''
                 }
 
-            $editUrl = route('admin.users.edit', $user->id);
-            $deleteUrl = route('admin.users.destroy', $user->id);
-            $csrf = csrf_token();
+                $editUrl = route('admin.users.edit', $user->id);
+                $deleteUrl = route('admin.users.destroy', $user->id);
+                $csrf = csrf_token();
 
-            return <<<HTML
+                return <<<HTML
         <a href="{$editUrl}" class="text-blue-500 underline">Edit</a> |
         <form action="{$deleteUrl}" method="POST" class="inline-block" onsubmit="return confirm('Yakin ingin menghapus user ini?')">
             <input type="hidden" name="_token" value="{$csrf}">
@@ -68,7 +80,7 @@ class UsersDataTable extends DataTable
     HTML;
             })
 
-            ->rawColumns(['profile_photo', 'status_user', 'action'])
+            ->rawColumns(['profile_photo', 'status_user', 'banned', 'action'])
             ->setRowId('id');
     }
 
@@ -120,6 +132,9 @@ class UsersDataTable extends DataTable
             Column::make('email'),
             Column::make('provider'),
             Column::make('status_user')->title('Status'),
+            Column::make('banned')
+                ->title('Banned')
+                ->addClass('text-center'),
             Column::make('created_at')
                 ->title('Dibuat')
                 ->addClass('whitespace-nowrap'),

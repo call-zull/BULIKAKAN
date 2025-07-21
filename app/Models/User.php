@@ -61,6 +61,7 @@ class User extends Authenticatable
         'provider_id',
         'profile_photo',
         'status_user',
+        'banned',
     ];
 
     /**

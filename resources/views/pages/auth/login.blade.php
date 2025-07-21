@@ -96,7 +96,7 @@
 
                 <div class="mt-4">
                     <button onclick="document.getElementById('login-error-modal').classList.add('hidden')"
-                        class="px-4 py-1 bg-gray-300 text-gray-800 rounded hover:bg-gray-400">
+                        class="px-4 py-1 cursor-pointer bg-gray-300 text-gray-800 rounded hover:bg-gray-400">
                         Tutup
                     </button>
                 </div>

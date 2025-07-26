@@ -92,7 +92,7 @@
                     <div class="flex flex-col justify-between">
                         <div>
                             <h3 class="text-lg font-bold" title="{{ $item['nama'] }}">
-                                {{ \Illuminate\Support\Str::limit($item['nama'], 10) }}
+                                {{ \Illuminate\Support\Str::limit($item['nama'], 15) }}
                             </h3>
 
                             <p class="text-sm"><strong>Waktu:</strong> {{ $item['waktu'] }}</p>

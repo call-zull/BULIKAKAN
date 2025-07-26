@@ -27,12 +27,14 @@ class Pengumuman extends Model
         'kabupaten',
         'kecamatan',
         'kelurahan',
-        'selesai'
+        'selesai',
+        'tags'
     ];
 
     protected $casts = [
         'waktu' => 'datetime',
-        'selesai' => 'boolean'
+        'selesai' => 'boolean',
+        'tags' => 'array'
     ];
 
     public function user()
@@ -55,5 +57,32 @@ class Pengumuman extends Model
     public function getFotoBarangUrlAttribute()
     {
         return asset('storage/' . $this->foto_barang);
+    }
+
+    public static function generateTags($text)
+    {
+        $text = strtolower($text);
+
+        $keywords = [
+            'hp' => ['hp', 'smartphone', 'xiaomi', 'samsung', 'iphone', 'oppo', 'vivo', 'realme'],
+            'laptop' => ['laptop', 'notebook', 'macbook', 'asus', 'lenovo', 'acer'],
+            'kunci' => ['kunci', 'key', 'gembok'],
+            'dompet' => ['dompet', 'wallet', 'uang'],
+            'tas' => ['tas', 'backpack', 'ransel'],
+            // tambah lagi sesuai kebutuhan
+        ];
+
+        $tags = [];
+
+        foreach ($keywords as $category => $syns) {
+            foreach ($syns as $word) {
+                if (str_contains($text, $word)) {
+                    $tags = array_merge($tags, $syns);
+                    break;
+                }
+            }
+        }
+
+        return array_values(array_unique($tags));
     }
 }

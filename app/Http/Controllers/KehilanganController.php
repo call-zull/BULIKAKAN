@@ -17,9 +17,18 @@ class KehilanganController extends Controller
             ->with('tipeBarang', 'user');
 
         // Filter: Search
+        // if ($request->filled('search')) {
+        //     $query->where('judul', 'like', '%' . $request->search . '%');
+        // }
         if ($request->filled('search')) {
-            $query->where('judul', 'like', '%' . $request->search . '%');
+            $search = strtolower($request->search);
+
+            $query->where(function ($q) use ($search) {
+                $q->where('judul', 'like', "%$search%")
+                    ->orWhereJsonContains('tags', $search);
+            });
         }
+
 
         // Filter: Tipe
         if ($request->filled('tipe')) {
@@ -105,7 +114,10 @@ class KehilanganController extends Controller
 
             // dd($data);
 
+            $text = $data['judul'] . ' ' . $data['deskripsi'];
+            $data['tags'] = Pengumuman::generateTags($text);
 
+            // dd($data);
 
             Pengumuman::create($data);
 
@@ -171,7 +183,8 @@ class KehilanganController extends Controller
             }
 
             // dd($data);
-
+            $text = $data['judul'] . ' ' . $data['deskripsi'];
+            $data['tags'] = Pengumuman::generateTags($text);
             $pengumuman->update($data);
 
             return redirect()->route('kehilangan')->with('success', 'Pengumuman kehilangan berhasil diperbarui.');
